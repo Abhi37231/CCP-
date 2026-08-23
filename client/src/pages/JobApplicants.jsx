@@ -77,14 +77,17 @@ const JobApplicants = () => {
   const handleBulkStatusUpdate = async (newStatus) => {
     if (selectedApps.length === 0) return;
     
-    // Safety check for dangerous actions
+    let feedback = '';
     if (newStatus === 'Rejected') {
-      const confirm = window.confirm(`Are you sure you want to reject ${selectedApps.length} applicants?`);
-      if (!confirm) return;
+      feedback = window.prompt(`Are you sure you want to reject ${selectedApps.length} applicants? If so, please provide a rejection reason (this will be emailed to them):`);
+      if (feedback === null) return;
+    } else if (newStatus === 'Selected') {
+      feedback = window.prompt(`Are you sure you want to select ${selectedApps.length} applicants? If so, please provide an optional congratulatory message or next steps:`);
+      if (feedback === null) return;
     }
 
     try {
-      await api.put(`/applications/bulk-status`, { applicationIds: selectedApps, status: newStatus });
+      await api.put(`/applications/bulk-status`, { applicationIds: selectedApps, status: newStatus, feedback });
       toast.success(`${selectedApps.length} applications marked as ${newStatus}`);
       setSelectedApps([]);
       fetchApplications();

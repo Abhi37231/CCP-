@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
+import NotificationDropdown from '../components/NotificationDropdown';
 
 const EmployerDashboard = () => {
   const dispatch = useDispatch();
@@ -95,7 +96,7 @@ const EmployerDashboard = () => {
             </div>
           </div>
           <div className="flex items-center gap-gutter">
-            <span className="material-symbols-outlined text-on-surface-variant hover:text-on-surface cursor-pointer">notifications</span>
+            <NotificationDropdown />
             <button onClick={handleLogout} className="flex items-center gap-2 text-on-surface-variant hover:text-error transition-colors cursor-pointer">
               <span className="material-symbols-outlined">logout</span>
               <span className="font-label-sm text-label-sm">Logout</span>

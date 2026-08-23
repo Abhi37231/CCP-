@@ -33,6 +33,7 @@ import PublicProfile from './pages/profile/PublicProfile';
 import ResumeBuilder from './components/profile/ResumeBuilder';
 import AtsAnalyzer from './pages/AtsAnalyzer';
 import ResumeManager from './pages/ResumeManager';
+import LearningRoadmap from './pages/LearningRoadmap';
 
 // Home Page mapped to welcome_career_connect_portal
 const Home = () => {
@@ -185,6 +186,7 @@ function App() {
               <Route path="/resume-builder" element={<ResumeBuilder />} />
               <Route path="/resume-management" element={<ResumeManager />} />
               <Route path="/ats-analyzer" element={<AtsAnalyzer />} />
+              <Route path="/learning-roadmap" element={<LearningRoadmap />} />
             </Route>
 
             {/* Protected Routes (Employer) */}

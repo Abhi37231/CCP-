@@ -44,8 +44,22 @@ const ApplicationDetails = () => {
   }, [id]);
 
   const handleStatusUpdate = async (newStatus) => {
+    let feedback = '';
+    if (newStatus === 'Rejected') {
+      feedback = window.prompt("Please provide a reason for rejection (this will be sent to the candidate in an email):");
+      if (feedback === null) {
+        // User cancelled, abort update
+        return;
+      }
+    } else if (newStatus === 'Selected') {
+      feedback = window.prompt("Please provide an optional congratulatory message or next steps for the selected candidate:");
+      if (feedback === null) {
+        return;
+      }
+    }
+
     try {
-      await api.put(`/applications/${id}/status`, { status: newStatus });
+      await api.put(`/applications/${id}/status`, { status: newStatus, feedback });
       toast.success(`Status updated to ${newStatus}`);
       fetchApplicationDetails();
     } catch (error) {

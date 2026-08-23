@@ -3,10 +3,7 @@ const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 const fs = require('fs');
 
-// Initialize Gemini
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY
-});
+// Initialize Gemini inside the function
 
 const ATS_PROMPT = `You are an expert ATS resume evaluator and technical recruiter.
 
@@ -36,6 +33,11 @@ Return only the requested structured JSON.`;
 
 exports.analyzeResume = async (req, res) => {
   try {
+    const ai = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY
+    });
+    
+    // 1. Get job description from body;
     const { jobDescription } = req.body;
     const file = req.file;
 
@@ -78,7 +80,7 @@ exports.analyzeResume = async (req, res) => {
     }
 
     // Call Gemini
-    const model = 'gemini-3.5-flash';
+    const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
     
     // Construct request
     const promptWithData = `

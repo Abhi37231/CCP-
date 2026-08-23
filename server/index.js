@@ -29,6 +29,8 @@ const profile = require('./routes/profile');
 const jobs = require('./routes/jobs');
 const ats = require('./routes/ats');
 const applications = require('./routes/applications');
+const roadmap = require('./routes/roadmap');
+const notifications = require('./routes/notifications');
 
 // Mount routers
 app.use('/api/auth', auth);
@@ -36,6 +38,8 @@ app.use('/api/profile', profile);
 app.use('/api/jobs', jobs);
 app.use('/api/ats', ats);
 app.use('/api/applications', applications);
+app.use('/api/roadmap', roadmap);
+app.use('/api/notifications', notifications);
 
 // Basic route
 app.get('/', (req, res) => {
