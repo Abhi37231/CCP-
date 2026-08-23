@@ -17,7 +17,10 @@ exports.getJobs = async (req, res) => {
 
     // Create query string for advanced filtering (e.g. gt, gte)
     let queryStr = JSON.stringify(reqQuery);
+    require('fs').appendFileSync('query_log.txt', 'Original reqQuery: ' + JSON.stringify(reqQuery) + '\n');
+    require('fs').appendFileSync('query_log.txt', 'Original queryStr: ' + queryStr + '\n');
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+    require('fs').appendFileSync('query_log.txt', 'Replaced queryStr: ' + queryStr + '\n\n');
 
     // Parse back to object
     query = Job.find(JSON.parse(queryStr)).populate('company', 'name logo location');

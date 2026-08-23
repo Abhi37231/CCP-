@@ -1,21 +1,41 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile } from '../redux/slices/profileSlice';
-import { Link } from 'react-router-dom';
-import { Briefcase, Bookmark, Star, Calendar, CheckCircle, Circle, FileText, ExternalLink, Award } from 'lucide-react';
+import { logoutUser } from '../redux/slices/authSlice';
+import { clearProfile } from '../redux/slices/profileSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
 
 const EmployeeDashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { profile, isLoading } = useSelector((state) => state.profile);
   const [recommendedJobs, setRecommendedJobs] = useState([]);
   const [loadingJobs, setLoadingJobs] = useState(false);
 
+  const [myApplications, setMyApplications] = useState([]);
+  const [loadingApps, setLoadingApps] = useState(true);
+
   useEffect(() => {
     dispatch(getProfile());
   }, [dispatch]);
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const res = await api.get('/applications/me');
+        setMyApplications(res.data.data);
+      } catch (err) {
+        console.error('Failed to load applications', err);
+      } finally {
+        setLoadingApps(false);
+      }
+    };
+    fetchApplications();
+  }, []);
 
   useEffect(() => {
     const fetchRecommendedJobs = async () => {
@@ -23,7 +43,6 @@ const EmployeeDashboard = () => {
       
       setLoadingJobs(true);
       try {
-        // Extract skills to use as search keywords
         let skills = [];
         if (profile.skills) {
            Object.values(profile.skills).forEach(skillCategory => {
@@ -34,7 +53,12 @@ const EmployeeDashboard = () => {
         }
         
         let keywordQuery = skills.join(' ');
-        const endpoint = keywordQuery ? `/jobs?keyword=${encodeURIComponent(keywordQuery)}&limit=3` : '/jobs?limit=3';
+        let endpoint = keywordQuery ? `/jobs?keyword=${encodeURIComponent(keywordQuery)}&limit=3` : '/jobs?limit=3';
+        
+        if (user?.role === 'job_seeker' && user?.experienceLevel === 'experienced') {
+          const audQuery = 'targetAudience=Employee&targetAudience=Both';
+          endpoint += `&${audQuery}`;
+        }
         
         const res = await api.get(endpoint);
         setRecommendedJobs(res.data.data);
@@ -48,159 +72,364 @@ const EmployeeDashboard = () => {
     fetchRecommendedJobs();
   }, [profile]);
 
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    dispatch(clearProfile());
+    toast.success('Logged out successfully');
+    navigate('/login');
+  };
+
   if (isLoading) {
-    return <div className="flex justify-center mt-20">Loading...</div>;
+    return <div className="flex justify-center mt-20 text-on-background">Loading...</div>;
   }
 
   const completionPercentage = profile?.profileCompletion || 0;
 
-  // Determine what sections are complete for the checklist
   const isPersonalInfoComplete = !!(profile?.personalInfo?.firstName);
   const isEducationComplete = !!(profile?.education?.length > 0);
   const isSkillsComplete = !!(profile?.skills && Object.keys(profile.skills).some(k => profile.skills[k]?.length > 0));
   const isProjectsComplete = !!(profile?.projects?.length > 0);
   const isResumeUploaded = !!(profile?.resume);
   
-  // Specific for Employee
   const pd = profile?.professionalDetails;
   const isProfessionalDetailsComplete = !!(pd?.currentCompany && pd?.currentDesignation && pd?.totalExperienceYears && pd?.noticePeriodDays && pd?.currentSalary);
 
+  const getStatusBadge = (status) => {
+    switch(status) {
+      case 'Shortlisted': 
+        return <span className="bg-tertiary-container/30 text-tertiary border border-tertiary/20 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1 w-fit"><span className="material-symbols-outlined text-[14px]">star</span> Shortlisted</span>;
+      case 'Selected': 
+      case 'Hired': 
+        return <span className="bg-primary-container/30 text-primary border border-primary/20 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1 w-fit"><span className="material-symbols-outlined text-[14px]">verified</span> Selected</span>;
+      case 'Rejected': 
+        return <span className="bg-error-container/30 text-error border border-error/20 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1 w-fit"><span className="material-symbols-outlined text-[14px]">cancel</span> Rejected</span>;
+      case 'Interview Scheduled':
+      case 'Interview Completed':
+      case 'Interviewing': 
+        return <span className="bg-secondary-container/30 text-secondary border border-secondary/20 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1 w-fit"><span className="material-symbols-outlined text-[14px]">calendar_month</span> {status}</span>;
+      case 'Under Review': 
+      case 'Reviewed': 
+        return <span className="bg-inverse-primary/20 text-inverse-primary border border-inverse-primary/20 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1 w-fit"><span className="material-symbols-outlined text-[14px]">visibility</span> Under Review</span>;
+      default: 
+        return <span className="bg-surface-container-highest text-on-surface-variant border border-white/5 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1 w-fit"><span className="material-symbols-outlined text-[14px]">hourglass_empty</span> Applied</span>;
+    }
+  };
+
+  const interviewsCount = myApplications.filter(app => ['Interview Scheduled', 'Interview Completed', 'Interviewing'].includes(app.status)).length;
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900">Professional Dashboard</h1>
-        <div className="flex gap-3">
-           <Link to="/profile/preview" className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded shadow-sm hover:bg-gray-50 flex items-center">
-             <ExternalLink className="w-4 h-4 mr-2" /> View Profile
-           </Link>
-           <Link to="/profile/edit" className="bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700">
-             {profile ? 'Edit Profile' : 'Complete Your Profile'}
-           </Link>
+    <>
+      <aside className="fixed left-0 top-0 h-full w-72 bg-surface-container-low border-r border-white/5 z-50 flex flex-col shadow-2xl">
+        <Link to="/" className="p-margin-desktop mb-base flex items-center gap-base outline-none focus:outline-none hover:opacity-80 transition-opacity">
+          <img alt="Logo" className="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5npLZXO93JC1NE5Nsd7bTvZBFv_1CqFPiPhrUpbQBeyXYVkDs3hxsLN8XYNvgOJ6xHY4xplBp0-i4oQVe-U5RctZg7osKiNGh4T-FYslnD4l4yCAcfiG_A9KxzeTEWcTi8Gxm2lC58PfQrbKwc3BSoffZKg5WqSOuxDTuiJlfvU6dYwRPkHJojQGxBPGo-DQ2gqZZLBpbG2-WBQhn6-BD0Fzvx8W3rymsqzgFmqKFU2e5eqi_9fNFQ"/>
+          <span className="text-on-surface font-headline-md text-headline-md tracking-tight whitespace-nowrap">Career Connect</span>
+        </Link>
+        <nav className="flex-1 px-4 space-y-2">
+          <Link to="/dashboard" aria-current="page" className="flex items-center px-6 py-3 rounded-xl transition-all bg-primary-container/20 text-primary border-l-4 border-primary">
+            <span className="material-symbols-outlined mr-4">dashboard</span>Dashboard
+          </Link>
+          <Link to="/resume-management" className="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface rounded-xl transition-all border-l-4 border-transparent">
+            <span className="material-symbols-outlined mr-4">description</span>Resume
+          </Link>
+          <Link to="/ats-analyzer" className="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface rounded-xl transition-all border-l-4 border-transparent">
+            <span className="material-symbols-outlined mr-4">smart_toy</span>ATS Analyzer
+          </Link>
+          <Link to="/jobs" className="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface rounded-xl transition-all border-l-4 border-transparent">
+            <span className="material-symbols-outlined mr-4">work_history</span>Find Jobs
+          </Link>
+        </nav>
+        <div className="p-6 mt-auto">
+          <div className="bg-surface-container-highest p-4 rounded-2xl border border-white/5">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="flex flex-col">
+                <span className="text-body-md font-bold text-on-surface">{user?.name || profile?.personalInfo?.firstName || 'Professional'}</span>
+                <span className="text-label-sm text-on-surface-variant capitalize">{user?.role?.replace('_', ' ')}</span>
+              </div>
+            </div>
+            <Link to="/profile/edit" className="flex items-center text-label-sm text-primary hover:underline">
+              <span className="material-symbols-outlined text-[16px] mr-1">settings</span>Account Settings
+            </Link>
+          </div>
         </div>
-      </div>
+      </aside>
 
-      {/* Welcome Banner */}
-      <div className="bg-white rounded-lg shadow-sm border border-purple-100 p-6 flex items-center justify-between border-l-4 border-l-purple-500">
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800">Welcome back, {user?.name || profile?.personalInfo?.firstName}!</h2>
-          <p className="text-gray-500 mt-1">Ready to find your next big career move?</p>
-        </div>
-        <div className="hidden sm:block">
-           <div className="w-24 h-24 bg-purple-50 rounded-full flex items-center justify-center text-purple-600">
-              <Award size={40} />
-           </div>
-        </div>
-      </div>
+      <div className="pl-72">
+        <header className="fixed top-0 left-72 right-0 h-20 bg-surface/70 backdrop-blur-xl border-b border-white/5 z-40 flex items-center justify-between px-margin-desktop">
+          <div className="flex-1 max-w-md">
+            <div className="relative flex items-center bg-surface-container-high px-4 py-2 rounded-full border border-white/10">
+              <span className="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+              <input className="bg-transparent border-none outline-none text-on-surface placeholder:text-outline w-full text-body-md" placeholder="Search jobs or skills..." type="text"/>
+            </div>
+          </div>
+          <div className="flex items-center gap-gutter">
+            <span className="material-symbols-outlined text-on-surface-variant hover:text-on-surface cursor-pointer">notifications</span>
+            <button onClick={handleLogout} className="flex items-center gap-2 text-on-surface-variant hover:text-error transition-colors cursor-pointer">
+              <span className="material-symbols-outlined">logout</span>
+              <span className="font-label-sm text-label-sm">Logout</span>
+            </button>
+          </div>
+        </header>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center space-x-4">
-          <div className="p-3 bg-blue-100 text-blue-600 rounded-lg"><Briefcase /></div>
-          <div>
-            <p className="text-gray-500 text-sm">Applied Jobs</p>
-            <p className="text-2xl font-bold">0</p>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center space-x-4">
-          <div className="p-3 bg-yellow-100 text-yellow-600 rounded-lg"><Bookmark /></div>
-          <div>
-            <p className="text-gray-500 text-sm">Saved Jobs</p>
-            <p className="text-2xl font-bold">0</p>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center space-x-4">
-          <div className="p-3 bg-green-100 text-green-600 rounded-lg"><Star /></div>
-          <div>
-            <p className="text-gray-500 text-sm">Interviews</p>
-            <p className="text-2xl font-bold">0</p>
-          </div>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex items-center space-x-4">
-          <div className="p-3 bg-purple-100 text-purple-600 rounded-lg"><Calendar /></div>
-          <div>
-            <p className="text-gray-500 text-sm">Profile Views</p>
-            <p className="text-2xl font-bold">0</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-           <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-             <div className="flex justify-between items-center mb-4">
-               <h3 className="text-xl font-semibold">Recommended Jobs for {pd?.currentDesignation || 'You'}</h3>
-               {recommendedJobs.length > 0 && <Link to="/jobs" className="text-purple-600 text-sm hover:underline">View All</Link>}
-             </div>
-             
-             {(!isProfessionalDetailsComplete || completionPercentage < 50) ? (
-               <div className="text-gray-500 text-center py-8">
-                 Complete your profile and professional details to see recommended jobs!
-               </div>
-             ) : loadingJobs ? (
-               <div className="text-center py-8 text-gray-500">Loading recommendations...</div>
-             ) : recommendedJobs.length > 0 ? (
-               <div className="space-y-4">
-                 {recommendedJobs.map(job => (
-                   <JobCard key={job._id} job={job} />
-                 ))}
-               </div>
-             ) : (
-               <div className="text-gray-500 text-center py-8">
-                 No recommendations at this time. We'll notify you when new jobs match your profile.
-               </div>
-             )}
-           </div>
-        </div>
-        
-        {/* Profile Completion Checklist */}
-        <div className="space-y-6">
-           <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-             <h3 className="text-xl font-semibold mb-4">Profile Completion</h3>
-             
-             <div className="mb-6">
-                <div className="flex justify-between items-center mb-2">
-                   <span className="text-sm font-medium text-gray-700">Progress</span>
-                   <span className="text-sm font-bold text-purple-600">{completionPercentage}%</span>
+        <main className="relative pt-20 bg-background min-h-screen">
+          <div className="flex flex-col w-full p-margin-desktop gap-margin-desktop">
+            
+            {/* Welcome Banner */}
+            <section className="relative w-full rounded-3xl overflow-hidden shadow-2xl bg-surface-container flex items-center min-h-[240px]">
+              <div className="absolute inset-0 z-0">
+                <div className="absolute top-[-50%] left-[-20%] w-[100%] h-[200%] bg-gradient-to-br from-tertiary/10 via-transparent to-transparent opacity-60 mix-blend-screen blur-3xl transform rotate-12"></div>
+                <div className="absolute bottom-[-50%] right-[-10%] w-[80%] h-[150%] bg-gradient-to-tl from-secondary/10 via-transparent to-transparent opacity-50 mix-blend-screen blur-3xl transform -rotate-12"></div>
+              </div>
+              <div className="relative z-10 p-12 flex flex-col md:flex-row items-start md:items-center justify-between w-full gap-8">
+                <div className="flex flex-col max-w-2xl">
+                  <h1 className="font-display-lg text-display-lg text-on-surface mb-2">Welcome back, {user?.name || profile?.personalInfo?.firstName || 'Professional'}.</h1>
+                  <p className="font-body-lg text-body-lg text-on-surface-variant">Ready to find your next big career move? Let's take your career to the next level.</p>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                   <div className="bg-purple-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${completionPercentage}%` }}></div>
+                <div className="hidden lg:block w-48 h-48 relative rounded-full overflow-hidden shadow-[0_0_40px_rgba(79,219,200,0.15)] bg-surface-container-highest">
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+                    <span className="material-symbols-outlined text-[64px] text-tertiary">workspace_premium</span>
+                  </div>
                 </div>
-             </div>
+              </div>
+            </section>
 
-             <div className="space-y-3">
-               <div className="flex items-center gap-3">
-                 {isProfessionalDetailsComplete ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Circle className="w-5 h-5 text-red-400" />}
-                 <span className={isProfessionalDetailsComplete ? 'text-gray-800 line-through opacity-70' : 'text-gray-900 font-medium'}>Professional Details (Required)</span>
-               </div>
-               <div className="flex items-center gap-3">
-                 {isPersonalInfoComplete ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Circle className="w-5 h-5 text-gray-300" />}
-                 <span className={isPersonalInfoComplete ? 'text-gray-800 line-through opacity-70' : 'text-gray-700'}>Personal Information</span>
-               </div>
-               <div className="flex items-center gap-3">
-                 {isEducationComplete ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Circle className="w-5 h-5 text-gray-300" />}
-                 <span className={isEducationComplete ? 'text-gray-800 line-through opacity-70' : 'text-gray-700'}>Education</span>
-               </div>
-               <div className="flex items-center gap-3">
-                 {isSkillsComplete ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Circle className="w-5 h-5 text-gray-300" />}
-                 <span className={isSkillsComplete ? 'text-gray-800 line-through opacity-70' : 'text-gray-700'}>Skills</span>
-               </div>
-               <div className="flex items-center gap-3">
-                 {isResumeUploaded ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Circle className="w-5 h-5 text-gray-300" />}
-                 <span className={isResumeUploaded ? 'text-gray-800 line-through opacity-70' : 'text-gray-700'}>Resume Upload</span>
-               </div>
-             </div>
+            {/* Metrics Row */}
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter w-full">
+              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Applied</span>
+                  <div className="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary group-hover:bg-primary-container/40 transition-colors">
+                    <span className="material-symbols-outlined text-primary text-[20px]" style={{fontVariationSettings: "'FILL' 1"}}>send</span>
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display-lg text-display-lg text-on-surface">{loadingApps ? '-' : myApplications.length}</span>
+                  <span className="font-label-sm text-label-sm text-on-surface-variant">jobs</span>
+                </div>
+              </div>
 
-             <div className="mt-6 pt-6 border-t border-gray-100">
-               <Link to="/resume-builder" className="w-full flex items-center justify-center gap-2 bg-gray-50 border border-gray-300 text-gray-700 py-2 rounded hover:bg-gray-100 transition">
-                 <FileText className="w-4 h-4" /> Build ATS Resume
-               </Link>
-             </div>
+              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-tertiary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Saved</span>
+                  <div className="w-10 h-10 rounded-full bg-tertiary-container/20 flex items-center justify-center text-tertiary group-hover:bg-tertiary-container/40 transition-colors">
+                    <span className="material-symbols-outlined text-tertiary text-[20px]" style={{fontVariationSettings: "'FILL' 1"}}>bookmark</span>
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display-lg text-display-lg text-on-surface">0</span>
+                  <span className="font-label-sm text-label-sm text-on-surface-variant">jobs</span>
+                </div>
+              </div>
 
-           </div>
-        </div>
+              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Interviews</span>
+                  <div className="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary group-hover:bg-secondary-container/40 transition-colors">
+                    <span className="material-symbols-outlined text-secondary text-[20px]" style={{fontVariationSettings: "'FILL' 1"}}>event_available</span>
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display-lg text-display-lg text-on-surface">{loadingApps ? '-' : interviewsCount}</span>
+                  <span className="font-label-sm text-label-sm text-on-surface-variant">scheduled</span>
+                </div>
+              </div>
+
+              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-inverse-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Profile Views</span>
+                  <div className="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center text-inverse-primary group-hover:bg-inverse-surface transition-colors">
+                    <span className="material-symbols-outlined text-[20px]" style={{fontVariationSettings: "'FILL' 1"}}>visibility</span>
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display-lg text-display-lg text-on-surface">0</span>
+                  <span className="font-label-sm text-label-sm text-on-surface-variant">this week</span>
+                </div>
+              </div>
+            </section>
+
+            {/* Two Column Content */}
+            <section className="grid grid-cols-1 xl:grid-cols-12 gap-gutter w-full items-start">
+              {/* Left Column: Recommended Jobs & Applications */}
+              <div className="xl:col-span-8 flex flex-col gap-8 w-full">
+                
+                {/* Applied Jobs Section */}
+                <div className="flex flex-col gap-4 w-full">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                    <h2 className="font-headline-md text-headline-md text-on-surface">My Applications</h2>
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    {loadingApps ? (
+                       <div className="bg-surface-container rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 opacity-60">
+                         <div className="animate-pulse flex gap-4 w-full">
+                           <div className="w-12 h-12 bg-surface-container-highest rounded-full"></div>
+                           <div className="flex flex-col gap-2 w-full">
+                             <div className="h-4 bg-surface-container-highest rounded w-1/3"></div>
+                             <div className="h-3 bg-surface-container-highest rounded w-1/4"></div>
+                           </div>
+                         </div>
+                       </div>
+                    ) : myApplications.length > 0 ? (
+                      myApplications.map(app => (
+                        <div key={app._id} className="bg-surface-container-low rounded-2xl p-5 border border-white/5 shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between relative overflow-hidden">
+                          {app.status === 'Interview Scheduled' && (
+                            <div className="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+                          )}
+                          <div className="flex gap-4 items-center">
+                            <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-white/10 shrink-0">
+                              {app.job?.company?.logo ? (
+                                <img src={`http://localhost:5000${app.job.company.logo}`} alt={app.job.company.name} className="w-full h-full object-cover" />
+                              ) : (
+                                <span className="material-symbols-outlined text-on-surface-variant">business</span>
+                              )}
+                            </div>
+                            <div className="flex flex-col">
+                              <h3 className="font-bold text-on-surface text-lg">{app.job?.title || 'Unknown Job'}</h3>
+                              <span className="text-on-surface-variant text-sm">{app.job?.company?.name || 'Unknown Company'}</span>
+                              <span className="text-xs text-on-surface-variant opacity-70 mt-1">Applied on {new Date(app.createdAt).toLocaleDateString()}</span>
+                              
+                              {app.interview && app.interview.date && (app.status === 'Interview Scheduled' || app.status === 'Interviewing') && (
+                                <div className="mt-3 bg-secondary/10 border border-secondary/20 rounded-lg p-3 flex flex-col gap-1.5 w-full max-w-sm">
+                                  <span className="text-secondary text-xs font-bold uppercase flex items-center gap-1">
+                                    <span className="material-symbols-outlined text-[14px]">event_available</span> 
+                                    Interview Scheduled
+                                  </span>
+                                  <span className="text-on-surface text-sm font-medium">
+                                    {new Date(app.interview.date).toLocaleDateString()} at {app.interview.time}
+                                  </span>
+                                  <span className="text-on-surface-variant text-xs">
+                                    {app.interview.type} Interview
+                                  </span>
+                                  {app.interview.link && app.interview.type === 'Online' && (
+                                    <a href={app.interview.link} target="_blank" rel="noreferrer" className="mt-1 text-primary hover:underline text-xs flex items-center gap-1 w-fit">
+                                      <span className="material-symbols-outlined text-[14px]">link</span> Join Meeting
+                                    </a>
+                                  )}
+                                  {app.interview.location && app.interview.type === 'Offline' && (
+                                    <span className="mt-1 text-on-surface-variant text-xs flex items-center gap-1">
+                                      <span className="material-symbols-outlined text-[14px]">location_on</span> {app.interview.location}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex shrink-0 self-start sm:self-center">
+                            {getStatusBadge(app.status)}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="bg-surface-container rounded-2xl p-8 text-center text-on-surface-variant border border-white/5">
+                        You haven't applied to any jobs yet.
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Recommended Jobs Section */}
+                <div className="flex flex-col gap-4 w-full mt-4">
+                  <div className="flex items-center justify-between">
+                    <h2 className="font-headline-md text-headline-md text-on-surface">Recommended for {pd?.currentDesignation || 'You'}</h2>
+                    {recommendedJobs.length > 0 && (
+                      <Link to="/jobs" className="text-tertiary font-label-sm text-label-sm hover:text-tertiary-container transition-colors flex items-center gap-1 group">
+                        View all <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                      </Link>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-4">
+                    {(!isProfessionalDetailsComplete || completionPercentage < 50) ? (
+                      <div className="bg-surface-container rounded-2xl p-8 text-center text-on-surface-variant border border-white/5">
+                        Complete your profile and professional details to see recommended jobs!
+                      </div>
+                    ) : loadingJobs ? (
+                      <div className="bg-surface-container rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 opacity-60">
+                        <div className="flex gap-4 items-start sm:items-center w-full max-w-md">
+                          <div className="w-14 h-14 rounded-xl bg-surface-container-highest flex-shrink-0 animate-pulse"></div>
+                          <div className="flex flex-col gap-2 w-full">
+                            <div className="h-6 bg-surface-container-highest rounded w-3/4 animate-pulse"></div>
+                            <div className="h-4 bg-surface-container-highest rounded w-1/2 animate-pulse"></div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : recommendedJobs.length > 0 ? (
+                      recommendedJobs.map(job => (
+                        <JobCard key={job._id} job={job} />
+                      ))
+                    ) : (
+                      <div className="bg-surface-container rounded-2xl p-8 text-center text-on-surface-variant border border-white/5">
+                        No recommendations at this time. We'll notify you when new jobs match your profile.
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Profile Completion */}
+              <aside className="xl:col-span-4 w-full flex flex-col gap-6">
+                <div className="bg-surface-container-high rounded-3xl p-8 shadow-xl relative overflow-hidden">
+                  <div className="absolute -top-12 -right-12 w-32 h-32 bg-tertiary/20 rounded-full blur-[40px] pointer-events-none"></div>
+                  <h2 className="font-headline-md text-headline-md text-on-surface mb-6 relative z-10">Profile Strength</h2>
+                  
+                  <div className="relative w-full h-3 bg-surface-container-highest rounded-full mb-8 overflow-hidden z-10 shadow-inner">
+                    <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-tertiary to-primary rounded-full shadow-[0_0_12px_rgba(79,219,200,0.8)] relative after:content-[''] after:absolute after:top-0 after:right-0 after:w-4 after:h-full after:bg-white/30 after:blur-[2px]" style={{ width: `${completionPercentage}%` }}></div>
+                  </div>
+                  
+                  <div className="flex justify-between items-center mb-6 z-10 relative">
+                    <span className="font-display-lg text-display-lg text-on-surface leading-none">{completionPercentage}<span className="text-headline-md text-on-surface-variant">%</span></span>
+                    <span className="font-label-sm text-label-sm text-tertiary uppercase tracking-widest px-3 py-1 bg-tertiary/10 rounded-full">
+                      {completionPercentage < 50 ? 'Beginner' : completionPercentage < 80 ? 'Intermediate' : 'Expert'}
+                    </span>
+                  </div>
+
+                  <ul className="flex flex-col gap-4 mb-8 relative z-10">
+                    <li className={`flex items-start gap-3 ${isProfessionalDetailsComplete ? 'opacity-50' : ''}`}>
+                      <span className={`material-symbols-outlined text-[20px] ${isProfessionalDetailsComplete ? 'text-tertiary' : 'text-outline'}`} style={{fontVariationSettings: isProfessionalDetailsComplete ? "'FILL' 1" : "'FILL' 0"}}>
+                        {isProfessionalDetailsComplete ? 'check_circle' : 'radio_button_unchecked'}
+                      </span>
+                      <span className={`font-body-md text-body-md text-on-surface ${isProfessionalDetailsComplete ? 'line-through' : ''}`}>Professional Details</span>
+                    </li>
+                    <li className={`flex items-start gap-3 ${isPersonalInfoComplete ? 'opacity-50' : ''}`}>
+                      <span className={`material-symbols-outlined text-[20px] ${isPersonalInfoComplete ? 'text-primary' : 'text-outline'}`} style={{fontVariationSettings: isPersonalInfoComplete ? "'FILL' 1" : "'FILL' 0"}}>
+                        {isPersonalInfoComplete ? 'check_circle' : 'radio_button_unchecked'}
+                      </span>
+                      <span className={`font-body-md text-body-md text-on-surface ${isPersonalInfoComplete ? 'line-through' : ''}`}>Personal Information</span>
+                    </li>
+                    <li className={`flex items-start gap-3 ${isEducationComplete ? 'opacity-50' : ''}`}>
+                      <span className={`material-symbols-outlined text-[20px] ${isEducationComplete ? 'text-primary' : 'text-outline'}`} style={{fontVariationSettings: isEducationComplete ? "'FILL' 1" : "'FILL' 0"}}>
+                        {isEducationComplete ? 'check_circle' : 'radio_button_unchecked'}
+                      </span>
+                      <span className={`font-body-md text-body-md text-on-surface ${isEducationComplete ? 'line-through' : ''}`}>Education</span>
+                    </li>
+                    <li className={`flex items-start gap-3 ${isSkillsComplete ? 'opacity-50' : ''}`}>
+                      <span className={`material-symbols-outlined text-[20px] ${isSkillsComplete ? 'text-primary' : 'text-outline'}`} style={{fontVariationSettings: isSkillsComplete ? "'FILL' 1" : "'FILL' 0"}}>
+                        {isSkillsComplete ? 'check_circle' : 'radio_button_unchecked'}
+                      </span>
+                      <span className={`font-body-md text-body-md text-on-surface ${isSkillsComplete ? 'line-through' : ''}`}>Skills</span>
+                    </li>
+                    <li className={`flex items-start gap-3 ${isResumeUploaded ? 'opacity-50' : ''}`}>
+                      <span className={`material-symbols-outlined text-[20px] ${isResumeUploaded ? 'text-primary' : 'text-outline'}`} style={{fontVariationSettings: isResumeUploaded ? "'FILL' 1" : "'FILL' 0"}}>
+                        {isResumeUploaded ? 'check_circle' : 'radio_button_unchecked'}
+                      </span>
+                      <span className={`font-body-md text-body-md text-on-surface ${isResumeUploaded ? 'line-through' : ''}`}>Resume Upload</span>
+                    </li>
+                  </ul>
+
+                  <Link to="/resume-builder" className="w-full py-4 rounded-xl bg-surface-container-lowest text-tertiary font-label-sm text-label-sm border border-tertiary/20 hover:bg-tertiary/10 hover:border-tertiary/50 hover:shadow-[0_0_20px_rgba(79,219,200,0.15)] transition-all duration-300 relative z-10 flex items-center justify-center gap-2 group">
+                    <span className="material-symbols-outlined group-hover:rotate-12 transition-transform">auto_awesome</span>
+                    Build ATS Resume
+                  </Link>
+                </div>
+              </aside>
+            </section>
+          </div>
+        </main>
       </div>
-    </div>
+    </>
   );
 };
 

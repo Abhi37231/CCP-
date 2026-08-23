@@ -18,14 +18,38 @@ const applicationSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Pending', 'Reviewed', 'Shortlisted', 'Interviewing', 'Rejected', 'Hired'],
-    default: 'Pending'
+    enum: ['Applied', 'Under Review', 'Shortlisted', 'Interview Scheduled', 'Interview Completed', 'Selected', 'Rejected', 'Pending', 'Reviewed', 'Interviewing', 'Hired'], // Keeping legacy statuses to prevent crashes for old data
+    default: 'Applied'
   },
   resume: {
     type: String, // Path or URL to the resume file submitted with the application
   },
   coverLetter: {
     type: String
+  },
+  rating: {
+    type: Number,
+    min: 1,
+    max: 5
+  },
+  recruiterNotes: {
+    type: String
+  },
+  history: [{
+    status: String,
+    note: String,
+    date: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  interview: {
+    date: Date,
+    time: String,
+    type: { type: String, enum: ['Online', 'Offline'] },
+    link: String,
+    location: String,
+    notes: String
   }
 }, { timestamps: true });
 

@@ -19,7 +19,7 @@ exports.getProfile = async (req, res) => {
     }
 
     if (!profile) {
-      return res.status(404).json({ success: false, error: 'There is no profile for this user' });
+      return res.status(200).json({ success: true, data: null });
     }
 
     res.status(200).json({ success: true, data: profile });

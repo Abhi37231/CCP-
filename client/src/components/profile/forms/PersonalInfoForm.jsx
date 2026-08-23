@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrUpdateProfile } from '../../../redux/slices/profileSlice';
 import { toast } from 'react-toastify';
-import { Upload } from 'lucide-react';
 
 const PersonalInfoForm = ({ profile }) => {
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.profile);
+  const photoInputRef = useRef(null);
+  const resumeInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     firstName: profile?.personalInfo?.firstName || '',
@@ -26,8 +27,8 @@ const PersonalInfoForm = ({ profile }) => {
 
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const onFileChange = (e) => {
-    if (e.target.name === 'resume') setResume(e.target.files[0]);
-    if (e.target.name === 'profilePhoto') setProfilePhoto(e.target.files[0]);
+    if (e.target.name === 'resume' && e.target.files[0]) setResume(e.target.files[0]);
+    if (e.target.name === 'profilePhoto' && e.target.files[0]) setProfilePhoto(e.target.files[0]);
   };
 
   const onSubmit = async (e) => {
@@ -39,9 +40,7 @@ const PersonalInfoForm = ({ profile }) => {
       headline: formData.headline,
       phone: formData.phone,
       dob: formData.dob || undefined,
-      gender: formData.gender,
-      // Preserve existing photo url if not uploading a new one, but photo is handled via files anyway.
-      // Wait, we need to preserve the old photo url if we don't upload a new one.
+      gender: formData.gender || undefined,
       profilePhoto: profile?.personalInfo?.profilePhoto
     };
     
@@ -59,88 +58,223 @@ const PersonalInfoForm = ({ profile }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Basic Details</h2>
+    <form onSubmit={onSubmit} className="space-y-10">
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-          <input type="text" name="firstName" value={formData.firstName} onChange={onChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-          <input type="text" name="lastName" value={formData.lastName} onChange={onChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" />
-        </div>
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Professional Headline</label>
-          <input type="text" name="headline" value={formData.headline} onChange={onChange} placeholder="e.g. Aspiring Full Stack Developer | Final Year CS Student" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-          <input type="text" name="phone" value={formData.phone} onChange={onChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
-          <input type="date" name="dob" value={formData.dob} onChange={onChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
-          <select name="gender" value={formData.gender} onChange={onChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary">
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-            <option value="Prefer not to say">Prefer not to say</option>
-          </select>
-        </div>
-      </div>
-
-      <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800 border-b pb-2">Location</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-          <input type="text" name="city" value={formData.city} onChange={onChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-          <input type="text" name="state" value={formData.state} onChange={onChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
-          <input type="text" name="country" value={formData.country} onChange={onChange} className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary" />
-        </div>
-      </div>
-
-      <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800 border-b pb-2">Professional Summary</h2>
+      {/* Basic Details */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">About Me / Career Objective</label>
-        <textarea name="about" value={formData.about} onChange={onChange} rows="4" placeholder="Briefly describe your career objectives and background..." className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"></textarea>
-      </div>
-
-      <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800 border-b pb-2">Uploads</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="border-2 border-dashed border-gray-300 p-6 rounded-lg text-center hover:bg-gray-50 transition">
-          <Upload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-          <label className="block text-sm font-medium text-primary cursor-pointer">
-            <span>Upload Profile Photo</span>
-            <input type="file" name="profilePhoto" onChange={onFileChange} accept="image/*" className="hidden" />
-          </label>
-          <p className="text-xs text-gray-500 mt-1">{profilePhoto ? profilePhoto.name : (profile?.personalInfo?.profilePhoto ? 'Current photo uploaded' : 'PNG, JPG up to 2MB')}</p>
-        </div>
+        <h2 className="font-headline-sm text-headline-sm text-on-surface mb-6 flex items-center gap-2">
+          <span className="material-symbols-outlined text-primary">person</span>
+          Basic Details
+        </h2>
         
-        <div className="border-2 border-dashed border-gray-300 p-6 rounded-lg text-center hover:bg-gray-50 transition">
-          <Upload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
-          <label className="block text-sm font-medium text-primary cursor-pointer">
-            <span>Upload Resume (PDF)</span>
-            <input type="file" name="resume" onChange={onFileChange} accept=".pdf,.doc,.docx" className="hidden" />
-          </label>
-          <p className="text-xs text-gray-500 mt-1">{resume ? resume.name : (profile?.resume ? 'Current resume uploaded' : 'PDF up to 5MB')}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">First Name</label>
+            <input 
+              type="text" 
+              name="firstName" 
+              value={formData.firstName} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Last Name</label>
+            <input 
+              type="text" 
+              name="lastName" 
+              value={formData.lastName} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            />
+          </div>
+          <div className="flex flex-col gap-2 md:col-span-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Professional Headline</label>
+            <input 
+              type="text" 
+              name="headline" 
+              value={formData.headline} 
+              onChange={onChange} 
+              placeholder="e.g. Aspiring Full Stack Developer | Final Year CS Student" 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Phone Number</label>
+            <input 
+              type="text" 
+              name="phone" 
+              value={formData.phone} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Date of Birth</label>
+            <input 
+              type="date" 
+              name="dob" 
+              value={formData.dob} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5 [color-scheme:dark]" 
+            />
+          </div>
+          <div className="flex flex-col gap-2 md:col-span-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Gender</label>
+            <select 
+              name="gender" 
+              value={formData.gender} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div className="pt-6 flex justify-end">
-        <button type="submit" disabled={isLoading} className="bg-primary text-white px-6 py-2 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50">
-          {isLoading ? 'Saving...' : 'Save Changes'}
+      <div className="w-full h-px bg-white/5 my-8"></div>
+
+      {/* Location */}
+      <div>
+        <h2 className="font-headline-sm text-headline-sm text-on-surface mb-6 flex items-center gap-2">
+          <span className="material-symbols-outlined text-tertiary">location_on</span>
+          Location
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex flex-col gap-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">City</label>
+            <input 
+              type="text" 
+              name="city" 
+              value={formData.city} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">State</label>
+            <input 
+              type="text" 
+              name="state" 
+              value={formData.state} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Country</label>
+            <input 
+              type="text" 
+              name="country" 
+              value={formData.country} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full h-px bg-white/5 my-8"></div>
+
+      {/* Professional Summary */}
+      <div>
+        <h2 className="font-headline-sm text-headline-sm text-on-surface mb-6 flex items-center gap-2">
+          <span className="material-symbols-outlined text-secondary">description</span>
+          Professional Summary
+        </h2>
+        <div className="flex flex-col gap-2">
+          <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">About Me / Career Objective</label>
+          <textarea 
+            name="about" 
+            value={formData.about} 
+            onChange={onChange} 
+            rows="4" 
+            placeholder="Briefly describe your career objectives and background..." 
+            className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-secondary/50 focus:bg-surface-bright transition-all shadow-inner w-full resize-none border border-white/5"
+          ></textarea>
+        </div>
+      </div>
+
+      <div className="w-full h-px bg-white/5 my-8"></div>
+
+      {/* Uploads */}
+      <div>
+        <h2 className="font-headline-sm text-headline-sm text-on-surface mb-6 flex items-center gap-2">
+          <span className="material-symbols-outlined text-inverse-primary">cloud_upload</span>
+          Uploads
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Profile Photo */}
+          <div 
+            className="w-full border-2 border-dashed border-outline-variant rounded-2xl p-8 flex flex-col items-center justify-center text-center bg-surface-container-lowest/50 hover:bg-surface-container-highest/30 hover:border-inverse-primary/50 transition-all cursor-pointer group"
+            onClick={() => photoInputRef.current.click()}
+          >
+            <input 
+              type="file" 
+              name="profilePhoto" 
+              onChange={onFileChange} 
+              accept="image/*" 
+              className="hidden" 
+              ref={photoInputRef}
+            />
+            <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-3 group-hover:scale-110 transition-transform group-hover:bg-inverse-primary-container/20 group-hover:text-inverse-primary border border-white/5">
+              <span className="material-symbols-outlined text-[24px] text-on-surface-variant group-hover:text-inverse-primary">account_circle</span>
+            </div>
+            <h3 className="font-label-sm text-body-md text-on-surface mb-1">Profile Photo</h3>
+            <p className="font-body-md text-label-sm text-on-surface-variant mb-0">
+              {profilePhoto ? profilePhoto.name : (profile?.personalInfo?.profilePhoto ? 'Current photo uploaded' : 'PNG, JPG up to 2MB')}
+            </p>
+          </div>
+          
+          {/* Resume */}
+          <div 
+            className="w-full border-2 border-dashed border-outline-variant rounded-2xl p-8 flex flex-col items-center justify-center text-center bg-surface-container-lowest/50 hover:bg-surface-container-highest/30 hover:border-inverse-primary/50 transition-all cursor-pointer group"
+            onClick={() => resumeInputRef.current.click()}
+          >
+            <input 
+              type="file" 
+              name="resume" 
+              onChange={onFileChange} 
+              accept=".pdf,.doc,.docx" 
+              className="hidden" 
+              ref={resumeInputRef}
+            />
+            <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-3 group-hover:scale-110 transition-transform group-hover:bg-inverse-primary-container/20 group-hover:text-inverse-primary border border-white/5">
+              <span className="material-symbols-outlined text-[24px] text-on-surface-variant group-hover:text-inverse-primary">upload_file</span>
+            </div>
+            <h3 className="font-label-sm text-body-md text-on-surface mb-1">Resume Document</h3>
+            <p className="font-body-md text-label-sm text-on-surface-variant mb-0">
+              {resume ? resume.name : (profile?.resume ? 'Current resume uploaded' : 'PDF up to 5MB')}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-8 flex justify-end">
+        <button 
+          type="submit" 
+          disabled={isLoading} 
+          className="px-8 py-3 bg-gradient-to-r from-primary to-secondary-container text-on-primary font-label-sm text-label-sm rounded-xl shadow-[0_0_20px_rgba(173,198,255,0.3)] hover:shadow-[0_0_30px_rgba(173,198,255,0.5)] transition-all transform hover:-translate-y-0.5 disabled:opacity-50 flex items-center gap-2"
+        >
+          {isLoading ? (
+            <>
+              <svg className="animate-spin h-4 w-4 text-on-primary" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+              </svg>
+              Saving...
+            </>
+          ) : (
+            <>
+              <span className="material-symbols-outlined text-[18px]">save</span>
+              Save Changes
+            </>
+          )}
         </button>
       </div>
     </form>

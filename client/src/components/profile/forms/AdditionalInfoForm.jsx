@@ -80,127 +80,182 @@ const AdditionalInfoForm = ({ profile }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-8">
+    <form onSubmit={onSubmit} className="space-y-10">
       {/* Certifications */}
       <div>
-        <div className="flex justify-between items-center border-b pb-2 mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Certifications</h2>
-          <button type="button" onClick={handleAddCert} className="flex items-center text-sm text-primary font-medium hover:text-blue-700">
+        <div className="flex justify-between items-center border-b border-white/5 pb-4 mb-6">
+          <h2 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary">workspace_premium</span>
+            Certifications
+          </h2>
+          <button type="button" onClick={handleAddCert} className="flex items-center text-sm text-primary font-label-sm hover:text-primary/80 transition-colors bg-primary/10 px-3 py-1.5 rounded-lg border border-primary/20">
             <Plus className="w-4 h-4 mr-1" /> Add Certification
           </button>
         </div>
         
-        {certifications.length === 0 && <p className="text-gray-500 italic text-sm mb-4">No certifications added.</p>}
+        {certifications.length === 0 && <p className="text-on-surface-variant italic text-sm mb-4">No certifications added.</p>}
 
         {certifications.map((cert, index) => (
-          <div key={index} className="bg-gray-50 p-4 rounded-lg border border-gray-200 relative mb-4">
-            <button type="button" onClick={() => handleRemoveCert(index)} className="absolute top-4 right-4 text-red-500 hover:text-red-700">
-              <Trash2 className="w-5 h-5" />
+          <div key={index} className="bg-surface-container-low p-6 rounded-2xl border border-white/5 relative mb-6 shadow-lg group">
+            <button type="button" onClick={() => handleRemoveCert(index)} className="absolute top-4 right-4 text-error/70 hover:text-error bg-error/10 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all border border-error/20">
+              <Trash2 className="w-4 h-4" />
             </button>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pr-8">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Certificate Name</label>
-                <input type="text" name="name" required value={cert.name} onChange={(e) => handleChangeCert(e, index)} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-2">
+                <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Certificate Name <span className="text-error">*</span></label>
+                <input type="text" name="name" required value={cert.name} onChange={(e) => handleChangeCert(e, index)} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Issuing Organization</label>
-                <input type="text" name="issuingOrganization" value={cert.issuingOrganization} onChange={(e) => handleChangeCert(e, index)} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+              <div className="flex flex-col gap-2">
+                <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Issuing Organization</label>
+                <input type="text" name="issuingOrganization" value={cert.issuingOrganization} onChange={(e) => handleChangeCert(e, index)} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Issue Date</label>
-                  <input type="date" name="issueDate" value={cert.issueDate ? new Date(cert.issueDate).toISOString().substring(0, 10) : ''} onChange={(e) => handleChangeCert(e, index)} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+              <div className="grid grid-cols-2 gap-6">
+                <div className="flex flex-col gap-2">
+                  <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Issue Date</label>
+                  <input type="date" name="issueDate" value={cert.issueDate ? new Date(cert.issueDate).toISOString().substring(0, 10) : ''} onChange={(e) => handleChangeCert(e, index)} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5 [&::-webkit-calendar-picker-indicator]:invert-[1] [&::-webkit-calendar-picker-indicator]:opacity-50 hover:[&::-webkit-calendar-picker-indicator]:opacity-100" />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
-                  <input type="date" name="expiryDate" value={cert.expiryDate ? new Date(cert.expiryDate).toISOString().substring(0, 10) : ''} onChange={(e) => handleChangeCert(e, index)} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+                <div className="flex flex-col gap-2">
+                  <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Expiry Date</label>
+                  <input type="date" name="expiryDate" value={cert.expiryDate ? new Date(cert.expiryDate).toISOString().substring(0, 10) : ''} onChange={(e) => handleChangeCert(e, index)} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5 [&::-webkit-calendar-picker-indicator]:invert-[1] [&::-webkit-calendar-picker-indicator]:opacity-50 hover:[&::-webkit-calendar-picker-indicator]:opacity-100" />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Credential URL</label>
-                <input type="url" name="verificationUrl" value={cert.verificationUrl} onChange={(e) => handleChangeCert(e, index)} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+              <div className="flex flex-col gap-2">
+                <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Credential URL</label>
+                <div className="relative">
+                  <span className="material-symbols-outlined absolute left-4 top-3.5 text-on-surface-variant text-[18px]">link</span>
+                  <input type="url" name="verificationUrl" value={cert.verificationUrl} onChange={(e) => handleChangeCert(e, index)} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl pl-12 pr-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
+      <div className="w-full h-px bg-white/5 my-8"></div>
+
       {/* Languages */}
       <div>
-        <div className="flex justify-between items-center border-b pb-2 mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Languages Known</h2>
-          <button type="button" onClick={handleAddLang} className="flex items-center text-sm text-primary font-medium hover:text-blue-700">
+        <div className="flex justify-between items-center border-b border-white/5 pb-4 mb-6">
+          <h2 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+            <span className="material-symbols-outlined text-secondary">translate</span>
+            Languages Known
+          </h2>
+          <button type="button" onClick={handleAddLang} className="flex items-center text-sm text-secondary font-label-sm hover:text-secondary/80 transition-colors bg-secondary/10 px-3 py-1.5 rounded-lg border border-secondary/20">
             <Plus className="w-4 h-4 mr-1" /> Add Language
           </button>
         </div>
         
-        {languages.length === 0 && <p className="text-gray-500 italic text-sm mb-4">No languages added.</p>}
+        {languages.length === 0 && <p className="text-on-surface-variant italic text-sm mb-4">No languages added.</p>}
 
-        {languages.map((lang, index) => (
-          <div key={index} className="flex items-center gap-4 mb-3">
-             <input type="text" name="language" required value={lang.language} onChange={(e) => handleChangeLang(e, index)} placeholder="e.g. English" className="flex-1 px-3 py-2 border border-gray-300 rounded-md" />
-             <select name="proficiency" value={lang.proficiency} onChange={(e) => handleChangeLang(e, index)} className="w-40 px-3 py-2 border border-gray-300 rounded-md">
-                <option value="Basic">Basic</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Fluent">Fluent</option>
-                <option value="Native">Native</option>
-             </select>
-             <button type="button" onClick={() => handleRemoveLang(index)} className="text-red-400 hover:text-red-600">
-                <Trash2 className="w-5 h-5" />
-             </button>
+        {languages.length > 0 && (
+          <div className="space-y-4">
+            {languages.map((lang, index) => (
+              <div key={index} className="flex flex-col sm:flex-row items-center gap-4 bg-surface-container-highest/30 p-3 rounded-xl border border-white/5">
+                 <input 
+                   type="text" 
+                   name="language" 
+                   required 
+                   value={lang.language} 
+                   onChange={(e) => handleChangeLang(e, index)} 
+                   placeholder="e.g. English" 
+                   className="flex-1 w-full sm:w-auto bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-secondary/50 focus:bg-surface-bright transition-all shadow-inner border border-white/5" 
+                 />
+                 <select 
+                   name="proficiency" 
+                   value={lang.proficiency} 
+                   onChange={(e) => handleChangeLang(e, index)} 
+                   className="w-full sm:w-48 bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-secondary/50 focus:bg-surface-bright transition-all shadow-inner border border-white/5"
+                 >
+                    <option value="Basic">Basic</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Fluent">Fluent</option>
+                    <option value="Native">Native</option>
+                 </select>
+                 <button type="button" onClick={() => handleRemoveLang(index)} className="text-error/70 hover:text-error bg-error/10 p-2 rounded-lg transition-all border border-error/20 self-end sm:self-auto w-full sm:w-auto flex justify-center">
+                    <Trash2 className="w-5 h-5" />
+                 </button>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
+
+      <div className="w-full h-px bg-white/5 my-8"></div>
 
       {/* Achievements */}
       <div>
-         <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Achievements (Comma separated)</h2>
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Hackathons</label>
-               <input type="text" name="hackathons" value={formatArrayForInput(achievements.hackathons)} onChange={handleAchievementChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+         <h2 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 border-b border-white/5 pb-4 mb-6">
+           <span className="material-symbols-outlined text-tertiary">emoji_events</span>
+           Achievements (Comma separated)
+         </h2>
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-surface-container-low p-6 rounded-2xl border border-white/5">
+            <div className="flex flex-col gap-2">
+               <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Hackathons</label>
+               <input type="text" name="hackathons" value={formatArrayForInput(achievements.hackathons)} onChange={handleAchievementChange} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
             </div>
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Coding Competitions</label>
-               <input type="text" name="codingCompetitions" value={formatArrayForInput(achievements.codingCompetitions)} onChange={handleAchievementChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+            <div className="flex flex-col gap-2">
+               <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Coding Competitions</label>
+               <input type="text" name="codingCompetitions" value={formatArrayForInput(achievements.codingCompetitions)} onChange={handleAchievementChange} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
             </div>
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Scholarships</label>
-               <input type="text" name="scholarships" value={formatArrayForInput(achievements.scholarships)} onChange={handleAchievementChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+            <div className="flex flex-col gap-2">
+               <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Scholarships</label>
+               <input type="text" name="scholarships" value={formatArrayForInput(achievements.scholarships)} onChange={handleAchievementChange} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
             </div>
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Other Awards</label>
-               <input type="text" name="awards" value={formatArrayForInput(achievements.awards)} onChange={handleAchievementChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+            <div className="flex flex-col gap-2">
+               <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Other Awards</label>
+               <input type="text" name="awards" value={formatArrayForInput(achievements.awards)} onChange={handleAchievementChange} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
             </div>
          </div>
       </div>
+
+      <div className="w-full h-px bg-white/5 my-8"></div>
 
       {/* Extracurriculars */}
       <div>
-         <h2 className="text-xl font-semibold text-gray-800 border-b pb-2 mb-4">Extracurricular Activities (Comma separated)</h2>
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Clubs & Societies</label>
-               <input type="text" name="clubs" value={formatArrayForInput(extracurriculars.clubs)} onChange={handleExtraChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+         <h2 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 border-b border-white/5 pb-4 mb-6">
+           <span className="material-symbols-outlined text-primary">diversity_3</span>
+           Extracurricular Activities (Comma separated)
+         </h2>
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-surface-container-low p-6 rounded-2xl border border-white/5">
+            <div className="flex flex-col gap-2">
+               <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Clubs & Societies</label>
+               <input type="text" name="clubs" value={formatArrayForInput(extracurriculars.clubs)} onChange={handleExtraChange} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
             </div>
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Volunteer Work</label>
-               <input type="text" name="volunteerWork" value={formatArrayForInput(extracurriculars.volunteerWork)} onChange={handleExtraChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+            <div className="flex flex-col gap-2">
+               <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Volunteer Work</label>
+               <input type="text" name="volunteerWork" value={formatArrayForInput(extracurriculars.volunteerWork)} onChange={handleExtraChange} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
             </div>
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Sports</label>
-               <input type="text" name="sports" value={formatArrayForInput(extracurriculars.sports)} onChange={handleExtraChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+            <div className="flex flex-col gap-2">
+               <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Sports</label>
+               <input type="text" name="sports" value={formatArrayForInput(extracurriculars.sports)} onChange={handleExtraChange} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
             </div>
-            <div>
-               <label className="block text-sm font-medium text-gray-700 mb-1">Cultural Activities</label>
-               <input type="text" name="cultural" value={formatArrayForInput(extracurriculars.cultural)} onChange={handleExtraChange} className="w-full px-3 py-2 border border-gray-300 rounded-md" />
+            <div className="flex flex-col gap-2">
+               <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Cultural Activities</label>
+               <input type="text" name="cultural" value={formatArrayForInput(extracurriculars.cultural)} onChange={handleExtraChange} className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" />
             </div>
          </div>
       </div>
 
-      <div className="pt-4 flex justify-end">
-        <button type="submit" disabled={isLoading} className="bg-primary text-white px-6 py-2 rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50">
-          {isLoading ? 'Saving...' : 'Save Additional Info'}
+      <div className="pt-6 flex justify-end">
+        <button 
+          type="submit" 
+          disabled={isLoading} 
+          className="px-8 py-3 bg-gradient-to-r from-primary to-secondary-container text-on-primary font-label-sm text-label-sm rounded-xl shadow-[0_0_20px_rgba(173,198,255,0.3)] hover:shadow-[0_0_30px_rgba(173,198,255,0.5)] transition-all transform hover:-translate-y-0.5 disabled:opacity-50 flex items-center gap-2"
+        >
+          {isLoading ? (
+            <>
+              <svg className="animate-spin h-4 w-4 text-on-primary" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+              </svg>
+              Saving...
+            </>
+          ) : (
+            <>
+              <span className="material-symbols-outlined text-[18px]">save</span>
+              Save Additional Info
+            </>
+          )}
         </button>
       </div>
     </form>

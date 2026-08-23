@@ -41,11 +41,17 @@ const jobSchema = new mongoose.Schema({
   salaryRange: {
     min: Number,
     max: Number,
-    currency: { type: String, default: 'USD' }
+    currency: { type: String, default: 'INR' }
+  },
+  targetAudience: {
+    type: String,
+    enum: ['Student', 'Employee', 'Both'],
+    default: 'Both',
+    required: true
   },
   experienceRequired: {
     type: String,
-    enum: ['Fresher', '1-3 Years', '3-5 Years', '5-10 Years', '10+ Years'],
+    enum: ['Any', 'Fresher', '1-3 Years', '3-5 Years', '5-10 Years', '10+ Years'],
     required: true
   },
   employmentType: {

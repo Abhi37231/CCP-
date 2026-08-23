@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { UploadCloud, FileText, CheckCircle, XCircle, AlertTriangle, File, X, Loader, Search, Lightbulb, Target } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -11,9 +10,9 @@ const CircularProgress = ({ value, label, size = 'lg' }) => {
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (value / 100) * circumference;
 
-  let color = 'text-green-500';
-  if (value < 40) color = 'text-red-500';
-  else if (value < 70) color = 'text-yellow-500';
+  let colorClass = 'text-tertiary'; // Green/teal
+  if (value < 40) colorClass = 'text-error';
+  else if (value < 70) colorClass = 'text-yellow-500';
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -27,7 +26,7 @@ const CircularProgress = ({ value, label, size = 'lg' }) => {
             stroke="currentColor"
             fill="transparent"
             strokeWidth={stroke}
-            className="text-gray-200"
+            className="text-surface-container-lowest"
             r={normalizedRadius}
             cx={radius}
             cy={radius}
@@ -39,38 +38,38 @@ const CircularProgress = ({ value, label, size = 'lg' }) => {
             strokeDasharray={circumference + ' ' + circumference}
             style={{ strokeDashoffset }}
             strokeLinecap="round"
-            className={`${color} transition-all duration-1000 ease-in-out`}
+            className={`${colorClass} transition-all duration-1000 ease-in-out drop-shadow-[0_0_8px_rgba(79,219,200,0.6)]`}
             r={normalizedRadius}
             cx={radius}
             cy={radius}
           />
         </svg>
         <div className="absolute flex flex-col items-center justify-center">
-          <span className={`font-bold ${size === 'lg' ? 'text-4xl' : 'text-xl'} text-gray-800`}>
+          <span className={`font-display-lg text-display-lg text-on-surface`}>
             {value}
           </span>
-          {size === 'lg' && <span className="text-sm text-gray-500 font-medium">/ 100</span>}
+          {size === 'lg' && <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-1">Score</span>}
         </div>
       </div>
-      {label && <span className="mt-2 text-sm font-semibold text-gray-600">{label}</span>}
+      {label && <span className="mt-4 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">{label}</span>}
     </div>
   );
 };
 
 const ProgressBar = ({ value, label }) => {
-  let color = 'bg-green-500';
-  if (value < 40) color = 'bg-red-500';
-  else if (value < 70) color = 'bg-yellow-500';
+  let colorClass = 'bg-tertiary';
+  if (value < 40) colorClass = 'bg-error';
+  else if (value < 70) colorClass = 'bg-yellow-500';
 
   return (
     <div className="mb-4">
-      <div className="flex justify-between mb-1">
-        <span className="text-sm font-medium text-gray-700">{label}</span>
-        <span className="text-sm font-medium text-gray-700">{value}%</span>
+      <div className="flex justify-between items-center mb-2">
+        <span className="font-body-md text-body-md text-on-surface">{label}</span>
+        <span className="font-label-sm text-label-sm text-on-surface-variant">{value}%</span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
+      <div className="w-full bg-surface-container-lowest rounded-full h-2 shadow-inner overflow-hidden">
         <div
-          className={`h-2.5 rounded-full ${color} transition-all duration-1000`}
+          className={`h-full rounded-full ${colorClass} transition-all duration-1000`}
           style={{ width: `${value}%` }}
         ></div>
       </div>
@@ -178,272 +177,302 @@ export default function AtsAnalyzer() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4">
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight flex items-center justify-center gap-3">
-          <Target className="text-primary w-10 h-10" />
-          AI Resume ATS Analyzer
-        </h1>
-        <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-          Check how well your resume matches a specific job description. 
-          Upload your resume and the job details to receive a comprehensive AI-powered analysis.
-        </p>
+    <main className="pt-20 bg-background min-h-screen relative overflow-hidden">
+      {/* Decorative Background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] mix-blend-screen transform translate-x-1/3 -translate-y-1/4"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-tertiary/5 rounded-full blur-[100px] mix-blend-screen transform -translate-x-1/4 translate-y-1/4"></div>
       </div>
 
-      <AnimatePresence mode="wait">
-        {!result ? (
-          <motion.div 
-            key="input-form"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-          >
-            {/* Left Column: Upload */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full">
-              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-primary" />
-                1. Upload Resume
-              </h2>
-              <div 
-                className={`flex-grow border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-8 transition-colors ${isDragging ? 'border-primary bg-blue-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'}`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => !file && fileInputRef.current?.click()}
-              >
-                <input 
-                  type="file" 
-                  className="hidden" 
-                  ref={fileInputRef} 
-                  onChange={handleFileSelect}
-                />
-                
-                {file ? (
-                  <div className="flex flex-col items-center cursor-default" onClick={(e) => e.stopPropagation()}>
-                    <div className="bg-white p-4 rounded-full shadow-sm mb-3">
-                      <File className="w-10 h-10 text-primary" />
-                    </div>
-                    <p className="font-semibold text-gray-700 text-center">{file.name}</p>
-                    <p className="text-xs text-gray-500 mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
-                    <button 
-                      onClick={removeFile}
-                      className="mt-4 px-4 py-2 text-sm text-red-600 bg-red-50 hover:bg-red-100 rounded-full transition-colors flex items-center gap-1"
-                    >
-                      <X className="w-4 h-4" /> Remove File
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <UploadCloud className="w-12 h-12 text-gray-400 mb-4" />
-                    <p className="font-medium text-gray-700">Drag & drop your resume here</p>
-                    <p className="text-sm text-gray-500 mt-1">or click to browse</p>
-                    <p className="text-xs text-gray-400 mt-4">Supported formats: Any File (Max 5MB)</p>
-                  </>
-                )}
-              </div>
-            </div>
+      <div className="max-w-6xl mx-auto py-12 px-margin-desktop relative z-10">
+        <div className="text-center mb-12">
+          <h1 className="font-display-lg text-display-lg text-on-background flex items-center justify-center gap-3">
+            <span className="material-symbols-outlined text-primary text-[48px]">troubleshoot</span>
+            AI ATS Analyzer
+          </h1>
+          <p className="mt-4 font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+            Check how well your resume matches a specific job description. 
+            Upload your resume and the job details to receive a comprehensive AI-powered analysis.
+          </p>
+        </div>
 
-            {/* Right Column: Job Description */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full">
-              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <Search className="w-5 h-5 text-primary" />
-                2. Job Description
-              </h2>
-              <textarea 
-                value={jobDescription}
-                onChange={(e) => setJobDescription(e.target.value)}
-                placeholder="Paste the target job description here..."
-                className="flex-grow w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary resize-none outline-none transition-all"
-                disabled={loading}
-              ></textarea>
-            </div>
-
-            {/* Bottom: Analyze Button */}
-            <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center mt-4">
-              <button
-                onClick={handleAnalyze}
-                disabled={loading || !file || !jobDescription.trim()}
-                className={`flex items-center gap-2 px-10 py-4 rounded-full text-lg font-bold text-white transition-all shadow-lg ${
-                  loading || !file || !jobDescription.trim()
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-primary hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1'
-                }`}
-              >
-                {loading ? (
-                  <>
-                    <Loader className="w-6 h-6 animate-spin" />
-                    {statusMessage}
-                  </>
-                ) : (
-                  <>
-                    <Search className="w-6 h-6" />
-                    Analyze Resume
-                  </>
-                )}
-              </button>
-              
-              <p className="text-xs text-gray-500 mt-6 text-center max-w-md">
-                ATS scores are AI-generated estimates based on the provided resume and job description. 
-                Actual ATS results may vary between employers and systems.
-              </p>
-            </div>
-          </motion.div>
-        ) : (
-          <motion.div 
-            key="results"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
-          >
-            {/* Dashboard Header */}
-            <div className="flex flex-col md:flex-row gap-6 justify-between items-stretch">
-              {/* Overall Score */}
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center justify-center flex-1">
-                <h2 className="text-lg font-bold text-gray-500 uppercase tracking-wider mb-6">AI Estimated ATS Match</h2>
-                <CircularProgress value={result.overallScore} size="lg" />
-                <p className="mt-4 text-2xl font-bold text-gray-800">{getStatusText(result.overallScore)}</p>
-                <button
-                  onClick={() => setResult(null)}
-                  className="mt-6 px-6 py-2 text-sm font-medium text-primary bg-blue-50 hover:bg-blue-100 rounded-full transition-colors"
+        <AnimatePresence mode="wait">
+          {!result ? (
+            <motion.div 
+              key="input-form"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-gutter"
+            >
+              {/* Left Column: Upload */}
+              <div className="bg-surface-container p-8 rounded-2xl shadow-xl border border-white/5 flex flex-col h-full relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full blur-2xl pointer-events-none"></div>
+                <h2 className="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-3 relative z-10">
+                  <span className="material-symbols-outlined text-primary">upload_file</span>
+                  1. Upload Resume
+                </h2>
+                <div 
+                  className={`flex-grow border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-8 transition-colors relative z-10 cursor-pointer ${isDragging ? 'border-primary bg-primary/5' : 'border-outline-variant bg-surface-container-highest/50 hover:bg-surface-container-highest hover:border-outline'}`}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => !file && fileInputRef.current?.click()}
                 >
-                  Analyze Another Resume
+                  <input 
+                    type="file" 
+                    className="hidden" 
+                    ref={fileInputRef} 
+                    onChange={handleFileSelect}
+                  />
+                  
+                  {file ? (
+                    <div className="flex flex-col items-center cursor-default" onClick={(e) => e.stopPropagation()}>
+                      <div className="bg-surface-container p-4 rounded-full shadow-inner border border-white/5 mb-4">
+                        <span className="material-symbols-outlined text-primary text-[40px]">description</span>
+                      </div>
+                      <p className="font-body-md text-body-md font-semibold text-on-surface text-center mb-1">{file.name}</p>
+                      <p className="font-label-sm text-label-sm text-on-surface-variant mb-6">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                      <button 
+                        onClick={removeFile}
+                        className="px-6 py-2 text-sm text-error bg-error/10 hover:bg-error/20 rounded-full transition-colors flex items-center gap-2 border border-error/20"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">close</span> Remove File
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-[48px] text-on-surface-variant mb-4">cloud_upload</span>
+                      <p className="font-body-md text-body-md font-medium text-on-surface mb-1">Drag & drop your resume here</p>
+                      <p className="font-label-sm text-label-sm text-on-surface-variant">or click to browse</p>
+                      <p className="font-label-sm text-label-sm text-outline mt-6">Supported formats: PDF, DOCX (Max 5MB)</p>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Column: Job Description */}
+              <div className="bg-surface-container p-8 rounded-2xl shadow-xl border border-white/5 flex flex-col h-full relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-bl-full blur-2xl pointer-events-none"></div>
+                <h2 className="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-3 relative z-10">
+                  <span className="material-symbols-outlined text-secondary">work</span>
+                  2. Job Description
+                </h2>
+                <textarea 
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  placeholder="Paste the target job description here..."
+                  className="flex-grow w-full p-6 bg-surface-container-highest border border-white/10 rounded-xl focus:ring-1 focus:ring-primary focus:border-primary resize-none outline-none transition-all font-body-md text-on-surface placeholder:text-on-surface-variant/50 relative z-10 shadow-inner"
+                  disabled={loading}
+                ></textarea>
+              </div>
+
+              {/* Bottom: Analyze Button */}
+              <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center mt-6">
+                <button
+                  onClick={handleAnalyze}
+                  disabled={loading || !file || !jobDescription.trim()}
+                  className={`group relative flex items-center justify-center gap-3 px-12 py-5 rounded-xl font-headline-md text-headline-md transition-all overflow-hidden ${
+                    loading || !file || !jobDescription.trim()
+                      ? 'bg-surface-container-highest text-on-surface-variant/50 cursor-not-allowed border border-white/5'
+                      : 'bg-gradient-to-r from-primary to-secondary text-on-primary-fixed shadow-[0_0_30px_rgba(173,198,255,0.2)] hover:shadow-[0_0_40px_rgba(173,198,255,0.4)] hover:-translate-y-1 cursor-pointer'
+                  }`}
+                >
+                  {!(loading || !file || !jobDescription.trim()) && (
+                    <div className="absolute inset-0 bg-white/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  )}
+                  {loading ? (
+                    <>
+                      <svg className="animate-spin h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+                      </svg>
+                      <span className="relative z-10">{statusMessage}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined relative z-10">magic_button</span>
+                      <span className="relative z-10">Analyze Match</span>
+                    </>
+                  )}
                 </button>
-              </div>
-
-              {/* Summary & Categories */}
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex-[2] flex flex-col justify-center">
-                <div className="mb-8">
-                  <h3 className="text-xl font-bold text-gray-800 mb-2 flex items-center gap-2">
-                    <Lightbulb className="w-5 h-5 text-yellow-500" /> Executive Summary
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-100">
-                    {result.summary}
-                  </p>
-                </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                  <ProgressBar value={result.categoryScores.keywordMatch} label="Keyword Match" />
-                  <ProgressBar value={result.categoryScores.skillsMatch} label="Skills Match" />
-                  <ProgressBar value={result.categoryScores.experienceMatch} label="Experience Match" />
-                  <ProgressBar value={result.categoryScores.projectRelevance} label="Project Relevance" />
-                  <ProgressBar value={result.categoryScores.educationMatch} label="Education Match" />
-                  <ProgressBar value={result.categoryScores.resumeStructure} label="ATS Structure" />
+                <p className="font-label-sm text-label-sm text-on-surface-variant mt-6 text-center max-w-lg bg-surface-container-low p-3 rounded-lg border border-white/5">
+                  <span className="material-symbols-outlined text-[14px] inline-block align-middle mr-1">info</span>
+                  ATS scores are AI-generated estimates based on the provided resume and job description. 
+                </p>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="results"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-gutter"
+            >
+              {/* Dashboard Header */}
+              <div className="flex flex-col md:flex-row gap-gutter items-stretch">
+                {/* Overall Score */}
+                <div className="bg-surface-container-high p-8 rounded-2xl shadow-xl border border-white/5 flex flex-col items-center justify-center flex-1 relative overflow-hidden">
+                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 rounded-full blur-[40px] pointer-events-none"></div>
+                  <h2 className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-6 relative z-10">AI Estimated Match</h2>
+                  
+                  <div className="relative z-10 mb-2">
+                    <CircularProgress value={result.overallScore} size="lg" />
+                  </div>
+                  
+                  <p className={`mt-4 font-headline-md text-headline-md ${result.overallScore >= 80 ? 'text-tertiary' : result.overallScore >= 60 ? 'text-yellow-500' : 'text-error'} relative z-10`}>
+                    {getStatusText(result.overallScore)}
+                  </p>
+                  
+                  <button
+                    onClick={() => setResult(null)}
+                    className="mt-8 px-6 py-2 font-label-sm text-label-sm text-primary bg-primary/10 hover:bg-primary/20 rounded-full transition-colors border border-primary/20 relative z-10 flex items-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">refresh</span> Analyze Another
+                  </button>
+                </div>
+
+                {/* Summary & Categories */}
+                <div className="bg-surface-container p-8 rounded-2xl shadow-xl border border-white/5 flex-[2] flex flex-col justify-center">
+                  <div className="mb-8">
+                    <h3 className="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-3">
+                      <span className="material-symbols-outlined text-secondary">lightbulb</span> 
+                      Executive Summary
+                    </h3>
+                    <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed bg-surface-container-highest/50 p-6 rounded-xl border border-white/5">
+                      {result.summary}
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-6 rounded-xl border border-white/5 bg-surface-container-lowest/30">
+                    <ProgressBar value={result.categoryScores.keywordMatch} label="Keyword Match" />
+                    <ProgressBar value={result.categoryScores.skillsMatch} label="Skills Match" />
+                    <ProgressBar value={result.categoryScores.experienceMatch} label="Experience Match" />
+                    <ProgressBar value={result.categoryScores.projectRelevance} label="Project Relevance" />
+                    <ProgressBar value={result.categoryScores.educationMatch} label="Education Match" />
+                    <ProgressBar value={result.categoryScores.resumeStructure} label="ATS Structure" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Keyword Analysis */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" /> Matched Keywords
-                </h3>
-                {result.matchedKeywords.length > 0 ? (
-                  <div className="flex flex-wrap gap-2">
-                    {result.matchedKeywords.map((kw, idx) => (
-                      <span key={idx} className="px-3 py-1 bg-green-50 text-green-700 text-sm font-medium rounded-full border border-green-200">
-                        {kw}
-                      </span>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-sm">No significant keywords matched.</p>
-                )}
-              </div>
-              
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <XCircle className="w-5 h-5 text-red-500" /> Missing Keywords
-                </h3>
-                {result.missingKeywords.length > 0 ? (
-                  <div className="flex flex-wrap gap-2">
-                    {result.missingKeywords.map((kw, idx) => (
-                      <div key={idx} className="group relative">
-                        <span className="px-3 py-1 bg-red-50 text-red-700 text-sm font-medium rounded-full border border-red-200 cursor-help flex items-center gap-1">
+              {/* Keyword Analysis */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+                <div className="bg-surface-container p-6 rounded-2xl shadow-xl border border-white/5">
+                  <h3 className="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-3">
+                    <span className="material-symbols-outlined text-tertiary">check_circle</span> 
+                    Matched Keywords
+                  </h3>
+                  {result.matchedKeywords.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {result.matchedKeywords.map((kw, idx) => (
+                        <span key={idx} className="px-3 py-1.5 bg-tertiary/10 text-tertiary font-label-sm text-label-sm rounded-lg border border-tertiary/20">
                           {kw}
                         </span>
-                        {/* Tooltip */}
-                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 text-center">
-                          Missing from resume. Add this only if you genuinely have relevant experience.
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-sm">No significant keywords missing.</p>
-                )}
-              </div>
-            </div>
-
-            {/* Detailed Feedback */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Strengths */}
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" /> Strengths
-                </h3>
-                <ul className="space-y-3">
-                  {result.strengths.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                      <span className="text-green-500 font-bold mt-0.5">✓</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                  {result.strengths.length === 0 && <p className="text-gray-500 text-sm">No specific strengths identified.</p>}
-                </ul>
-              </div>
-
-              {/* Weaknesses */}
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <XCircle className="w-5 h-5 text-red-500" /> Weaknesses
-                </h3>
-                <ul className="space-y-3">
-                  {result.weaknesses.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                      <span className="text-red-500 font-bold mt-0.5">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                  {result.weaknesses.length === 0 && <p className="text-gray-500 text-sm">No significant weaknesses identified.</p>}
-                </ul>
-              </div>
-
-              {/* ATS Issues & Suggestions */}
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-full">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5 text-yellow-500" /> Actions & Issues
-                </h3>
-                {result.atsIssues.length > 0 && (
-                  <div className="mb-4">
-                    <h4 className="text-xs font-bold text-gray-500 uppercase mb-2">ATS Formatting Issues</h4>
-                    <ul className="space-y-2">
-                      {result.atsIssues.map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                          <span className="text-yellow-500 font-bold mt-0.5">-</span>
-                          <span>{item}</span>
-                        </li>
                       ))}
-                    </ul>
-                  </div>
-                )}
+                    </div>
+                  ) : (
+                    <p className="font-body-md text-body-md text-on-surface-variant/70 italic">No significant keywords matched.</p>
+                  )}
+                </div>
                 
-                <div>
-                  <h4 className="text-xs font-bold text-gray-500 uppercase mb-2">Suggestions</h4>
-                  <ol className="space-y-2 list-decimal list-inside text-sm text-gray-700">
-                    {result.suggestions.map((item, idx) => (
-                      <li key={idx} className="leading-snug">{item}</li>
-                    ))}
-                  </ol>
-                  {result.suggestions.length === 0 && <p className="text-gray-500 text-sm">No additional suggestions.</p>}
+                <div className="bg-surface-container p-6 rounded-2xl shadow-xl border border-white/5">
+                  <h3 className="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-3">
+                    <span className="material-symbols-outlined text-error">cancel</span> 
+                    Missing Keywords
+                  </h3>
+                  {result.missingKeywords.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {result.missingKeywords.map((kw, idx) => (
+                        <div key={idx} className="group relative">
+                          <span className="px-3 py-1.5 bg-error/10 text-error font-label-sm text-label-sm rounded-lg border border-error/20 cursor-help flex items-center gap-1">
+                            {kw}
+                          </span>
+                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-3 bg-surface-container-highest text-on-surface font-label-sm text-label-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 text-center shadow-lg border border-white/10">
+                            Missing from resume. Add this if you have relevant experience.
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="font-body-md text-body-md text-on-surface-variant/70 italic">No significant keywords missing.</p>
+                  )}
                 </div>
               </div>
-            </div>
 
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+              {/* Detailed Feedback */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+                {/* Strengths */}
+                <div className="bg-surface-container p-6 rounded-2xl shadow-xl border border-white/5 h-full">
+                  <h3 className="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-3">
+                    <span className="material-symbols-outlined text-tertiary">trending_up</span> 
+                    Strengths
+                  </h3>
+                  <ul className="space-y-4">
+                    {result.strengths.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-3 font-body-md text-body-md text-on-surface-variant">
+                        <span className="material-symbols-outlined text-tertiary text-[20px] shrink-0">check</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                    {result.strengths.length === 0 && <p className="font-body-md text-body-md text-on-surface-variant/70 italic">No specific strengths identified.</p>}
+                  </ul>
+                </div>
+
+                {/* Weaknesses */}
+                <div className="bg-surface-container p-6 rounded-2xl shadow-xl border border-white/5 h-full">
+                  <h3 className="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-3">
+                    <span className="material-symbols-outlined text-error">trending_down</span> 
+                    Weaknesses
+                  </h3>
+                  <ul className="space-y-4">
+                    {result.weaknesses.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-3 font-body-md text-body-md text-on-surface-variant">
+                        <span className="material-symbols-outlined text-error text-[20px] shrink-0">close</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                    {result.weaknesses.length === 0 && <p className="font-body-md text-body-md text-on-surface-variant/70 italic">No significant weaknesses identified.</p>}
+                  </ul>
+                </div>
+
+                {/* ATS Issues & Suggestions */}
+                <div className="bg-surface-container p-6 rounded-2xl shadow-xl border border-white/5 h-full">
+                  <h3 className="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-3">
+                    <span className="material-symbols-outlined text-yellow-500">warning</span> 
+                    Actions & Issues
+                  </h3>
+                  
+                  {result.atsIssues.length > 0 && (
+                    <div className="mb-6">
+                      <h4 className="font-label-sm text-label-sm text-outline uppercase tracking-wider mb-3">Formatting Issues</h4>
+                      <ul className="space-y-3">
+                        {result.atsIssues.map((item, idx) => (
+                          <li key={idx} className="flex items-start gap-3 font-body-md text-body-md text-on-surface-variant">
+                            <span className="material-symbols-outlined text-yellow-500 text-[20px] shrink-0">priority_high</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  <div>
+                    <h4 className="font-label-sm text-label-sm text-outline uppercase tracking-wider mb-3">Suggestions</h4>
+                    <ol className="space-y-3 list-decimal list-outside ml-4 font-body-md text-body-md text-on-surface-variant">
+                      {result.suggestions.map((item, idx) => (
+                        <li key={idx} className="pl-2 leading-relaxed">{item}</li>
+                      ))}
+                    </ol>
+                    {result.suggestions.length === 0 && <p className="font-body-md text-body-md text-on-surface-variant/70 italic">No additional suggestions.</p>}
+                  </div>
+                </div>
+              </div>
+
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </main>
   );
 }
