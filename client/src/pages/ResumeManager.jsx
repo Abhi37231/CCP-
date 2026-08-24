@@ -4,6 +4,7 @@ import { getProfile } from '../redux/slices/profileSlice';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const ResumeManager = () => {
   const dispatch = useDispatch();
@@ -132,7 +133,7 @@ const ResumeManager = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <a 
-                      href={`http://localhost:5000${profile.resume}`} 
+                      href={getMediaUrl(profile.resume)} 
                       target="_blank" 
                       rel="noreferrer"
                       className="w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-low flex items-center justify-center text-primary transition-colors tooltip"

@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
 import NotificationDropdown from '../components/NotificationDropdown';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const EmployerDashboard = () => {
   const dispatch = useDispatch();
@@ -242,7 +243,7 @@ const EmployerDashboard = () => {
                       <div className="flex items-center gap-4 bg-surface-container rounded-2xl p-4 border border-white/5">
                         <div className="w-16 h-16 rounded-xl bg-surface-container-highest flex-shrink-0 flex items-center justify-center p-2 shadow-inner overflow-hidden border border-white/10">
                           {profile.logo && profile.logo !== 'default-company-logo.png' ? (
-                            <img src={`http://localhost:5000${profile.logo}`} alt={profile.name} className="w-full h-full object-cover" />
+                            <img src={getMediaUrl(profile.logo)} alt={profile.name} className="w-full h-full object-cover" />
                           ) : (
                             <span className="material-symbols-outlined text-on-surface-variant text-3xl">domain</span>
                           )}

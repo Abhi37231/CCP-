@@ -28,7 +28,7 @@ exports.applyForJob = async (req, res) => {
     let resume = null;
     
     if (req.file) {
-      resume = '/uploads/' + req.file.filename;
+      resume = req.file.path;
     } else {
       const profile = await JobSeekerProfile.findOne({ user: userId });
       resume = req.body.resume || (profile ? profile.resume : null);

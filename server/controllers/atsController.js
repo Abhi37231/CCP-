@@ -243,23 +243,42 @@ exports.analyzeApplication = async (req, res) => {
       return res.status(200).json({ success: true, data: application.atsAnalysis });
     }
 
-    let resumePathStr = application.resume;
-    if (resumePathStr.startsWith('/')) {
-      resumePathStr = resumePathStr.substring(1);
-    }
-    const absolutePath = path.join(__dirname, '..', resumePathStr);
-
-    if (!fs.existsSync(absolutePath)) {
-      return res.status(404).json({ success: false, message: 'Resume file not found on server.' });
-    }
-
-    const fileBuffer = fs.readFileSync(absolutePath);
+    let fileBuffer;
     let mimetype = 'application/octet-stream';
-    if (absolutePath.endsWith('.pdf')) mimetype = 'application/pdf';
-    else if (absolutePath.endsWith('.docx') || absolutePath.endsWith('.doc')) mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-    else if (absolutePath.endsWith('.png')) mimetype = 'image/png';
-    else if (absolutePath.endsWith('.jpg') || absolutePath.endsWith('.jpeg')) mimetype = 'image/jpeg';
-    else if (absolutePath.endsWith('.txt')) mimetype = 'text/plain';
+    
+    if (application.resume.startsWith('http')) {
+      // It's a Cloudinary URL
+      const response = await fetch(application.resume);
+      if (!response.ok) {
+        return res.status(404).json({ success: false, message: 'Resume file could not be fetched from cloud storage.' });
+      }
+      const arrayBuffer = await response.arrayBuffer();
+      fileBuffer = Buffer.from(arrayBuffer);
+      
+      const contentType = response.headers.get('content-type');
+      if (contentType) mimetype = contentType;
+      else if (application.resume.endsWith('.pdf')) mimetype = 'application/pdf';
+      else if (application.resume.endsWith('.docx') || application.resume.endsWith('.doc')) mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      
+    } else {
+      // Fallback for legacy local uploads
+      let resumePathStr = application.resume;
+      if (resumePathStr.startsWith('/')) {
+        resumePathStr = resumePathStr.substring(1);
+      }
+      const absolutePath = path.join(__dirname, '..', resumePathStr);
+
+      if (!fs.existsSync(absolutePath)) {
+        return res.status(404).json({ success: false, message: 'Resume file not found on server.' });
+      }
+
+      fileBuffer = fs.readFileSync(absolutePath);
+      if (absolutePath.endsWith('.pdf')) mimetype = 'application/pdf';
+      else if (absolutePath.endsWith('.docx') || absolutePath.endsWith('.doc')) mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      else if (absolutePath.endsWith('.png')) mimetype = 'image/png';
+      else if (absolutePath.endsWith('.jpg') || absolutePath.endsWith('.jpeg')) mimetype = 'image/jpeg';
+      else if (absolutePath.endsWith('.txt')) mimetype = 'text/plain';
+    }
 
     const safeResult = await performATSAnalysis(fileBuffer, mimetype, application.job.description);
 

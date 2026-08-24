@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile } from '../../redux/slices/profileSlice';
 import { Mail, Phone, MapPin, Download, ExternalLink, Globe, Link as LinkIcon, UserCircle } from 'lucide-react';
+import { getMediaUrl } from '../../utils/formatUrl';
 
 const PublicProfile = ({ isRecruiterView = false }) => {
   const dispatch = useDispatch();
@@ -31,8 +32,7 @@ const PublicProfile = ({ isRecruiterView = false }) => {
 
   const getPhotoUrl = (url) => {
     if (!url) return 'https://via.placeholder.com/150';
-    if (url.startsWith('http')) return url;
-    return `http://localhost:5000${url}`;
+    return getMediaUrl(url);
   };
 
   const photoSrc = getPhotoUrl(personalInfo?.profilePhoto || profile.user?.avatar);
@@ -51,7 +51,7 @@ const PublicProfile = ({ isRecruiterView = false }) => {
               className="w-28 h-28 rounded-full border-4 border-white shadow-md bg-white object-cover"
             />
             {showResume && profile.resume && (
-              <a href={profile.resume} download target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">
+              <a href={getMediaUrl(profile.resume)} download target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">
                 <Download className="w-4 h-4" /> Download Resume
               </a>
             )}

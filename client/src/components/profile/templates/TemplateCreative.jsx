@@ -1,4 +1,5 @@
 import React from 'react';
+import { getMediaUrl } from '../../../utils/formatUrl';
 
 const TemplateCreative = ({ profile }) => {
   if (!profile) return null;
@@ -10,8 +11,7 @@ const TemplateCreative = ({ profile }) => {
 
   const getPhotoUrl = (url) => {
     if (!url) return null;
-    if (url.startsWith('http')) return url;
-    return `http://localhost:5000${url}`;
+    return getMediaUrl(url);
   };
 
   const photoSrc = getPhotoUrl(personalInfo?.profilePhoto || profile?.user?.avatar);

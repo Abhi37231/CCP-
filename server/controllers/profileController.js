@@ -55,16 +55,18 @@ exports.createOrUpdateProfile = async (req, res) => {
 
       // Handle file uploads
       if (req.files && req.files.length > 0) {
+        let avatarUpdated = false;
         req.files.forEach(file => {
           if (file.fieldname === 'resume') {
-            profileData.resume = `/uploads/${file.filename}`;
+            profileData.resume = file.path;
             mergedData.resume = profileData.resume;
           } else if (file.fieldname === 'profilePhoto') {
             profileData.personalInfo = profileData.personalInfo || {};
-            profileData.personalInfo.profilePhoto = `/uploads/${file.filename}`;
+            profileData.personalInfo.profilePhoto = file.path;
             
             // Sync with User avatar so it shows up everywhere (navbar, dashboard, employer views)
-            req.user.avatar = `/uploads/${file.filename}`;
+            req.user.avatar = file.path;
+            avatarUpdated = true;
             
             // If we are updating personalInfo with a photo, we need to make sure we don't overwrite 
             // the rest of personalInfo if it's not provided in the request body.
@@ -76,7 +78,7 @@ exports.createOrUpdateProfile = async (req, res) => {
         });
         
         // Save the updated avatar to the User model if it was changed
-        if (req.user.avatar && req.user.avatar.includes('/uploads/')) {
+        if (avatarUpdated) {
           const User = require('../models/User');
           await User.findByIdAndUpdate(req.user.id, { avatar: req.user.avatar });
         }
@@ -121,7 +123,7 @@ exports.createOrUpdateProfile = async (req, res) => {
       if (req.files && req.files.length > 0) {
         const logoFile = req.files.find(f => f.fieldname === 'logo' || f.fieldname === 'file');
         if (logoFile) {
-          profileData.logo = `/uploads/${logoFile.filename}`;
+          profileData.logo = logoFile.path;
         }
       }
 

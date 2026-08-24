@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import api from '../services/api';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const JobDetails = () => {
   const { id } = useParams();
@@ -120,7 +121,7 @@ const JobDetails = () => {
               <div className="flex items-center gap-base">
                 <div className="w-16 h-16 rounded-lg bg-surface-container-high flex items-center justify-center shadow-lg overflow-hidden shrink-0 border border-white/5">
                   {job.company?.logo && job.company.logo !== 'default-company-logo.png' ? (
-                    <img src={`http://localhost:5000${job.company.logo}`} alt={job.company.name} className="w-full h-full object-cover" />
+                    <img src={getMediaUrl(job.company.logo)} alt={job.company.name} className="w-full h-full object-cover" />
                   ) : (
                     <span className="material-symbols-outlined text-[32px] text-on-surface-variant">domain</span>
                   )}

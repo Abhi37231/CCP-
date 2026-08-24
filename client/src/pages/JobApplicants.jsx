@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const JobApplicants = () => {
   const { id } = useParams(); // Job ID
@@ -345,7 +346,7 @@ const JobApplicants = () => {
                   
                   <div className="flex-shrink-0 flex items-center gap-4">
                     {app.profile?.personalInfo?.profilePhoto ? (
-                      <img src={`http://localhost:5000${app.profile.personalInfo.profilePhoto}`} alt={app.applicant.name} className="w-16 h-16 rounded-full object-cover shadow-md bg-surface-container-highest border border-white/10" />
+                      <img src={getMediaUrl(app.profile.personalInfo.profilePhoto)} alt={app.applicant.name} className="w-16 h-16 rounded-full object-cover shadow-md bg-surface-container-highest border border-white/10" />
                     ) : (
                       <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center shadow-md border border-white/10">
                         <span className="material-symbols-outlined text-[32px] text-on-surface-variant">person</span>

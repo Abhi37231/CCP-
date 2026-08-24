@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const ApplicationDetails = () => {
   const { id } = useParams();
@@ -312,7 +313,7 @@ const ApplicationDetails = () => {
                     <span className="material-symbols-outlined text-inverse-primary">description</span> Resume
                   </h3>
                   <a 
-                    href={`http://localhost:5000${application.resume.startsWith('/') ? application.resume.replace(/\\/g, '/') : '/' + application.resume.replace(/\\/g, '/')}`}
+                    href={getMediaUrl(application.resume)}
                     target="_blank" 
                     rel="noreferrer"
                     className="text-primary hover:text-primary-fixed text-sm font-medium flex items-center gap-1"
@@ -322,7 +323,7 @@ const ApplicationDetails = () => {
                 </div>
                 <div className="flex-grow bg-surface-container-highest rounded-xl overflow-hidden border border-white/5">
                   <iframe 
-                    src={`http://localhost:5000${application.resume.startsWith('/') ? application.resume.replace(/\\/g, '/') : '/' + application.resume.replace(/\\/g, '/')}?t=${Date.now()}`} 
+                    src={getMediaUrl(application.resume)} 
                     title="Resume Preview"
                     className="w-full h-full border-none"
                   ></iframe>

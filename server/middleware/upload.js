@@ -1,15 +1,31 @@
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 // Storage configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    // Generate unique filename: fieldname-timestamp-random.ext
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async (req, file) => {
+    // If it's a resume (pdf/doc), upload as 'raw' so Cloudinary doesn't try to process it as an image
+    if (file.fieldname === 'resume') {
+      return {
+        folder: 'career-connect/resumes',
+        resource_type: 'auto',
+        format: file.originalname.split('.').pop()
+      };
+    }
+    return {
+      folder: 'career-connect/images',
+      allowed_formats: ['jpg', 'png', 'jpeg', 'webp']
+    };
   }
 });
 

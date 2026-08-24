@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleSaveJob } from '../redux/slices/profileSlice';
 import api from '../services/api';
 import { toast } from 'react-toastify';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
       <div className="flex flex-col sm:flex-row gap-6 relative z-10">
         <div className="w-16 h-16 rounded-lg bg-surface-container-highest flex-shrink-0 flex items-center justify-center p-2 border border-white/10 overflow-hidden">
           {job.company?.logo && job.company.logo !== 'default-company-logo.png' ? (
-            <img src={`http://localhost:5000${job.company.logo}`} alt={job.company.name} className="w-full h-full object-cover rounded" />
+            <img src={getMediaUrl(job.company.logo)} alt={job.company.name} className="w-full h-full object-cover rounded" />
           ) : (
             <span className="material-symbols-outlined text-[32px] text-on-surface-variant">domain</span>
           )}

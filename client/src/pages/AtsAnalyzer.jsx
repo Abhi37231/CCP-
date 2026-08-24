@@ -2,8 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import api from '../services/api';
 import { toast } from 'react-toastify';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const CircularProgress = ({ value, label, size = 'lg' }) => {
   const radius = size === 'lg' ? 60 : 30;
@@ -99,7 +100,7 @@ export default function AtsAnalyzer() {
     try {
         setLoading(true);
         setStatusMessage('Loading default resume...');
-        const response = await fetch(`http://localhost:5000${profile.resume}`);
+        const response = await fetch(getMediaUrl(profile.resume));
         if (!response.ok) throw new Error("Failed to fetch resume");
         const blob = await response.blob();
         
@@ -187,7 +188,7 @@ export default function AtsAnalyzer() {
       setTimeout(() => setStatusMessage('Analyzing with AI...'), 3000);
       setTimeout(() => setStatusMessage('Preparing your ATS report...'), 6000);
 
-      const response = await axios.post('http://localhost:5000/api/ats/analyze', formData, {
+      const response = await api.post('/ats/analyze', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       });

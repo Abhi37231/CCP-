@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const EmployerInterviews = () => {
   const [interviews, setInterviews] = useState([]);
@@ -90,7 +91,7 @@ const EmployerInterviews = () => {
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant overflow-hidden">
                             {app.applicant?.avatar ? (
-                              <img src={`http://localhost:5000${app.applicant.avatar.startsWith('/') ? '' : '/'}${app.applicant.avatar}`} alt={app.applicant.name} className="w-full h-full object-cover" />
+                              <img src={getMediaUrl(app.applicant.avatar)} alt={app.applicant.name} className="w-full h-full object-cover" />
                             ) : (
                               <span className="material-symbols-outlined">person</span>
                             )}

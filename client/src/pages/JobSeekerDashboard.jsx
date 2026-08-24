@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
 import NotificationDropdown from '../components/NotificationDropdown';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const JobSeekerDashboard = () => {
   const dispatch = useDispatch();
@@ -189,7 +190,7 @@ const JobSeekerDashboard = () => {
                 <div className="hidden lg:block w-48 h-48 relative rounded-full overflow-hidden shadow-[0_0_40px_rgba(77,142,255,0.15)] bg-surface-container-highest">
                   {profile?.personalInfo?.profilePhoto ? (
                     <img 
-                      src={`http://localhost:5000${profile.personalInfo.profilePhoto}`} 
+                      src={getMediaUrl(profile.personalInfo.profilePhoto)} 
                       alt="Profile" 
                       className="w-full h-full object-cover" 
                     />
@@ -291,7 +292,7 @@ const JobSeekerDashboard = () => {
                           <div className="flex gap-4 items-center">
                             <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-white/10 shrink-0">
                               {app.job?.company?.logo ? (
-                                <img src={`http://localhost:5000${app.job.company.logo}`} alt={app.job.company.name} className="w-full h-full object-cover" />
+                                <img src={getMediaUrl(app.job.company.logo)} alt={app.job.company.name} className="w-full h-full object-cover" />
                               ) : (
                                 <span className="material-symbols-outlined text-on-surface-variant">business</span>
                               )}

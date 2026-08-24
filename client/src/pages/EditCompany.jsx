@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createOrUpdateProfile, getProfile, clearProfileError } from '../redux/slices/profileSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getMediaUrl } from '../utils/formatUrl';
 
 const EditCompany = () => {
   const dispatch = useDispatch();
@@ -241,7 +242,7 @@ const EditCompany = () => {
                   <div className="mt-6">
                     <p className="font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wider">Current Logo</p>
                     <div className="w-24 h-24 rounded-2xl overflow-hidden border border-white/10 shadow-lg bg-white p-2">
-                      <img src={`http://localhost:5000${profile.logo}`} alt="Logo preview" className="w-full h-full object-contain" />
+                      <img src={getMediaUrl(profile.logo)} alt="Logo preview" className="w-full h-full object-contain" />
                     </div>
                   </div>
                 )}
