@@ -29,6 +29,7 @@ import JobApplicants from './pages/JobApplicants';
 import ApplicationDetails from './pages/ApplicationDetails';
 import EditJob from './pages/EditJob';
 import EmployerJobs from './pages/EmployerJobs';
+import EmployerInterviews from './pages/EmployerInterviews';
 
 // Profile Layouts
 import EditProfileLayout from './pages/profile/EditProfileLayout';
@@ -198,6 +199,7 @@ function App() {
             <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
               <Route path="/employer-dashboard" element={<EmployerDashboard />} />
               <Route path="/employer/jobs" element={<EmployerJobs />} />
+              <Route path="/employer/interviews" element={<EmployerInterviews />} />
               <Route path="/company/edit" element={<EditCompany />} />
               <Route path="/jobs/new" element={<PostJob />} />
               <Route path="/employer/jobs/:id/edit" element={<EditJob />} />

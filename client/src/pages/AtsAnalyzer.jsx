@@ -1,4 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -78,13 +80,41 @@ const ProgressBar = ({ value, label }) => {
 };
 
 export default function AtsAnalyzer() {
+  const location = useLocation();
+  const { profile } = useSelector((state) => state.profile);
   const [file, setFile] = useState(null);
-  const [jobDescription, setJobDescription] = useState('');
+  const [jobDescription, setJobDescription] = useState(location.state?.jobDescription || '');
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const [result, setResult] = useState(null);
   const fileInputRef = useRef(null);
+
+  const handleUseDefaultResume = async () => {
+    if (!profile?.resume) {
+        toast.error("No default resume found in your profile.");
+        return;
+    }
+    
+    try {
+        setLoading(true);
+        setStatusMessage('Loading default resume...');
+        const response = await fetch(`http://localhost:5000${profile.resume}`);
+        if (!response.ok) throw new Error("Failed to fetch resume");
+        const blob = await response.blob();
+        
+        const filename = profile.resume.split('/').pop() || 'resume.pdf';
+        const newFile = new File([blob], filename, { type: blob.type });
+        setFile(newFile);
+        toast.success("Default resume loaded successfully.");
+    } catch (err) {
+        console.error(err);
+        toast.error("Could not load default resume.");
+    } finally {
+        setLoading(false);
+        setStatusMessage('');
+    }
+  };
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -246,6 +276,22 @@ export default function AtsAnalyzer() {
                       <p className="font-body-md text-body-md font-medium text-on-surface mb-1">Drag & drop your resume here</p>
                       <p className="font-label-sm text-label-sm text-on-surface-variant">or click to browse</p>
                       <p className="font-label-sm text-label-sm text-outline mt-6">Supported formats: PDF, DOCX (Max 5MB)</p>
+                      
+                      {profile?.resume && (
+                        <div className="mt-6 flex flex-col items-center border-t border-white/10 pt-6 w-full">
+                          <p className="font-label-sm text-label-sm text-on-surface-variant mb-3">Or use your saved profile resume</p>
+                          <button
+                              onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleUseDefaultResume();
+                              }}
+                              disabled={loading}
+                              className="px-6 py-2 text-sm text-primary bg-primary/10 hover:bg-primary/20 rounded-full transition-colors flex items-center gap-2 border border-primary/20 disabled:opacity-50"
+                          >
+                              <span className="material-symbols-outlined text-[16px]">person</span> Use Default Resume
+                          </button>
+                        </div>
+                      )}
                     </>
                   )}
                 </div>

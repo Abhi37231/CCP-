@@ -19,6 +19,8 @@ const ApplicationDetails = () => {
   const [interviewForm, setInterviewForm] = useState({
     date: '',
     time: '',
+    duration: 30,
+    breakTime: 0,
     type: 'Online',
     link: '',
     location: '',
@@ -92,13 +94,27 @@ const ApplicationDetails = () => {
 
   const handleScheduleInterview = async (e) => {
     e.preventDefault();
+    
+    const todayStr = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0];
+    if (interviewForm.date === todayStr) {
+      const now = new Date();
+      const currentHours = String(now.getHours()).padStart(2, '0');
+      const currentMinutes = String(now.getMinutes()).padStart(2, '0');
+      const currentTime = `${currentHours}:${currentMinutes}`;
+      
+      if (interviewForm.time < currentTime) {
+        toast.error('Interview time cannot be in the past for today.');
+        return;
+      }
+    }
+
     try {
       await api.put(`/applications/${id}/interview`, interviewForm);
       toast.success('Interview scheduled successfully');
       setShowInterviewModal(false);
       fetchApplicationDetails();
     } catch (error) {
-      toast.error('Failed to schedule interview');
+      toast.error(error.response?.data?.message || 'Failed to schedule interview');
     }
   };
 
@@ -111,6 +127,83 @@ const ApplicationDetails = () => {
   }
 
   const { profile, applicant, job } = application;
+
+  const handleOpenInterviewModal = async () => {
+    setShowInterviewModal(true);
+    
+    // If this application already has an interview date, don't overwrite it
+    if (application.interview && application.interview.date) {
+      setInterviewForm({
+        date: new Date(application.interview.date).toISOString().split('T')[0],
+        time: application.interview.time || '',
+        duration: application.interview.duration || 30,
+        breakTime: application.interview.breakTime || 0,
+        type: application.interview.type || 'Online',
+        link: application.interview.link || '',
+        location: application.interview.location || '',
+        notes: application.interview.notes || ''
+      });
+      return;
+    }
+
+    try {
+      const res = await api.get('/applications/employer/interviews');
+      const interviews = res.data.data;
+      if (interviews && interviews.length > 0) {
+        // Find the last valid interview
+        const validInterviews = interviews.filter(app => app.interview && app.interview.date && app.interview.time);
+        if (validInterviews.length > 0) {
+          const latest = validInterviews[validInterviews.length - 1];
+          
+          // Calculate + duration + breakTime
+          const dateObj = new Date(latest.interview.date);
+          const [hours, minutes] = latest.interview.time.split(':').map(Number);
+          
+          const latestDuration = latest.interview.duration || 30;
+          const latestBreak = latest.interview.breakTime || 0;
+          const totalOffset = latestDuration + latestBreak;
+
+          let newHours = hours;
+          let newMinutes = minutes + totalOffset;
+          
+          while (newMinutes >= 60) {
+            newHours += 1;
+            newMinutes -= 60;
+          }
+          
+          if (newHours >= 24) {
+             newHours = 0;
+             dateObj.setDate(dateObj.getDate() + 1);
+          }
+          
+          const suggestedTime = `${String(newHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}`;
+          
+          setInterviewForm({
+            date: dateObj.toISOString().split('T')[0],
+            time: suggestedTime,
+            duration: 30, // Default for the new interview
+            breakTime: 0,
+            type: latest.interview.type || 'Online',
+            link: latest.interview.link || '',
+            location: latest.interview.location || '',
+            notes: ''
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch suggested slot', error);
+    }
+  };
+
+  const formatTime12hr = (time24) => {
+    if (!time24) return 'Time TBD';
+    const [hours, minutes] = time24.split(':');
+    if (!hours || !minutes) return time24;
+    const h = parseInt(hours, 10);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12 = h % 12 || 12;
+    return `${h12}:${minutes} ${ampm}`;
+  };
 
   const getStatusBadge = (status) => {
     switch(status) {
@@ -291,7 +384,7 @@ const ApplicationDetails = () => {
                 <div className="bg-surface-container-low/50 backdrop-blur-sm rounded-xl p-4 border border-white/10">
                   <div className="flex justify-between items-start mb-2">
                     <span className="text-sm font-medium text-secondary">{application.interview.type} Interview</span>
-                    <span className="text-xs text-on-surface-variant bg-surface-container px-2 py-1 rounded-md">{new Date(application.interview.date).toLocaleDateString()} at {application.interview.time}</span>
+                    <span className="text-xs text-on-surface-variant bg-surface-container px-2 py-1 rounded-md">{new Date(application.interview.date).toLocaleDateString('en-GB')} at {formatTime12hr(application.interview.time)}</span>
                   </div>
                   {application.interview.link && (
                     <a href={application.interview.link} target="_blank" rel="noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1 mt-2">
@@ -304,7 +397,7 @@ const ApplicationDetails = () => {
                     </p>
                   )}
                   <button 
-                    onClick={() => setShowInterviewModal(true)}
+                    onClick={handleOpenInterviewModal}
                     className="mt-4 text-xs text-on-surface-variant hover:text-on-surface underline"
                   >
                     Reschedule
@@ -315,7 +408,7 @@ const ApplicationDetails = () => {
               )}
 
               <button 
-                onClick={() => setShowInterviewModal(true)}
+                onClick={handleOpenInterviewModal}
                 className="w-full bg-secondary text-on-secondary hover:bg-secondary-fixed px-4 py-2.5 rounded-xl text-sm font-medium transition-all shadow-md shadow-secondary/20 flex items-center justify-center gap-2 z-10"
               >
                 <span className="material-symbols-outlined text-[18px]">calendar_add_on</span>
@@ -374,6 +467,7 @@ const ApplicationDetails = () => {
                   <input 
                     type="date" 
                     required
+                    min={new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0]}
                     value={interviewForm.date}
                     onChange={(e) => setInterviewForm({...interviewForm, date: e.target.value})}
                     className="bg-surface-container-highest text-on-surface rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-primary/50 border border-white/5 text-sm [color-scheme:dark]"
@@ -388,6 +482,38 @@ const ApplicationDetails = () => {
                     onChange={(e) => setInterviewForm({...interviewForm, time: e.target.value})}
                     className="bg-surface-container-highest text-on-surface rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-primary/50 border border-white/5 text-sm [color-scheme:dark]"
                   />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs text-on-surface-variant uppercase tracking-wider">Duration</label>
+                  <select 
+                    value={interviewForm.duration}
+                    onChange={(e) => setInterviewForm({...interviewForm, duration: Number(e.target.value)})}
+                    className="bg-surface-container-highest text-on-surface rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-primary/50 border border-white/5 text-sm"
+                  >
+                    <option value={15}>15 Minutes</option>
+                    <option value={30}>30 Minutes</option>
+                    <option value={45}>45 Minutes</option>
+                    <option value={60}>1 Hour</option>
+                    <option value={90}>1.5 Hours</option>
+                    <option value={120}>2 Hours</option>
+                  </select>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs text-on-surface-variant uppercase tracking-wider">Break After</label>
+                  <select 
+                    value={interviewForm.breakTime}
+                    onChange={(e) => setInterviewForm({...interviewForm, breakTime: Number(e.target.value)})}
+                    className="bg-surface-container-highest text-on-surface rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-primary/50 border border-white/5 text-sm"
+                  >
+                    <option value={0}>No Break</option>
+                    <option value={5}>5 Minutes</option>
+                    <option value={10}>10 Minutes</option>
+                    <option value={15}>15 Minutes</option>
+                    <option value={30}>30 Minutes</option>
+                  </select>
                 </div>
               </div>
 

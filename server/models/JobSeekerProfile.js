@@ -144,6 +144,10 @@ const jobSeekerProfileSchema = new mongoose.Schema({
       max: Number
     }
   },
+  savedJobs: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Job'
+  }],
   privacySettings: {
     phoneVisible: { type: Boolean, default: true },
     emailVisible: { type: Boolean, default: true },

@@ -31,6 +31,19 @@ export const createOrUpdateProfile = createAsyncThunk(
   }
 );
 
+export const toggleSaveJob = createAsyncThunk(
+  'profile/toggleSaveJob',
+  async (jobId, thunkAPI) => {
+    try {
+      const response = await api.post(`/profile/save-job/${jobId}`);
+      return response.data.data; // array of saved job IDs
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
   profile: null,
   isLoading: false,
@@ -71,6 +84,11 @@ const profileSlice = createSlice({
       .addCase(createOrUpdateProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      .addCase(toggleSaveJob.fulfilled, (state, action) => {
+        if (state.profile) {
+          state.profile.savedJobs = action.payload;
+        }
       });
   }
 });

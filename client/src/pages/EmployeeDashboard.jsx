@@ -186,9 +186,17 @@ const EmployeeDashboard = () => {
                   <p className="font-body-lg text-body-lg text-on-surface-variant">Ready to find your next big career move? Let's take your career to the next level.</p>
                 </div>
                 <div className="hidden lg:block w-48 h-48 relative rounded-full overflow-hidden shadow-[0_0_40px_rgba(79,219,200,0.15)] bg-surface-container-highest">
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-                    <span className="material-symbols-outlined text-[64px] text-tertiary">workspace_premium</span>
-                  </div>
+                  {profile?.personalInfo?.profilePhoto ? (
+                    <img 
+                      src={`http://localhost:5000${profile.personalInfo.profilePhoto}`} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover" 
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+                      <span className="material-symbols-outlined text-[64px] text-tertiary">workspace_premium</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </section>

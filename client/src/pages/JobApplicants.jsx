@@ -35,20 +35,34 @@ const JobApplicants = () => {
     }
 
     try {
+      let successCount = 0;
+      let failCount = 0;
+      
       for (const app of appsToAnalyze) {
-        await api.post(`/ats/analyze-application/${app._id}`);
+        try {
+          await api.post(`/ats/analyze-application/${app._id}`);
+          successCount++;
+        } catch (err) {
+          console.error(`Failed to analyze applicant ${app._id}:`, err);
+          failCount++;
+        }
         count++;
         setAnalysisProgress(Math.round((count / appsToAnalyze.length) * 100));
       }
       
-      toast.success('AI Analysis complete!');
+      if (failCount > 0) {
+        toast.warning(`Analysis finished: ${successCount} succeeded, ${failCount} failed (likely missing files).`);
+      } else if (successCount > 0) {
+        toast.success('AI Analysis complete!');
+      }
+
       if (sortOption === '-atsScore') {
         fetchApplications();
       } else {
         setSortOption('-atsScore');
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to analyze some applicants');
+      toast.error('An unexpected error occurred during bulk analysis.');
     } finally {
       setAnalyzingAll(false);
       setAnalysisProgress(0);

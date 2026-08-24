@@ -52,6 +52,8 @@ const applicationSchema = new mongoose.Schema({
   interview: {
     date: Date,
     time: String,
+    duration: { type: Number, default: 30 },
+    breakTime: { type: Number, default: 0 },
     type: { type: String, enum: ['Online', 'Offline'] },
     link: String,
     location: String,

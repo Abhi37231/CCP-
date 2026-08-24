@@ -10,7 +10,8 @@ const {
   updateApplicationNotes,
   updateApplicationRating,
   scheduleInterview,
-  deleteApplication
+  deleteApplication,
+  getEmployerInterviews
 } = require('../controllers/applicationController');
 
 const { protect, authorize } = require('../middleware/auth');
@@ -19,6 +20,7 @@ const router = express.Router();
 
 // Employer routes
 router.get('/stats', protect, authorize('employer', 'admin'), getApplicationStats);
+router.get('/employer/interviews', protect, authorize('employer', 'admin'), getEmployerInterviews);
 router.get('/job/:jobId', protect, authorize('employer', 'admin'), getJobApplications);
 
 // Bulk updates must come before /:id routes

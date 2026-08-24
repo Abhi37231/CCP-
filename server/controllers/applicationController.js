@@ -407,7 +407,7 @@ exports.updateApplicationRating = async (req, res) => {
 // @access  Private (Employer)
 exports.scheduleInterview = async (req, res) => {
   try {
-    const { date, time, type, link, location, notes } = req.body;
+    const { date, time, duration, breakTime, type, link, location, notes } = req.body;
     let application = await Application.findById(req.params.id)
       .populate('applicant', 'name email')
       .populate('job', 'title');
@@ -420,7 +420,53 @@ exports.scheduleInterview = async (req, res) => {
       return res.status(401).json({ success: false, error: 'Not authorized' });
     }
 
-    application.interview = { date, time, type, link, location, notes };
+    // Validate that the date is not in the past
+    const interviewDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (interviewDate < today) {
+      return res.status(400).json({ success: false, message: 'Interview date cannot be in the past' });
+    }
+
+    // If the interview is today, ensure the time is not in the past
+    if (interviewDate.getTime() === today.getTime()) {
+      const now = new Date();
+      const currentHours = String(now.getHours()).padStart(2, '0');
+      const currentMinutes = String(now.getMinutes()).padStart(2, '0');
+      const currentTime = `${currentHours}:${currentMinutes}`;
+      
+      if (time < currentTime) {
+        return res.status(400).json({ success: false, message: 'Interview time cannot be in the past for today.' });
+      }
+    }
+
+    // Check for scheduling conflicts (same date and time for the same employer)
+    const existingConflict = await Application.findOne({
+      employer: req.user.id,
+      _id: { $ne: application._id },
+      'interview.date': date,
+      'interview.time': time,
+      status: { $in: ['Interview Scheduled', 'Interviewing'] }
+    });
+
+    if (existingConflict) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'You already have another interview scheduled at this exact date and time. Please choose a different slot.' 
+      });
+    }
+
+    application.interview = { 
+      date, 
+      time, 
+      duration: duration || 30, 
+      breakTime: breakTime || 0, 
+      type, 
+      link, 
+      location, 
+      notes 
+    };
     application.status = 'Interview Scheduled';
     application.history.push({
       status: 'Interview Scheduled',
@@ -524,5 +570,29 @@ exports.deleteApplication = async (req, res) => {
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+// @desc    Get all interviews for employer
+// @route   GET /api/applications/employer/interviews
+// @access  Private (Employer)
+exports.getEmployerInterviews = async (req, res) => {
+  try {
+    if (req.user.role !== 'employer') {
+      return res.status(403).json({ success: false, message: 'Not authorized' });
+    }
+
+    const interviews = await Application.find({
+      employer: req.user.id,
+      status: { $in: ['Interview Scheduled', 'Interviewing', 'Interview Completed'] }
+    })
+    .populate('applicant', 'name email avatar')
+    .populate('job', 'title location')
+    .sort({ 'interview.date': 1, 'interview.time': 1 });
+
+    res.status(200).json({ success: true, data: interviews });
+  } catch (error) {
+    console.error('Get employer interviews error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };

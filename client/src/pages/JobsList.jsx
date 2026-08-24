@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Search, Filter, Briefcase } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
 
 const JobsList = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialTab = queryParams.get('tab') || 'discover';
+
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
+  const [savedJobs, setSavedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [keyword, setKeyword] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [employmentType, setEmploymentType] = useState('');
   const [workMode, setWorkMode] = useState('');
-  const [activeTab, setActiveTab] = useState('discover'); // 'discover' | 'applied'
+  const [activeTab, setActiveTab] = useState(initialTab); // 'discover' | 'applied' | 'saved'
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   const fetchJobs = async (search = '') => {
@@ -57,11 +63,25 @@ const JobsList = () => {
     }
   };
 
+  const fetchSavedJobs = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get('/profile/saved-jobs');
+      setSavedJobs(response.data.data);
+    } catch (error) {
+      console.error('Error fetching saved jobs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (activeTab === 'discover') {
       fetchJobs(searchQuery);
     } else if (activeTab === 'applied' && isAuthenticated) {
       fetchApplications();
+    } else if (activeTab === 'saved' && isAuthenticated) {
+      fetchSavedJobs();
     }
   }, [user, employmentType, workMode, activeTab, isAuthenticated]);
 
@@ -128,6 +148,12 @@ const JobsList = () => {
             >
               My Applications
             </button>
+            <button
+              onClick={() => setActiveTab('saved')}
+              className={`font-headline-md text-headline-md px-4 py-2 rounded-lg transition-colors ${activeTab === 'saved' ? 'bg-primary/20 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
+            >
+              Saved Jobs
+            </button>
           </div>
         )}
 
@@ -192,8 +218,10 @@ const JobsList = () => {
                   ) : (
                     <>Showing <strong className="text-on-surface">{jobs.length}</strong> latest roles</>
                   )
-                ) : (
+                ) : activeTab === 'applied' ? (
                   <>Showing <strong className="text-on-surface">{applications.length}</strong> applied roles</>
+                ) : (
+                  <>Showing <strong className="text-on-surface">{savedJobs.length}</strong> saved roles</>
                 )}
               </p>
               <div className="flex items-center gap-2">
@@ -227,7 +255,7 @@ const JobsList = () => {
                   ))}
                 </div>
               )
-            ) : (
+            ) : activeTab === 'applied' ? (
               applications.length === 0 ? (
                 <div className="bg-surface-container p-12 rounded-xl text-center border border-white/5">
                   <div className="w-16 h-16 bg-surface-container-highest rounded-full flex items-center justify-center mx-auto mb-4">
@@ -248,6 +276,24 @@ const JobsList = () => {
                       applicationStatus={app.status} 
                       onWithdraw={() => handleWithdraw(app._id)} 
                     />
+                  ))}
+                </div>
+              )
+            ) : (
+              savedJobs.length === 0 ? (
+                <div className="bg-surface-container p-12 rounded-xl text-center border border-white/5">
+                  <div className="w-16 h-16 bg-surface-container-highest rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="material-symbols-outlined text-[32px] text-on-surface-variant">bookmark_remove</span>
+                  </div>
+                  <h3 className="font-headline-md text-headline-md text-on-surface mb-2">No saved jobs</h3>
+                  <p className="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
+                    You haven't saved any jobs yet. Click the bookmark icon on jobs you're interested in!
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-6">
+                  {savedJobs.map((job) => (
+                    <JobCard key={job._id} job={job} />
                   ))}
                 </div>
               )

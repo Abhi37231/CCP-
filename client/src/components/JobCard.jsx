@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleSaveJob } from '../redux/slices/profileSlice';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 
 const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { profile } = useSelector((state) => state.profile);
   
   if (!job) {
     return (
@@ -28,9 +31,23 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
   }
 
   const isOwner = user?.role === 'employer' && (user?._id === job.employer || user?.id === job.employer);
+  const isSaved = profile?.savedJobs?.includes(job._id);
   
   const formattedDate = job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'Unknown';
   const location = job.location?.city || job.location?.country ? `${job.location?.city || ''}${job.location?.city && job.location?.country ? ', ' : ''}${job.location?.country || ''}` : 'Location Not Specified';
+
+  const handleToggleSave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      toast.info('Please log in to save jobs');
+      return;
+    }
+    dispatch(toggleSaveJob(job._id))
+      .unwrap()
+      .then(() => toast.success(isSaved ? 'Job removed from saved list' : 'Job saved successfully'))
+      .catch((err) => toast.error(err || 'Failed to save job'));
+  };
 
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
@@ -102,9 +119,26 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
                   Withdraw
                 </button>
               ) : (
-                <button className="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant hover:text-tertiary hover:bg-tertiary/10 transition-colors border border-white/5 hover:border-tertiary/30">
-                  <span className="material-symbols-outlined text-[20px]">bookmark_border</span>
+                <button 
+                  onClick={handleToggleSave}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors border ${isSaved ? 'bg-primary/10 text-primary border-primary/30 hover:bg-primary/20' : 'bg-surface-container-highest text-on-surface-variant hover:text-tertiary hover:bg-tertiary/10 border-white/5 hover:border-tertiary/30'}`}
+                  title={isSaved ? "Remove from saved" : "Save job"}
+                >
+                  <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: isSaved ? "'FILL' 1" : "'FILL' 0" }}>
+                    {isSaved ? 'bookmark' : 'bookmark_border'}
+                  </span>
                 </button>
+              )}
+              {!isOwner && (
+                <Link 
+                  to="/ats-analyzer" 
+                  state={{ jobDescription: `Job Title: ${job.title}\nCompany: ${job.company?.name || ''}\n\nDescription:\n${job.description || ''}\n\nRequirements:\n${job.requirements || ''}\n\nSkills Required: ${job.skillsRequired?.join(', ') || ''}` }}
+                  className="px-4 py-2 rounded-lg bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm hover:bg-tertiary-container hover:text-on-tertiary-container transition-colors shadow-sm flex items-center gap-2 border border-tertiary/20 whitespace-nowrap"
+                  title="Check ATS Match"
+                >
+                  <span className="material-symbols-outlined text-[18px]">psychology</span>
+                  Check Fit
+                </Link>
               )}
               <Link to={`/jobs/${job._id}`} className="px-6 py-2 rounded-lg bg-surface-container-highest text-on-surface font-label-sm text-label-sm group-hover:bg-primary group-hover:text-on-primary transition-colors shadow-sm border border-white/5 border-transparent whitespace-nowrap">
                 {isOwner ? 'View Job' : 'Details'}

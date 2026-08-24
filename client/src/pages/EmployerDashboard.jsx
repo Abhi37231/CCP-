@@ -181,7 +181,7 @@ const EmployerDashboard = () => {
                 </div>
               </div>
 
-              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+              <Link to="/employer/interviews" className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-pointer block">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-inverse-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Interviews</span>
@@ -193,7 +193,7 @@ const EmployerDashboard = () => {
                   <span className="font-display-lg text-display-lg text-on-surface">{stats.interviews}</span>
                   <span className="font-label-sm text-label-sm text-on-surface-variant">scheduled</span>
                 </div>
-              </div>
+              </Link>
             </section>
 
             {/* Two Column Content */}

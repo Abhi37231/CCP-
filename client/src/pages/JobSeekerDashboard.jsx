@@ -187,9 +187,17 @@ const JobSeekerDashboard = () => {
                   <p className="font-body-lg text-body-lg text-on-surface-variant">Your career velocity is accelerating. Let's find your next breakthrough role.</p>
                 </div>
                 <div className="hidden lg:block w-48 h-48 relative rounded-full overflow-hidden shadow-[0_0_40px_rgba(77,142,255,0.15)] bg-surface-container-highest">
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-                    <span className="material-symbols-outlined text-[64px] text-primary">rocket_launch</span>
-                  </div>
+                  {profile?.personalInfo?.profilePhoto ? (
+                    <img 
+                      src={`http://localhost:5000${profile.personalInfo.profilePhoto}`} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover" 
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+                      <span className="material-symbols-outlined text-[64px] text-primary">rocket_launch</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </section>
@@ -210,7 +218,7 @@ const JobSeekerDashboard = () => {
                 </div>
               </div>
 
-              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+              <Link to="/jobs?tab=saved" className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-pointer block">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-tertiary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Saved</span>
@@ -219,10 +227,10 @@ const JobSeekerDashboard = () => {
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="font-display-lg text-display-lg text-on-surface">0</span>
+                  <span className="font-display-lg text-display-lg text-on-surface">{profile?.savedJobs?.length || 0}</span>
                   <span className="font-label-sm text-label-sm text-on-surface-variant">jobs</span>
                 </div>
-              </div>
+              </Link>
 
               <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -63,16 +63,23 @@ exports.createOrUpdateProfile = async (req, res) => {
             profileData.personalInfo = profileData.personalInfo || {};
             profileData.personalInfo.profilePhoto = `/uploads/${file.filename}`;
             
+            // Sync with User avatar so it shows up everywhere (navbar, dashboard, employer views)
+            req.user.avatar = `/uploads/${file.filename}`;
+            
             // If we are updating personalInfo with a photo, we need to make sure we don't overwrite 
             // the rest of personalInfo if it's not provided in the request body.
-            // But PersonalInfoForm sends the full personalInfo, so it's mostly safe.
-            // Just to be safe, we merge personalInfo for the DB update as well if it exists.
             if (profile && profile.personalInfo && !req.body.personalInfo) {
                profileData.personalInfo = { ...profile.personalInfo.toObject(), ...profileData.personalInfo };
             }
             mergedData.personalInfo = { ...(mergedData.personalInfo || {}), ...profileData.personalInfo };
           }
         });
+        
+        // Save the updated avatar to the User model if it was changed
+        if (req.user.avatar && req.user.avatar.includes('/uploads/')) {
+          const User = require('../models/User');
+          await User.findByIdAndUpdate(req.user.id, { avatar: req.user.avatar });
+        }
       }
 
       // Calculate completion percentage loosely
@@ -134,5 +141,59 @@ exports.createOrUpdateProfile = async (req, res) => {
     res.status(400).json({ success: false, error: 'Invalid user role' });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+// @desc    Toggle save job
+// @route   POST /api/profile/save-job/:jobId
+// @access  Private (Job Seeker)
+exports.toggleSaveJob = async (req, res) => {
+  try {
+    if (req.user.role !== 'job_seeker') {
+      return res.status(403).json({ success: false, message: 'Not authorized to save jobs' });
+    }
+    const profile = await JobSeekerProfile.findOne({ user: req.user.id });
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Profile not found' });
+    }
+    
+    const jobId = req.params.jobId;
+    const isSaved = profile.savedJobs && profile.savedJobs.includes(jobId);
+    
+    if (isSaved) {
+      profile.savedJobs = profile.savedJobs.filter(id => id.toString() !== jobId.toString());
+    } else {
+      if (!profile.savedJobs) profile.savedJobs = [];
+      profile.savedJobs.push(jobId);
+    }
+    
+    await profile.save();
+    
+    res.status(200).json({ success: true, data: profile.savedJobs });
+  } catch (error) {
+    console.error('Save Job Error:', error);
+    res.status(500).json({ success: false, message: 'Server error while saving job' });
+  }
+};
+ 
+// @desc    Get saved jobs
+// @route   GET /api/profile/saved-jobs
+// @access  Private (Job Seeker)
+exports.getSavedJobs = async (req, res) => {
+  try {
+    if (req.user.role !== 'job_seeker') {
+      return res.status(403).json({ success: false, message: 'Not authorized' });
+    }
+    const profile = await JobSeekerProfile.findOne({ user: req.user.id }).populate({
+      path: 'savedJobs',
+      populate: { path: 'company', select: 'name logo' }
+    });
+    if (!profile) {
+      return res.status(404).json({ success: false, message: 'Profile not found' });
+    }
+    res.status(200).json({ success: true, data: profile.savedJobs || [] });
+  } catch (error) {
+    console.error('Get Saved Jobs Error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };

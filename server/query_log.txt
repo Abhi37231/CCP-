@@ -1698,3 +1698,1723 @@ Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
 Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
 Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
 
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {}
+Original queryStr: {}
+Replaced queryStr: {}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"employer":"6a8be8a3147a3d795dd89e61"}
+Original queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+Replaced queryStr: {"employer":"6a8be8a3147a3d795dd89e61"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {}
+Original queryStr: {}
+Replaced queryStr: {}
+
+Original reqQuery: {}
+Original queryStr: {}
+Replaced queryStr: {}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"targetAudience":["Student","Both"]}
+Original queryStr: {"targetAudience":["Student","Both"]}
+Replaced queryStr: {"targetAudience":["Student","Both"]}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
+Original reqQuery: {"employer":"6a7b4396969f4729dde2c7a4"}
+Original queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+Replaced queryStr: {"employer":"6a7b4396969f4729dde2c7a4"}
+
