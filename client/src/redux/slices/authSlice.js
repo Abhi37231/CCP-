@@ -33,6 +33,7 @@ export const loginUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await api.post('/auth/login', userData);
+      localStorage.setItem('token', response.data.token);
       return response.data.user;
     } catch (error) {
       const message = error.response?.data?.error || error.message;
@@ -50,6 +51,7 @@ export const logoutUser = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await api.get('/auth/logout');
+      localStorage.removeItem('token');
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
