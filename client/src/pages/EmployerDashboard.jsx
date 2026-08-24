@@ -71,6 +71,9 @@ const EmployerDashboard = () => {
           <Link to="/jobs/new" className="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface rounded-xl transition-all border-l-4 border-transparent">
             <span className="material-symbols-outlined mr-4">add_box</span>Post a Job
           </Link>
+          <Link to="/employer/jobs" className="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface rounded-xl transition-all border-l-4 border-transparent">
+            <span className="material-symbols-outlined mr-4">work</span>Posted Jobs
+          </Link>
         </nav>
         <div className="p-6 mt-auto">
           <div className="bg-surface-container-highest p-4 rounded-2xl border border-white/5">
@@ -196,7 +199,7 @@ const EmployerDashboard = () => {
             {/* Two Column Content */}
             <section className="grid grid-cols-1 xl:grid-cols-12 gap-gutter w-full items-start">
               {/* Left Column: Recent Job Postings */}
-              <div className="xl:col-span-8 flex flex-col gap-6 w-full">
+              <div className="xl:col-span-8 flex flex-col gap-6 w-full" id="recent-jobs">
                 <div className="flex items-center justify-between">
                   <h2 className="font-headline-md text-headline-md text-on-surface">Recent Job Postings</h2>
                 </div>

@@ -2,6 +2,8 @@ const { GoogleGenAI } = require('@google/genai');
 const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 const fs = require('fs');
+const path = require('path');
+const Application = require('../models/Application');
 
 // Initialize Gemini inside the function
 
@@ -31,59 +33,42 @@ Do not compare the candidate to imaginary candidates.
 Do not use external information.
 Return only the requested structured JSON.`;
 
-exports.analyzeResume = async (req, res) => {
-  try {
-    const ai = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY
-    });
-    
-    // 1. Get job description from body;
-    const { jobDescription } = req.body;
-    const file = req.file;
+async function performATSAnalysis(fileBuffer, mimetype, jobDescription) {
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY
+  });
+  
+  let resumeText = '';
+  let useInlineData = false;
 
-    if (!file) {
-      return res.status(400).json({ success: false, message: 'Missing resume file.' });
-    }
-
-    if (!jobDescription || jobDescription.trim().length === 0) {
-      return res.status(400).json({ success: false, message: 'Missing job description.' });
-    }
-
-    let resumeText = '';
-    let useInlineData = false;
-
-    // Extract text based on file type
-    if (file.mimetype === 'application/pdf') {
-      try {
-        const data = await pdfParse(file.buffer);
-        resumeText = data.text;
-        if (!resumeText || resumeText.trim().length === 0) useInlineData = true;
-      } catch (err) {
-        console.error('PDF Parse Error:', err);
-        useInlineData = true;
-      }
-    } else if (
-      file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-      file.mimetype === 'application/msword'
-    ) {
-      try {
-        const result = await mammoth.extractRawText({ buffer: file.buffer });
-        resumeText = result.value;
-        if (!resumeText || resumeText.trim().length === 0) useInlineData = true;
-      } catch (err) {
-        console.error('DOCX Parse Error:', err);
-        useInlineData = true;
-      }
-    } else {
-      // For any other file types, send directly to Gemini
+  if (mimetype === 'application/pdf') {
+    try {
+      const data = await pdfParse(fileBuffer);
+      resumeText = data.text;
+      if (!resumeText || resumeText.trim().length === 0) useInlineData = true;
+    } catch (err) {
+      console.error('PDF Parse Error:', err);
       useInlineData = true;
     }
+  } else if (
+    mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+    mimetype === 'application/msword'
+  ) {
+    try {
+      const result = await mammoth.extractRawText({ buffer: fileBuffer });
+      resumeText = result.value;
+      if (!resumeText || resumeText.trim().length === 0) useInlineData = true;
+    } catch (err) {
+      console.error('DOCX Parse Error:', err);
+      useInlineData = true;
+    }
+  } else {
+    useInlineData = true;
+  }
 
-    // Call Gemini
-    const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
-    
-    // Construct request
-    const promptWithData = `
+  const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
+  
+  const promptWithData = `
 ${ATS_PROMPT}
 
 === JOB DESCRIPTION ===
@@ -93,135 +78,205 @@ ${jobDescription}
 ${useInlineData ? '(Resume provided as attached file)' : resumeText}
 `;
 
-    let finalMimeType = file.mimetype;
-    // Gemini doesn't support docx natively. If it's docx and mammoth failed, we can't do much.
-    // If it's an unsupported mimetype for Gemini inlineData, it will throw an error.
-    const supportedMimes = ['application/pdf', 'text/plain', 'text/csv', 'text/html', 'application/rtf'];
-    const isImage = finalMimeType.startsWith('image/');
-    
-    if (useInlineData && !supportedMimes.includes(finalMimeType) && !isImage) {
-        return res.status(422).json({ success: false, message: 'Could not extract text from this document, and the file type is not natively supported by the AI. Please try a standard PDF or Image.' });
-    }
+  const supportedMimes = ['application/pdf', 'text/plain', 'text/csv', 'text/html', 'application/rtf'];
+  const isImage = mimetype.startsWith('image/');
+  
+  if (useInlineData && !supportedMimes.includes(mimetype) && !isImage) {
+      throw new Error('Could not extract text from this document, and the file type is not natively supported by the AI. Please try a standard PDF or Image.');
+  }
 
-    const contents = useInlineData ? [
-      {
-        role: 'user',
-        parts: [
-          { text: promptWithData },
-          {
-            inlineData: {
-              data: file.buffer.toString('base64'),
-              mimeType: finalMimeType
-            }
+  const contents = useInlineData ? [
+    {
+      role: 'user',
+      parts: [
+        { text: promptWithData },
+        {
+          inlineData: {
+            data: fileBuffer.toString('base64'),
+            mimeType: mimetype
           }
+        }
+      ]
+    }
+  ] : promptWithData;
+
+  const response = await ai.models.generateContent({
+    model: model,
+    contents: contents,
+    config: {
+      temperature: 0,
+      responseMimeType: 'application/json',
+      responseSchema: {
+        type: 'OBJECT',
+        properties: {
+          overallScore: { type: 'INTEGER', description: 'Overall ATS score 0-100' },
+          categoryScores: {
+            type: 'OBJECT',
+            properties: {
+              keywordMatch: { type: 'INTEGER' },
+              skillsMatch: { type: 'INTEGER' },
+              experienceMatch: { type: 'INTEGER' },
+              projectRelevance: { type: 'INTEGER' },
+              educationMatch: { type: 'INTEGER' },
+              resumeStructure: { type: 'INTEGER' },
+            },
+            required: ['keywordMatch', 'skillsMatch', 'experienceMatch', 'projectRelevance', 'educationMatch', 'resumeStructure']
+          },
+          matchedKeywords: { type: 'ARRAY', items: { type: 'STRING' } },
+          missingKeywords: { type: 'ARRAY', items: { type: 'STRING' } },
+          strengths: { type: 'ARRAY', items: { type: 'STRING' } },
+          weaknesses: { type: 'ARRAY', items: { type: 'STRING' } },
+          suggestions: { type: 'ARRAY', items: { type: 'STRING' } },
+          atsIssues: { type: 'ARRAY', items: { type: 'STRING' } },
+          summary: { type: 'STRING' }
+        },
+        required: [
+          'overallScore', 'categoryScores', 'matchedKeywords', 'missingKeywords',
+          'strengths', 'weaknesses', 'suggestions', 'atsIssues', 'summary'
         ]
       }
-    ] : promptWithData;
+    }
+  });
 
-    const response = await ai.models.generateContent({
-      model: model,
-      contents: contents,
-      config: {
-        temperature: 0,
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: 'OBJECT',
-          properties: {
-            overallScore: { type: 'INTEGER', description: 'Overall ATS score 0-100' },
-            categoryScores: {
-              type: 'OBJECT',
-              properties: {
-                keywordMatch: { type: 'INTEGER' },
-                skillsMatch: { type: 'INTEGER' },
-                experienceMatch: { type: 'INTEGER' },
-                projectRelevance: { type: 'INTEGER' },
-                educationMatch: { type: 'INTEGER' },
-                resumeStructure: { type: 'INTEGER' },
-              },
-              required: ['keywordMatch', 'skillsMatch', 'experienceMatch', 'projectRelevance', 'educationMatch', 'resumeStructure']
-            },
-            matchedKeywords: { type: 'ARRAY', items: { type: 'STRING' } },
-            missingKeywords: { type: 'ARRAY', items: { type: 'STRING' } },
-            strengths: { type: 'ARRAY', items: { type: 'STRING' } },
-            weaknesses: { type: 'ARRAY', items: { type: 'STRING' } },
-            suggestions: { type: 'ARRAY', items: { type: 'STRING' } },
-            atsIssues: { type: 'ARRAY', items: { type: 'STRING' } },
-            summary: { type: 'STRING' }
-          },
-          required: [
-            'overallScore', 'categoryScores', 'matchedKeywords', 'missingKeywords',
-            'strengths', 'weaknesses', 'suggestions', 'atsIssues', 'summary'
-          ]
-        }
-      }
-    });
+  const responseText = response.text;
+  if (!responseText) {
+    throw new Error('Empty response from Gemini');
+  }
 
-    const responseText = response.text;
-    if (!responseText) {
-      throw new Error('Empty response from Gemini');
+  let parsedResult;
+  try {
+    parsedResult = JSON.parse(responseText);
+  } catch (e) {
+    console.error('JSON Parse Error from Gemini response:', e);
+    throw new Error('Unable to generate a reliable ATS analysis. Please try again.');
+  }
+
+  const bounds = (val) => Math.max(0, Math.min(100, Number(val) || 0));
+
+  const keywordMatch = bounds(parsedResult.categoryScores?.keywordMatch);
+  const skillsMatch = bounds(parsedResult.categoryScores?.skillsMatch);
+  const experienceMatch = bounds(parsedResult.categoryScores?.experienceMatch);
+  const projectRelevance = bounds(parsedResult.categoryScores?.projectRelevance);
+  const educationMatch = bounds(parsedResult.categoryScores?.educationMatch);
+  const resumeStructure = bounds(parsedResult.categoryScores?.resumeStructure);
+
+  const calculatedOverallScore = Math.round(
+    (keywordMatch * 0.25) +
+    (skillsMatch * 0.25) +
+    (experienceMatch * 0.20) +
+    (projectRelevance * 0.15) +
+    (educationMatch * 0.05) +
+    (resumeStructure * 0.10)
+  );
+
+  return {
+    overallScore: calculatedOverallScore,
+    categoryScores: {
+      keywordMatch,
+      skillsMatch,
+      experienceMatch,
+      projectRelevance,
+      educationMatch,
+      resumeStructure
+    },
+    matchedKeywords: Array.isArray(parsedResult.matchedKeywords) ? parsedResult.matchedKeywords.slice(0, 20) : [],
+    missingKeywords: Array.isArray(parsedResult.missingKeywords) ? parsedResult.missingKeywords.slice(0, 20) : [],
+    strengths: Array.isArray(parsedResult.strengths) ? parsedResult.strengths.slice(0, 8) : [],
+    weaknesses: Array.isArray(parsedResult.weaknesses) ? parsedResult.weaknesses.slice(0, 8) : [],
+    suggestions: Array.isArray(parsedResult.suggestions) ? parsedResult.suggestions.slice(0, 10) : [],
+    atsIssues: Array.isArray(parsedResult.atsIssues) ? parsedResult.atsIssues.slice(0, 10) : [],
+    summary: parsedResult.summary || 'Analysis completed.'
+  };
+}
+
+exports.analyzeResume = async (req, res) => {
+  try {
+    const { jobDescription } = req.body;
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({ success: false, message: 'Missing resume file.' });
+    }
+    if (!jobDescription || jobDescription.trim().length === 0) {
+      return res.status(400).json({ success: false, message: 'Missing job description.' });
     }
 
-    let parsedResult;
-    try {
-      parsedResult = JSON.parse(responseText);
-    } catch (e) {
-      console.error('JSON Parse Error from Gemini response:', e);
-      return res.status(500).json({ success: false, message: 'Unable to generate a reliable ATS analysis. Please try again.' });
-    }
-
-    // Validate boundaries (0-100)
-    const bounds = (val) => Math.max(0, Math.min(100, Number(val) || 0));
-
-    const keywordMatch = bounds(parsedResult.categoryScores.keywordMatch);
-    const skillsMatch = bounds(parsedResult.categoryScores.skillsMatch);
-    const experienceMatch = bounds(parsedResult.categoryScores.experienceMatch);
-    const projectRelevance = bounds(parsedResult.categoryScores.projectRelevance);
-    const educationMatch = bounds(parsedResult.categoryScores.educationMatch);
-    const resumeStructure = bounds(parsedResult.categoryScores.resumeStructure);
-
-    // Recalculate overall score server-side
-    // Formula: keywordMatch * 0.25 + skillsMatch * 0.25 + experienceMatch * 0.20 + projectRelevance * 0.15 + educationMatch * 0.05 + resumeStructure * 0.10
-    const calculatedOverallScore = Math.round(
-      (keywordMatch * 0.25) +
-      (skillsMatch * 0.25) +
-      (experienceMatch * 0.20) +
-      (projectRelevance * 0.15) +
-      (educationMatch * 0.05) +
-      (resumeStructure * 0.10)
-    );
-
-    const safeResult = {
-      overallScore: calculatedOverallScore,
-      categoryScores: {
-        keywordMatch,
-        skillsMatch,
-        experienceMatch,
-        projectRelevance,
-        educationMatch,
-        resumeStructure
-      },
-      matchedKeywords: Array.isArray(parsedResult.matchedKeywords) ? parsedResult.matchedKeywords.slice(0, 20) : [],
-      missingKeywords: Array.isArray(parsedResult.missingKeywords) ? parsedResult.missingKeywords.slice(0, 20) : [],
-      strengths: Array.isArray(parsedResult.strengths) ? parsedResult.strengths.slice(0, 8) : [],
-      weaknesses: Array.isArray(parsedResult.weaknesses) ? parsedResult.weaknesses.slice(0, 8) : [],
-      suggestions: Array.isArray(parsedResult.suggestions) ? parsedResult.suggestions.slice(0, 10) : [],
-      atsIssues: Array.isArray(parsedResult.atsIssues) ? parsedResult.atsIssues.slice(0, 10) : [],
-      summary: parsedResult.summary || 'Analysis completed.'
-    };
+    const safeResult = await performATSAnalysis(file.buffer, file.mimetype, jobDescription);
 
     res.status(200).json({
       success: true,
       data: safeResult
     });
-
   } catch (error) {
     console.error('ATS Analyzer Error:', error);
     
     let errMsg = 'AI analysis is temporarily unavailable. Please try again.';
     if (error.message) {
-      errMsg = 'AI Error: ' + error.message;
+      errMsg = error.message.includes('Could not extract') ? error.message : 'AI Error: ' + error.message;
     }
     
+    if (error.status === 429) {
+       return res.status(429).json({ success: false, message: 'Too many analysis requests. Please try again later.' });
+    }
+    res.status(500).json({ success: false, message: errMsg });
+  }
+};
+
+exports.analyzeApplication = async (req, res) => {
+  try {
+    const applicationId = req.params.id;
+    const application = await Application.findById(applicationId).populate('job');
+    
+    if (!application) {
+      return res.status(404).json({ success: false, message: 'Application not found' });
+    }
+
+    if (application.employer.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(401).json({ success: false, message: 'Not authorized' });
+    }
+
+    if (!application.resume) {
+      return res.status(400).json({ success: false, message: 'Applicant has no resume uploaded.' });
+    }
+
+    if (application.atsScore && application.atsAnalysis) {
+      return res.status(200).json({ success: true, data: application.atsAnalysis });
+    }
+
+    let resumePathStr = application.resume;
+    if (resumePathStr.startsWith('/')) {
+      resumePathStr = resumePathStr.substring(1);
+    }
+    const absolutePath = path.join(__dirname, '..', resumePathStr);
+
+    if (!fs.existsSync(absolutePath)) {
+      return res.status(404).json({ success: false, message: 'Resume file not found on server.' });
+    }
+
+    const fileBuffer = fs.readFileSync(absolutePath);
+    let mimetype = 'application/octet-stream';
+    if (absolutePath.endsWith('.pdf')) mimetype = 'application/pdf';
+    else if (absolutePath.endsWith('.docx') || absolutePath.endsWith('.doc')) mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    else if (absolutePath.endsWith('.png')) mimetype = 'image/png';
+    else if (absolutePath.endsWith('.jpg') || absolutePath.endsWith('.jpeg')) mimetype = 'image/jpeg';
+    else if (absolutePath.endsWith('.txt')) mimetype = 'text/plain';
+
+    const safeResult = await performATSAnalysis(fileBuffer, mimetype, application.job.description);
+
+    application.atsScore = safeResult.overallScore;
+    application.atsAnalysis = safeResult;
+    await application.save();
+
+    res.status(200).json({
+      success: true,
+      data: safeResult
+    });
+  } catch (error) {
+    console.error('Application ATS Analyzer Error:', error);
+    let errMsg = 'AI analysis is temporarily unavailable. Please try again.';
+    if (error.message) {
+      errMsg = error.message.includes('Could not extract') ? error.message : 'AI Error: ' + error.message;
+    }
     if (error.status === 429) {
        return res.status(429).json({ success: false, message: 'Too many analysis requests. Please try again later.' });
     }

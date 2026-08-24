@@ -18,6 +18,43 @@ const JobApplicants = () => {
   // Bulk Actions
   const [selectedApps, setSelectedApps] = useState([]);
 
+  // ATS Analysis
+  const [analyzingAll, setAnalyzingAll] = useState(false);
+  const [analysisProgress, setAnalysisProgress] = useState(0);
+
+  const handleAnalyzeAll = async () => {
+    setAnalyzingAll(true);
+    let count = 0;
+    const appsToAnalyze = applications.filter(app => typeof app.atsScore !== 'number');
+
+    if (appsToAnalyze.length === 0) {
+      toast.info("All applicants are already analyzed! Sorting by score...");
+      setSortOption('-atsScore');
+      setAnalyzingAll(false);
+      return;
+    }
+
+    try {
+      for (const app of appsToAnalyze) {
+        await api.post(`/ats/analyze-application/${app._id}`);
+        count++;
+        setAnalysisProgress(Math.round((count / appsToAnalyze.length) * 100));
+      }
+      
+      toast.success('AI Analysis complete!');
+      if (sortOption === '-atsScore') {
+        fetchApplications();
+      } else {
+        setSortOption('-atsScore');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to analyze some applicants');
+    } finally {
+      setAnalyzingAll(false);
+      setAnalysisProgress(0);
+    }
+  };
+
   // Pipeline Summary metrics
   const [pipelineMetrics, setPipelineMetrics] = useState({
     total: 0,
@@ -213,8 +250,29 @@ const JobApplicants = () => {
                 <option value="-createdAt">Newest First</option>
                 <option value="createdAt">Oldest First</option>
                 <option value="-rating">Highest Rating</option>
+                <option value="-atsScore">Highest ATS Score</option>
               </select>
             </div>
+          </div>
+          
+          <div className="flex justify-end border-t border-white/5 pt-4 mt-2">
+            <button 
+              onClick={handleAnalyzeAll} 
+              disabled={analyzingAll || applications.length === 0}
+              className="bg-tertiary text-on-tertiary hover:bg-tertiary-fixed px-6 py-2.5 rounded-xl text-sm font-medium transition-all shadow-md shadow-tertiary/20 flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {analyzingAll ? (
+                <>
+                  <span className="animate-spin h-4 w-4 border-2 border-on-tertiary border-t-transparent rounded-full"></span>
+                  Analyzing... {analysisProgress}%
+                </>
+              ) : (
+                <>
+                  <span className="material-symbols-outlined text-[18px]">psychiatry</span>
+                  AI Rank & Analyze
+                </>
+              )}
+            </button>
           </div>
 
           {/* Bulk Actions Bar (Visible only when items selected) */}
@@ -288,6 +346,11 @@ const JobApplicants = () => {
                           {app.applicant.name}
                           {app.rating > 0 && (
                             <span className="flex text-tertiary text-[12px]"><span className="material-symbols-outlined text-[14px]">star</span> {app.rating}/5</span>
+                          )}
+                          {app.atsScore !== undefined && (
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${app.atsScore >= 75 ? 'bg-primary-container text-primary' : app.atsScore >= 50 ? 'bg-secondary-container text-secondary' : 'bg-error-container text-error'}`}>
+                              ATS: {app.atsScore}%
+                            </span>
                           )}
                         </h2>
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-xs text-on-surface-variant">

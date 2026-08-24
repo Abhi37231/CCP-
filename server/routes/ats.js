@@ -29,9 +29,16 @@ const handleUpload = (req, res, next) => {
   });
 };
 
+const { protect, authorize } = require('../middleware/auth');
+
 // @route   POST /api/ats/analyze
 // @desc    Analyze a resume against a job description
 // @access  Public (or protected if desired by the application later)
 router.post('/analyze', handleUpload, atsController.analyzeResume);
+
+// @route   POST /api/ats/analyze-application/:id
+// @desc    Analyze an existing application using ATS
+// @access  Private (Employer)
+router.post('/analyze-application/:id', protect, authorize('employer', 'admin'), atsController.analyzeApplication);
 
 module.exports = router;

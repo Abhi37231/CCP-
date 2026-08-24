@@ -11,6 +11,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import RegisterSelection from './pages/RegisterSelection';
 import RegisterFresher from './pages/RegisterFresher';
 import RegisterEmployee from './pages/RegisterEmployee';
@@ -26,6 +28,7 @@ import JobDetails from './pages/JobDetails';
 import JobApplicants from './pages/JobApplicants';
 import ApplicationDetails from './pages/ApplicationDetails';
 import EditJob from './pages/EditJob';
+import EmployerJobs from './pages/EmployerJobs';
 
 // Profile Layouts
 import EditProfileLayout from './pages/profile/EditProfileLayout';
@@ -177,6 +180,8 @@ function App() {
             <Route path="/register/employee" element={<RegisterEmployee />} />
             <Route path="/register/employer" element={<RegisterEmployer />} />
             <Route path="/verify-otp" element={<VerifyOtp />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             
             {/* Protected Routes (Job Seeker) */}
             <Route element={<ProtectedRoute allowedRoles={['job_seeker']} />}>
@@ -192,6 +197,7 @@ function App() {
             {/* Protected Routes (Employer) */}
             <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
               <Route path="/employer-dashboard" element={<EmployerDashboard />} />
+              <Route path="/employer/jobs" element={<EmployerJobs />} />
               <Route path="/company/edit" element={<EditCompany />} />
               <Route path="/jobs/new" element={<PostJob />} />
               <Route path="/employer/jobs/:id/edit" element={<EditJob />} />

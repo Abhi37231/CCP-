@@ -210,3 +210,84 @@ exports.logout = async (req, res) => {
     data: {}
   });
 };
+
+// @desc    Forgot password
+// @route   POST /api/auth/forgotpassword
+// @access  Public
+exports.forgotPassword = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'There is no user with that email' });
+    }
+
+    // Generate OTP
+    const otp = user.generateOTP();
+    await user.save({ validateBeforeSave: false });
+
+    const message = `Your password reset OTP is: ${otp}. It is valid for 10 minutes.`;
+
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: 'Career Connect - Password Reset OTP',
+        message
+      });
+
+      res.status(200).json({ success: true, data: 'OTP sent to email' });
+    } catch (err) {
+      console.log(err);
+      user.otp = undefined;
+      user.otpExpire = undefined;
+
+      await user.save({ validateBeforeSave: false });
+
+      return res.status(500).json({ success: false, error: 'Email could not be sent' });
+    }
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
+};
+
+// @desc    Reset password
+// @route   PUT /api/auth/resetpassword
+// @access  Public
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, otp, password } = req.body;
+
+    if (!email || !otp || !password) {
+      return res.status(400).json({ success: false, error: 'Please provide email, OTP, and new password' });
+    }
+
+    // Hash the OTP from the request to compare with DB
+    const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex');
+
+    const user = await User.findOne({
+      email,
+      otp: hashedOtp,
+      otpExpire: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({ success: false, error: 'Invalid or expired OTP' });
+    }
+
+    // Set new password
+    user.password = password;
+    user.otp = undefined;
+    user.otpExpire = undefined;
+    
+    // Also verify if they were unverified previously (optional safety measure)
+    if (!user.isVerified) {
+       user.isVerified = true;
+    }
+
+    await user.save();
+
+    sendTokenResponse(user, 200, res);
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
+};

@@ -35,6 +35,12 @@ const applicationSchema = new mongoose.Schema({
   recruiterNotes: {
     type: String
   },
+  atsScore: {
+    type: Number
+  },
+  atsAnalysis: {
+    type: Object
+  },
   history: [{
     status: String,
     note: String,

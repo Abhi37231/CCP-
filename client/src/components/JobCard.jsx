@@ -77,18 +77,18 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
               )}
             </div>
             
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex flex-wrap items-center gap-3 mt-3 sm:mt-0">
               {isOwner ? (
                 <>
-                  <Link to={`/employer/jobs/${job._id}/edit`} className="px-4 py-2 rounded-lg bg-surface-container-highest text-on-surface font-label-sm text-label-sm hover:bg-primary-container/20 hover:text-primary transition-colors shadow-sm flex items-center gap-2 border border-white/5">
+                  <Link to={`/employer/jobs/${job._id}/edit`} className="px-4 py-2 rounded-lg bg-surface-container-highest text-on-surface font-label-sm text-label-sm hover:bg-primary-container/20 hover:text-primary transition-colors shadow-sm flex items-center gap-2 border border-white/5 whitespace-nowrap">
                     <span className="material-symbols-outlined text-[18px]">edit</span>
                     Edit
                   </Link>
-                  <button onClick={handleDelete} className="px-4 py-2 rounded-lg bg-error-container/10 text-error font-label-sm text-label-sm hover:bg-error-container hover:text-on-error-container transition-colors shadow-sm flex items-center gap-2 border border-error/20">
+                  <button onClick={handleDelete} className="px-4 py-2 rounded-lg bg-error-container/10 text-error font-label-sm text-label-sm hover:bg-error-container hover:text-on-error-container transition-colors shadow-sm flex items-center gap-2 border border-error/20 whitespace-nowrap">
                     <span className="material-symbols-outlined text-[18px]">delete</span>
                     Delete
                   </button>
-                  <Link to={`/employer/jobs/${job._id}/applicants`} className="px-4 py-2 rounded-lg bg-secondary-container/20 text-secondary font-label-sm text-label-sm hover:bg-secondary-container hover:text-on-secondary-container transition-colors shadow-sm flex items-center gap-2">
+                  <Link to={`/employer/jobs/${job._id}/applicants`} className="px-4 py-2 rounded-lg bg-secondary-container/20 text-secondary font-label-sm text-label-sm hover:bg-secondary-container hover:text-on-secondary-container transition-colors shadow-sm flex items-center gap-2 whitespace-nowrap">
                     <span className="material-symbols-outlined text-[18px]">group</span>
                     Applicants
                   </Link>
@@ -96,7 +96,7 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
               ) : applicationId ? (
                 <button 
                   onClick={onWithdraw}
-                  className="px-4 py-2 rounded-lg bg-error-container/10 text-error font-label-sm text-label-sm hover:bg-error-container hover:text-on-error-container transition-colors shadow-sm flex items-center gap-2 border border-error/20"
+                  className="px-4 py-2 rounded-lg bg-error-container/10 text-error font-label-sm text-label-sm hover:bg-error-container hover:text-on-error-container transition-colors shadow-sm flex items-center gap-2 border border-error/20 whitespace-nowrap"
                 >
                   <span className="material-symbols-outlined text-[18px]">close</span>
                   Withdraw
@@ -106,7 +106,7 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
                   <span className="material-symbols-outlined text-[20px]">bookmark_border</span>
                 </button>
               )}
-              <Link to={`/jobs/${job._id}`} className="px-6 py-2 rounded-lg bg-surface-container-highest text-on-surface font-label-sm text-label-sm group-hover:bg-primary group-hover:text-on-primary transition-colors shadow-sm border border-white/5 border-transparent">
+              <Link to={`/jobs/${job._id}`} className="px-6 py-2 rounded-lg bg-surface-container-highest text-on-surface font-label-sm text-label-sm group-hover:bg-primary group-hover:text-on-primary transition-colors shadow-sm border border-white/5 border-transparent whitespace-nowrap">
                 {isOwner ? 'View Job' : 'Details'}
               </Link>
             </div>

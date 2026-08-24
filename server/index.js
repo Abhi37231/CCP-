@@ -16,8 +16,13 @@ app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:5174'], 
   credentials: true
 }));
-app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" })); // Allow images from uploads
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  crossOriginEmbedderPolicy: false,
+  crossOriginOpenerPolicy: false,
+  xFrameOptions: false,
+  contentSecurityPolicy: false,
+}));
 app.use(morgan('dev'));
 
 // Static folder for uploads

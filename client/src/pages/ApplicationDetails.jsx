@@ -219,7 +219,7 @@ const ApplicationDetails = () => {
                     <span className="material-symbols-outlined text-inverse-primary">description</span> Resume
                   </h3>
                   <a 
-                    href={`http://localhost:5000${application.resume}`}
+                    href={`http://localhost:5000${application.resume.startsWith('/') ? application.resume.replace(/\\/g, '/') : '/' + application.resume.replace(/\\/g, '/')}`}
                     target="_blank" 
                     rel="noreferrer"
                     className="text-primary hover:text-primary-fixed text-sm font-medium flex items-center gap-1"
@@ -229,7 +229,7 @@ const ApplicationDetails = () => {
                 </div>
                 <div className="flex-grow bg-surface-container-highest rounded-xl overflow-hidden border border-white/5">
                   <iframe 
-                    src={`http://localhost:5000${application.resume}`} 
+                    src={`http://localhost:5000${application.resume.startsWith('/') ? application.resume.replace(/\\/g, '/') : '/' + application.resume.replace(/\\/g, '/')}?t=${Date.now()}`} 
                     title="Resume Preview"
                     className="w-full h-full border-none"
                   ></iframe>
