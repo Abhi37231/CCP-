@@ -346,7 +346,7 @@ const JobApplicants = () => {
                   
                   <div className="flex-shrink-0 flex items-center gap-4">
                     {app.profile?.personalInfo?.profilePhoto ? (
-                      <img src={getMediaUrl(app.profile.personalInfo.profilePhoto)} alt={app.applicant.name} className="w-16 h-16 rounded-full object-cover shadow-md bg-surface-container-highest border border-white/10" />
+                      <img src={getMediaUrl(app.profile.personalInfo.profilePhoto)} alt={app.applicant?.name || 'Unknown'} className="w-16 h-16 rounded-full object-cover shadow-md bg-surface-container-highest border border-white/10" />
                     ) : (
                       <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center shadow-md border border-white/10">
                         <span className="material-symbols-outlined text-[32px] text-on-surface-variant">person</span>
@@ -358,7 +358,7 @@ const JobApplicants = () => {
                     <div className="flex justify-between items-start gap-4">
                       <div className="truncate">
                         <h2 className="text-lg font-bold text-on-surface truncate flex items-center gap-2">
-                          {app.applicant.name}
+                          {app.applicant?.name || 'Unknown User'}
                           {app.rating > 0 && (
                             <span className="flex text-tertiary text-[12px]"><span className="material-symbols-outlined text-[14px]">star</span> {app.rating}/5</span>
                           )}
@@ -369,7 +369,7 @@ const JobApplicants = () => {
                           )}
                         </h2>
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-xs text-on-surface-variant">
-                          <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">mail</span> {app.applicant.email}</span>
+                          <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">mail</span> {app.applicant?.email || 'N/A'}</span>
                           <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">event</span> {new Date(app.createdAt).toLocaleDateString()}</span>
                         </div>
                       </div>

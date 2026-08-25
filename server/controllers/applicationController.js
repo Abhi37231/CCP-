@@ -92,13 +92,13 @@ exports.getJobApplications = async (req, res) => {
       .sort(sortConfig);
 
     // We also need to fetch JobSeekerProfiles for these applicants
-    const applicantIds = applications.map(app => app.applicant._id);
+    const applicantIds = applications.filter(app => app.applicant).map(app => app.applicant._id);
     const profiles = await JobSeekerProfile.find({ user: { $in: applicantIds } });
     
     // Map profiles to applications
     let applicationsWithProfiles = applications.map(app => {
       const appObj = app.toObject();
-      appObj.profile = profiles.find(p => p.user.toString() === app.applicant._id.toString()) || null;
+      appObj.profile = app.applicant ? (profiles.find(p => p.user.toString() === app.applicant._id.toString()) || null) : null;
       return appObj;
     });
 
@@ -106,8 +106,8 @@ exports.getJobApplications = async (req, res) => {
     if (req.query.search) {
       const searchStr = req.query.search.toLowerCase();
       applicationsWithProfiles = applicationsWithProfiles.filter(app => {
-        const nameMatch = app.applicant.name?.toLowerCase().includes(searchStr);
-        const emailMatch = app.applicant.email?.toLowerCase().includes(searchStr);
+        const nameMatch = app.applicant?.name?.toLowerCase().includes(searchStr);
+        const emailMatch = app.applicant?.email?.toLowerCase().includes(searchStr);
         const skillMatch = app.profile?.skills?.programmingLanguages?.some(s => s.name.toLowerCase().includes(searchStr)) ||
                            app.profile?.skills?.frameworks?.some(s => s.name.toLowerCase().includes(searchStr));
         return nameMatch || emailMatch || skillMatch;
