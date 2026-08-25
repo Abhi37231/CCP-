@@ -2,7 +2,6 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
-const seedDemoProfile = require('../utils/seedDemoProfile');
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
@@ -169,12 +168,6 @@ exports.login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ success: false, error: 'Invalid credentials' });
     }
-
-    // --- DEMO PROFILE INJECTION ---
-    if (user.email === 'abhinandanyalamante9@gmail.com' && user.role === 'job_seeker') {
-      await seedDemoProfile(user._id);
-    }
-    // ------------------------------
 
     sendTokenResponse(user, 200, res);
   } catch (err) {
