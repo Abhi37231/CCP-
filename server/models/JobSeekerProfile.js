@@ -10,6 +10,7 @@ const jobSeekerProfileSchema = new mongoose.Schema({
   personalInfo: {
     profilePhoto: { type: String }, // Can fallback to user avatar if empty
     firstName: { type: String }, // To handle "Full Name" we can also just use user's name
+    middleName: { type: String },
     lastName: { type: String },
     headline: { type: String, maxlength: 120 },
     phone: { type: String },

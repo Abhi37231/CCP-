@@ -11,6 +11,7 @@ const PersonalInfoForm = ({ profile }) => {
 
   const [formData, setFormData] = useState({
     firstName: profile?.personalInfo?.firstName || '',
+    middleName: profile?.personalInfo?.middleName || '',
     lastName: profile?.personalInfo?.lastName || '',
     headline: profile?.personalInfo?.headline || '',
     phone: profile?.personalInfo?.phone || '',
@@ -36,6 +37,7 @@ const PersonalInfoForm = ({ profile }) => {
     const data = new FormData();
     const personalInfo = {
       firstName: formData.firstName,
+      middleName: formData.middleName,
       lastName: formData.lastName,
       headline: formData.headline,
       phone: formData.phone,
@@ -67,13 +69,23 @@ const PersonalInfoForm = ({ profile }) => {
           Basic Details
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div className="flex flex-col gap-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">First Name</label>
             <input 
               type="text" 
               name="firstName" 
               value={formData.firstName} 
+              onChange={onChange} 
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Middle Name (Father)</label>
+            <input 
+              type="text" 
+              name="middleName" 
+              value={formData.middleName} 
               onChange={onChange} 
               className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
             />
@@ -88,6 +100,9 @@ const PersonalInfoForm = ({ profile }) => {
               className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
             />
           </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2 md:col-span-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Professional Headline</label>
             <input 
