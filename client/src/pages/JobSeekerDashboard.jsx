@@ -123,18 +123,18 @@ const JobSeekerDashboard = () => {
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 z-40 md:hidden" 
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden" 
           onClick={() => setSidebarOpen(false)}
         ></div>
       )}
       
-      <aside className={`fixed left-0 top-0 h-full w-72 bg-surface-container-low border-r border-white/5 z-50 flex flex-col shadow-2xl transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+      <aside className={`fixed left-0 top-0 h-full w-72 bg-surface-container-low border-r border-white/5 z-50 flex flex-col shadow-2xl transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="p-4 md:p-margin-desktop mb-base flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 md:gap-base outline-none focus:outline-none hover:opacity-80 transition-opacity">
             <img alt="Logo" className="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5npLZXO93JC1NE5Nsd7bTvZBFv_1CqFPiPhrUpbQBeyXYVkDs3hxsLN8XYNvgOJ6xHY4xplBp0-i4oQVe-U5RctZg7osKiNGh4T-FYslnD4l4yCAcfiG_A9KxzeTEWcTi8Gxm2lC58PfQrbKwc3BSoffZKg5WqSOuxDTuiJlfvU6dYwRPkHJojQGxBPGo-DQ2gqZZLBpbG2-WBQhn6-BD0Fzvx8W3rymsqzgFmqKFU2e5eqi_9fNFQ"/>
             <span className="text-on-surface font-headline-md text-[18px] md:text-headline-md tracking-tight whitespace-nowrap">Career Connect</span>
           </Link>
-          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-on-surface-variant p-1">
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-on-surface-variant p-1">
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
@@ -170,10 +170,10 @@ const JobSeekerDashboard = () => {
         </div>
       </aside>
 
-      <div className="md:pl-72 flex flex-col min-h-screen">
-        <header className="fixed top-0 left-0 md:left-72 right-0 h-20 bg-surface/70 backdrop-blur-xl border-b border-white/5 z-30 flex items-center justify-between px-4 md:px-margin-desktop">
+      <div className="lg:pl-72 flex flex-col min-h-screen">
+        <header className="fixed top-0 left-0 lg:left-72 right-0 h-20 bg-surface/70 backdrop-blur-xl border-b border-white/5 z-30 flex items-center justify-between px-4 md:px-margin-desktop">
           <div className="flex items-center gap-3 flex-1">
-            <button onClick={() => setSidebarOpen(true)} className="md:hidden text-on-surface-variant hover:text-on-surface p-1 flex items-center justify-center">
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-on-surface-variant hover:text-on-surface p-1 flex items-center justify-center">
               <span className="material-symbols-outlined text-[28px]">menu</span>
             </button>
             <div className="flex-1 max-w-md hidden sm:block">

@@ -51,9 +51,19 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-gutter">
-          <Link to="/jobs" className={`transition-colors font-bold ${location.pathname === '/jobs' ? 'text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}>
-            Find Jobs
-          </Link>
+          {(!isAuthenticated || user?.role === 'job_seeker') && (
+            <Link 
+              to={isAuthenticated ? "/jobs" : "/login"} 
+              className={`transition-colors font-bold ${location.pathname === '/jobs' ? 'text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
+              onClick={(e) => {
+                if (!isAuthenticated) {
+                  toast.info('Please log in first to find jobs');
+                }
+              }}
+            >
+              Find Jobs
+            </Link>
+          )}
           
           {isAuthenticated ? (
             <>
@@ -97,13 +107,20 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-surface-container-high border-t border-white/5 absolute w-full left-0 top-20 shadow-2xl animate-in slide-in-from-top-2">
           <nav className="flex flex-col py-4 px-4 gap-4">
-            <Link 
-              to="/jobs" 
-              onClick={() => setMobileMenuOpen(false)}
-              className={`p-3 rounded-lg transition-colors font-bold ${location.pathname === '/jobs' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
-            >
-              Find Jobs
-            </Link>
+            {(!isAuthenticated || user?.role === 'job_seeker') && (
+              <Link 
+                to={isAuthenticated ? "/jobs" : "/login"} 
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  if (!isAuthenticated) {
+                    toast.info('Please log in first to find jobs');
+                  }
+                }}
+                className={`p-3 rounded-lg transition-colors font-bold ${location.pathname === '/jobs' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
+              >
+                Find Jobs
+              </Link>
+            )}
             
             {isAuthenticated ? (
               <>
