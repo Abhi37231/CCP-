@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../redux/slices/authSlice';
 import { clearProfile } from '../redux/slices/profileSlice';
-
 import { toast } from 'react-toastify';
 
 const Navbar = () => {
@@ -10,11 +10,14 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+  
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     await dispatch(logoutUser());
     dispatch(clearProfile());
     toast.success('Logged out successfully');
+    setMobileMenuOpen(false);
     navigate('/login');
   };
 
@@ -27,14 +30,26 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-      <div className="h-20 w-full px-margin-desktop flex items-center justify-between">
+      <div className="h-20 w-full px-4 md:px-margin-desktop flex items-center justify-between">
         <Link 
           to="/" 
-          className="flex items-center gap-base outline-none focus:outline-none"
+          className="flex items-center gap-2 md:gap-base outline-none focus:outline-none"
         >
-          <img alt="Career Connect Logo" className="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5npLZXO93JC1NE5Nsd7bTvZBFv_1CqFPiPhrUpbQBeyXYVkDs3hxsLN8XYNvgOJ6xHY4xplBp0-i4oQVe-U5RctZg7osKiNGh4T-FYslnD4l4yCAcfiG_A9KxzeTEWcTi8Gxm2lC58PfQrbKwc3BSoffZKg5WqSOuxDTuiJlfvU6dYwRPkHJojQGxBPGo-DQ2gqZZLBpbG2-WBQhn6-BD0Fzvx8W3rymsqzgFmqKFU2e5eqi_9fNFQ"/>
-          <span className="font-headline-md text-headline-md text-on-surface tracking-tight">Career Connect</span>
+          <img alt="Career Connect Logo" className="h-6 md:h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5npLZXO93JC1NE5Nsd7bTvZBFv_1CqFPiPhrUpbQBeyXYVkDs3hxsLN8XYNvgOJ6xHY4xplBp0-i4oQVe-U5RctZg7osKiNGh4T-FYslnD4l4yCAcfiG_A9KxzeTEWcTi8Gxm2lC58PfQrbKwc3BSoffZKg5WqSOuxDTuiJlfvU6dYwRPkHJojQGxBPGo-DQ2gqZZLBpbG2-WBQhn6-BD0Fzvx8W3rymsqzgFmqKFU2e5eqi_9fNFQ"/>
+          <span className="font-headline-md text-[18px] md:text-headline-md text-on-surface tracking-tight">Career Connect</span>
         </Link>
+
+        {/* Mobile menu button */}
+        <button 
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden text-on-surface-variant hover:text-on-surface p-2"
+        >
+          <span className="material-symbols-outlined text-[28px]">
+            {mobileMenuOpen ? 'close' : 'menu'}
+          </span>
+        </button>
+
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-gutter">
           <Link to="/jobs" className={`transition-colors font-bold ${location.pathname === '/jobs' ? 'text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}>
             Find Jobs
@@ -77,6 +92,70 @@ const Navbar = () => {
           )}
         </nav>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-surface-container-high border-t border-white/5 absolute w-full left-0 top-20 shadow-2xl animate-in slide-in-from-top-2">
+          <nav className="flex flex-col py-4 px-4 gap-4">
+            <Link 
+              to="/jobs" 
+              onClick={() => setMobileMenuOpen(false)}
+              className={`p-3 rounded-lg transition-colors font-bold ${location.pathname === '/jobs' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
+            >
+              Find Jobs
+            </Link>
+            
+            {isAuthenticated ? (
+              <>
+                <Link 
+                  to={user?.role === 'employer' ? '/employer-dashboard' : user?.role === 'admin' ? '/admin-dashboard' : '/dashboard'} 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-3 rounded-lg text-on-surface-variant hover:bg-white/5 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                {user?.role === 'job_seeker' && (
+                  <Link 
+                    to="/ats-analyzer" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-3 rounded-lg text-on-surface-variant hover:bg-white/5 transition-colors flex items-center gap-2"
+                  >
+                    <span className="bg-primary/20 text-primary px-2 py-0.5 rounded text-[11px] uppercase tracking-wider font-bold">AI</span> ATS Analyzer
+                  </Link>
+                )}
+                <div className="h-px w-full bg-white/5 my-2"></div>
+                <div className="p-3 text-on-surface font-medium text-body-md">
+                  Signed in as {user?.name}
+                </div>
+                <button 
+                  onClick={handleLogout} 
+                  className="w-full text-left p-3 text-error hover:bg-error/10 rounded-lg transition-all"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="h-px w-full bg-white/5 my-2"></div>
+                <Link 
+                  to="/login" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-3 rounded-lg text-on-surface-variant hover:bg-white/5 transition-colors"
+                >
+                  Login
+                </Link>
+                <Link 
+                  to="/register" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-3 bg-secondary-container text-on-secondary-container rounded-lg font-label-sm text-center shadow-[0_0_15px_rgba(87,27,193,0.3)] mt-2"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 };

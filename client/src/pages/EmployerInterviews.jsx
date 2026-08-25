@@ -53,7 +53,7 @@ const EmployerInterviews = () => {
 
   return (
     <main className="pt-20 bg-background min-h-screen pb-24">
-      <div className="flex flex-col w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+      <div className="flex flex-col w-full px-4 md:px-margin-desktop max-w-container-max mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="font-display-lg text-display-lg text-on-background tracking-tight">Interview Schedule</h1>

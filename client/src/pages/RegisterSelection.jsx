@@ -11,7 +11,7 @@ const RegisterSelection = () => {
         <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[100px] pointer-events-none"></div>
         
         {/* Main Content Container */}
-        <div className="max-w-container-max mx-auto px-margin-desktop w-full relative z-10 flex flex-col items-center">
+        <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop w-full relative z-10 flex flex-col items-center">
           
           {/* Header Section */}
           <div className="text-center mb-16 max-w-2xl">

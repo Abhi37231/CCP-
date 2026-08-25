@@ -229,7 +229,7 @@ const ApplicationDetails = () => {
 
   return (
     <main className="relative pt-20 bg-background min-h-screen pb-24">
-      <div className="flex flex-col w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto relative z-10 gap-8">
+      <div className="flex flex-col w-full px-4 md:px-margin-desktop max-w-container-max mx-auto relative z-10 gap-8">
         
         {/* Header Section */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/5 pb-6">

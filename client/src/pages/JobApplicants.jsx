@@ -241,11 +241,11 @@ const JobApplicants = () => {
               />
             </div>
             
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
               <select 
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="bg-surface-container-highest text-on-surface rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 border border-white/5 text-sm appearance-none cursor-pointer"
+                className="bg-surface-container-highest text-on-surface rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 border border-white/5 text-sm appearance-none cursor-pointer w-full sm:w-auto"
               >
                 <option value="">All Statuses</option>
                 <option value="Applied">Applied</option>
@@ -260,7 +260,7 @@ const JobApplicants = () => {
               <select 
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
-                className="bg-surface-container-highest text-on-surface rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 border border-white/5 text-sm appearance-none cursor-pointer"
+                className="bg-surface-container-highest text-on-surface rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 border border-white/5 text-sm appearance-none cursor-pointer w-full sm:w-auto"
               >
                 <option value="-createdAt">Newest First</option>
                 <option value="createdAt">Oldest First</option>
@@ -270,11 +270,11 @@ const JobApplicants = () => {
             </div>
           </div>
           
-          <div className="flex justify-end border-t border-white/5 pt-4 mt-2">
+          <div className="flex justify-end border-t border-white/5 pt-4 mt-2 w-full">
             <button 
               onClick={handleAnalyzeAll} 
               disabled={analyzingAll || applications.length === 0}
-              className="bg-tertiary text-on-tertiary hover:bg-tertiary-fixed px-6 py-2.5 rounded-xl text-sm font-medium transition-all shadow-md shadow-tertiary/20 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="bg-tertiary text-on-tertiary hover:bg-tertiary-fixed px-6 py-2.5 rounded-xl text-sm font-medium transition-all shadow-md shadow-tertiary/20 flex items-center justify-center gap-2 disabled:opacity-50 w-full sm:w-auto"
             >
               {analyzingAll ? (
                 <>
@@ -292,15 +292,15 @@ const JobApplicants = () => {
 
           {/* Bulk Actions Bar (Visible only when items selected) */}
           {selectedApps.length > 0 && (
-            <div className="bg-primary-container/20 border border-primary/20 rounded-xl p-3 flex justify-between items-center animate-in fade-in slide-in-from-top-4">
+            <div className="bg-primary-container/20 border border-primary/20 rounded-xl p-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 md:gap-0 animate-in fade-in slide-in-from-top-4 mt-2 md:mt-0">
               <span className="text-primary font-medium text-sm flex items-center gap-2">
                 <span className="material-symbols-outlined">check_box</span>
                 {selectedApps.length} applicant{selectedApps.length > 1 ? 's' : ''} selected
               </span>
-              <div className="flex gap-2">
-                <button onClick={() => handleBulkStatusUpdate('Under Review')} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-inverse-primary/20 text-inverse-primary hover:bg-inverse-primary/30 transition-colors">Review</button>
-                <button onClick={() => handleBulkStatusUpdate('Shortlisted')} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-tertiary/20 text-tertiary hover:bg-tertiary/30 transition-colors">Shortlist</button>
-                <button onClick={() => handleBulkStatusUpdate('Rejected')} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-error/20 text-error hover:bg-error/30 transition-colors">Reject</button>
+              <div className="flex flex-wrap gap-2 w-full md:w-auto">
+                <button onClick={() => handleBulkStatusUpdate('Under Review')} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-inverse-primary/20 text-inverse-primary hover:bg-inverse-primary/30 transition-colors flex-1 sm:flex-none">Review</button>
+                <button onClick={() => handleBulkStatusUpdate('Shortlisted')} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-tertiary/20 text-tertiary hover:bg-tertiary/30 transition-colors flex-1 sm:flex-none">Shortlist</button>
+                <button onClick={() => handleBulkStatusUpdate('Rejected')} className="px-3 py-1.5 rounded-lg text-xs font-medium bg-error/20 text-error hover:bg-error/30 transition-colors flex-1 sm:flex-none">Reject</button>
               </div>
             </div>
           )}
@@ -332,70 +332,86 @@ const JobApplicants = () => {
               </div>
               
               {applications.map((app) => (
-                <article key={app._id} className={`bg-surface-container-low rounded-2xl p-5 flex flex-col md:flex-row gap-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group border ${selectedApps.includes(app._id) ? 'border-primary/50 bg-primary/5' : 'border-white/5 hover:border-white/20'}`}>
+                <article key={app._id} className={`bg-surface-container-low rounded-2xl p-4 md:p-5 flex flex-col md:flex-row gap-4 md:gap-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group border ${selectedApps.includes(app._id) ? 'border-primary/50 bg-primary/5' : 'border-white/5 hover:border-white/20'}`}>
                   
-                  {/* Select Checkbox */}
-                  <div className="flex items-center">
-                    <input 
-                      type="checkbox" 
-                      checked={selectedApps.includes(app._id)}
-                      onChange={() => handleSelect(app._id)}
-                      className="w-4 h-4 rounded border-outline bg-surface-container-highest checked:bg-primary accent-primary cursor-pointer"
-                    />
-                  </div>
-                  
-                  <div className="flex-shrink-0 flex items-center gap-4">
-                    {app.profile?.personalInfo?.profilePhoto ? (
-                      <img src={getMediaUrl(app.profile.personalInfo.profilePhoto)} alt={app.applicant?.name || 'Unknown'} className="w-16 h-16 rounded-full object-cover shadow-md bg-surface-container-highest border border-white/10" />
-                    ) : (
-                      <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center shadow-md border border-white/10">
-                        <span className="material-symbols-outlined text-[32px] text-on-surface-variant">person</span>
+                  <div className="flex flex-row gap-3 md:gap-4 items-start md:items-center flex-grow w-full md:w-auto">
+                    {/* Select Checkbox */}
+                    <div className="flex items-center mt-1 md:mt-0">
+                      <input 
+                        type="checkbox" 
+                        checked={selectedApps.includes(app._id)}
+                        onChange={() => handleSelect(app._id)}
+                        className="w-4 h-4 rounded border-outline bg-surface-container-highest checked:bg-primary accent-primary cursor-pointer"
+                      />
+                    </div>
+                    
+                    <div className="flex-shrink-0">
+                      {app.profile?.personalInfo?.profilePhoto ? (
+                        <img src={getMediaUrl(app.profile.personalInfo.profilePhoto)} alt={app.applicant?.name || 'Unknown'} className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover shadow-md bg-surface-container-highest border border-white/10" />
+                      ) : (
+                        <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-surface-container-highest flex items-center justify-center shadow-md border border-white/10">
+                          <span className="material-symbols-outlined text-[24px] md:text-[32px] text-on-surface-variant">person</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="flex-grow flex flex-col justify-center gap-1 md:gap-2 relative z-10 min-w-0">
+                      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4">
+                        <div className="truncate w-full md:w-auto">
+                          <h2 className="text-base md:text-lg font-bold text-on-surface truncate flex flex-wrap items-center gap-2">
+                            {app.applicant?.name || 'Unknown User'}
+                            {app.rating > 0 && (
+                              <span className="flex text-tertiary text-[12px]"><span className="material-symbols-outlined text-[14px]">star</span> {app.rating}/5</span>
+                            )}
+                            {app.atsScore !== undefined && (
+                              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${app.atsScore >= 75 ? 'bg-primary-container text-primary' : app.atsScore >= 50 ? 'bg-secondary-container text-secondary' : 'bg-error-container text-error'}`}>
+                                ATS: {app.atsScore}%
+                              </span>
+                            )}
+                          </h2>
+                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-[11px] md:text-xs text-on-surface-variant">
+                            <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">mail</span> {app.applicant?.email || 'N/A'}</span>
+                            <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">event</span> {new Date(app.createdAt).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                        <div className="shrink-0 flex items-center w-full md:w-auto">
+                          {getStatusBadge(app.status)}
+                        </div>
                       </div>
+
+                      <div className="flex flex-wrap gap-2 mt-1 hidden sm:flex">
+                        {app.profile?.skills && (
+                          <>
+                            {app.profile.skills.programmingLanguages?.slice(0, 3).map((s, i) => (
+                              <span key={`p-${i}`} className="bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded text-[11px] border border-white/5">{s.name}</span>
+                            ))}
+                          </>
+                        )}
+                        {app.profile?.skills?.programmingLanguages?.length > 3 && (
+                          <span className="text-on-surface-variant text-[11px] px-1 py-0.5">+{app.profile.skills.programmingLanguages.length - 3} more</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mobile Skills - Visible only on very small screens */}
+                  <div className="flex flex-wrap gap-2 mt-2 sm:hidden pl-[3.25rem]">
+                    {app.profile?.skills && (
+                      <>
+                        {app.profile.skills.programmingLanguages?.slice(0, 2).map((s, i) => (
+                          <span key={`p-mob-${i}`} className="bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded text-[10px] border border-white/5">{s.name}</span>
+                        ))}
+                      </>
+                    )}
+                    {app.profile?.skills?.programmingLanguages?.length > 2 && (
+                      <span className="text-on-surface-variant text-[10px] px-1 py-0.5">+{app.profile.skills.programmingLanguages.length - 2} more</span>
                     )}
                   </div>
 
-                  <div className="flex-grow flex flex-col justify-center gap-2 relative z-10 min-w-0">
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="truncate">
-                        <h2 className="text-lg font-bold text-on-surface truncate flex items-center gap-2">
-                          {app.applicant?.name || 'Unknown User'}
-                          {app.rating > 0 && (
-                            <span className="flex text-tertiary text-[12px]"><span className="material-symbols-outlined text-[14px]">star</span> {app.rating}/5</span>
-                          )}
-                          {app.atsScore !== undefined && (
-                            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${app.atsScore >= 75 ? 'bg-primary-container text-primary' : app.atsScore >= 50 ? 'bg-secondary-container text-secondary' : 'bg-error-container text-error'}`}>
-                              ATS: {app.atsScore}%
-                            </span>
-                          )}
-                        </h2>
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-xs text-on-surface-variant">
-                          <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">mail</span> {app.applicant?.email || 'N/A'}</span>
-                          <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">event</span> {new Date(app.createdAt).toLocaleDateString()}</span>
-                        </div>
-                      </div>
-                      <div className="shrink-0">
-                        {getStatusBadge(app.status)}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {app.profile?.skills && (
-                        <>
-                          {app.profile.skills.programmingLanguages?.slice(0, 3).map((s, i) => (
-                            <span key={`p-${i}`} className="bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded text-[11px] border border-white/5">{s.name}</span>
-                          ))}
-                        </>
-                      )}
-                      {app.profile?.skills?.programmingLanguages?.length > 3 && (
-                        <span className="text-on-surface-variant text-[11px] px-1 py-0.5">+{app.profile.skills.programmingLanguages.length - 3} more</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-end gap-3 border-t md:border-t-0 md:border-l border-white/5 pt-4 md:pt-0 md:pl-6 shrink-0">
+                  <div className="flex items-center justify-end gap-3 border-t md:border-t-0 md:border-l border-white/5 pt-3 md:pt-0 md:pl-6 shrink-0 mt-2 md:mt-0 w-full md:w-auto">
                     <Link 
                       to={`/employer/applications/${app._id}`}
-                      className="bg-primary text-on-primary hover:bg-primary-fixed px-5 py-2.5 rounded-xl text-sm font-medium transition-all shadow-md shadow-primary/20 flex items-center justify-center gap-2"
+                      className="bg-primary text-on-primary hover:bg-primary-fixed px-5 py-2.5 rounded-xl text-sm font-medium transition-all shadow-md shadow-primary/20 flex items-center justify-center gap-2 w-full md:w-auto"
                     >
                       <span className="material-symbols-outlined text-[18px]">account_circle</span>
                       View Profile

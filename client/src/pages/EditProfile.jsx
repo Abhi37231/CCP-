@@ -96,7 +96,7 @@ const EditProfile = () => {
   return (
     <main className="relative pt-20 bg-background min-h-screen">
       <div className="flex flex-col w-full relative">
-        <div className="max-w-[800px] w-full mx-auto pb-24 px-margin-desktop">
+        <div className="max-w-[800px] w-full mx-auto pb-24 px-4 md:px-margin-desktop">
           {/* Header Section */}
           <div className="mt-8 mb-12">
             <h1 className="font-display-lg text-display-lg text-on-background mb-2">Edit Profile</h1>
@@ -107,7 +107,7 @@ const EditProfile = () => {
           
           <form onSubmit={onSubmit} className="space-y-12">
             {/* Section 1: Basic Info */}
-            <section className="bg-surface-container rounded-3xl p-8 relative overflow-hidden group shadow-xl border border-white/5">
+            <section className="bg-surface-container rounded-3xl p-6 md:p-8 relative overflow-hidden group shadow-xl border border-white/5">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary font-headline-md text-headline-md relative z-10">
@@ -164,7 +164,7 @@ const EditProfile = () => {
 
             {/* Section 2: Professional Details (Experienced Only) */}
             {user?.experienceLevel === 'experienced' && (
-              <section className="bg-surface-container rounded-3xl p-8 relative overflow-hidden group shadow-xl border border-white/5">
+              <section className="bg-surface-container rounded-3xl p-6 md:p-8 relative overflow-hidden group shadow-xl border border-white/5">
                 <div className="absolute inset-0 bg-gradient-to-br from-tertiary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="flex items-center gap-4 mb-8 relative z-10">
                   <div className="w-10 h-10 rounded-full bg-tertiary-container/20 flex items-center justify-center text-tertiary font-headline-md text-headline-md">
@@ -230,7 +230,7 @@ const EditProfile = () => {
             )}
 
             {/* Section 3: Skills */}
-            <section className="bg-surface-container rounded-3xl p-8 relative overflow-hidden group shadow-xl border border-white/5">
+            <section className="bg-surface-container rounded-3xl p-6 md:p-8 relative overflow-hidden group shadow-xl border border-white/5">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-headline-md text-headline-md">
                   {user?.experienceLevel === 'experienced' ? '3' : '2'}
@@ -267,7 +267,7 @@ const EditProfile = () => {
             </section>
 
             {/* Section 4: Resume Upload */}
-            <section className="bg-surface-container rounded-3xl p-8 relative overflow-hidden shadow-xl border border-white/5">
+            <section className="bg-surface-container rounded-3xl p-6 md:p-8 relative overflow-hidden shadow-xl border border-white/5">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center text-primary font-headline-md text-headline-md">
                   {user?.experienceLevel === 'experienced' ? '4' : '3'}
@@ -316,7 +316,7 @@ const EditProfile = () => {
             </section>
 
             {/* Sticky Action Bar */}
-            <div className="sticky bottom-8 z-30 flex justify-end gap-4 bg-surface-container/80 backdrop-blur-xl p-4 rounded-2xl shadow-2xl border border-white/10">
+            <div className="sticky bottom-4 md:bottom-8 z-30 flex justify-end gap-4 bg-surface-container/80 backdrop-blur-xl p-4 rounded-2xl shadow-2xl border border-white/10">
               <button 
                 type="button" 
                 onClick={() => navigate('/dashboard')}

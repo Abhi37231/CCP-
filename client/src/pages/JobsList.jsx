@@ -104,7 +104,7 @@ const JobsList = () => {
 
   return (
     <main className="pt-20 bg-background min-h-screen">
-      <div className="flex flex-col w-full px-margin-desktop py-8 max-w-container-max mx-auto">
+      <div className="flex flex-col w-full px-4 md:px-margin-desktop py-8 max-w-container-max mx-auto">
         
         {/* Banner and Search (Only show on Discover tab) */}
         {activeTab === 'discover' && (
@@ -135,22 +135,22 @@ const JobsList = () => {
 
         {/* Tabs for Job Seekers/Employees */}
         {isAuthenticated && user?.role !== 'employer' && user?.role !== 'admin' && (
-          <div className="flex gap-4 mb-8 border-b border-white/10 pb-4">
+          <div className="flex gap-4 mb-8 border-b border-white/10 pb-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
             <button
               onClick={() => setActiveTab('discover')}
-              className={`font-headline-md text-headline-md px-4 py-2 rounded-lg transition-colors ${activeTab === 'discover' ? 'bg-primary/20 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
+              className={`font-headline-sm md:font-headline-md text-headline-sm md:text-headline-md px-4 py-2 rounded-lg transition-colors ${activeTab === 'discover' ? 'bg-primary/20 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
               Discover Jobs
             </button>
             <button
               onClick={() => setActiveTab('applied')}
-              className={`font-headline-md text-headline-md px-4 py-2 rounded-lg transition-colors ${activeTab === 'applied' ? 'bg-primary/20 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
+              className={`font-headline-sm md:font-headline-md text-headline-sm md:text-headline-md px-4 py-2 rounded-lg transition-colors ${activeTab === 'applied' ? 'bg-primary/20 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
               My Applications
             </button>
             <button
               onClick={() => setActiveTab('saved')}
-              className={`font-headline-md text-headline-md px-4 py-2 rounded-lg transition-colors ${activeTab === 'saved' ? 'bg-primary/20 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
+              className={`font-headline-sm md:font-headline-md text-headline-sm md:text-headline-md px-4 py-2 rounded-lg transition-colors ${activeTab === 'saved' ? 'bg-primary/20 text-primary' : 'text-on-surface-variant hover:text-on-surface'}`}
             >
               Saved Jobs
             </button>

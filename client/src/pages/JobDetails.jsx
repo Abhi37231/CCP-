@@ -110,13 +110,13 @@ const JobDetails = () => {
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-tertiary/5 rounded-full blur-[100px] mix-blend-screen transform -translate-x-1/4 translate-y-1/4"></div>
         </div>
 
-        <div className="max-w-container-max mx-auto w-full px-margin-desktop py-margin-desktop relative z-10">
+        <div className="max-w-container-max mx-auto w-full px-4 md:px-margin-desktop py-8 md:py-margin-desktop relative z-10">
           <Link to="/jobs" className="inline-flex items-center text-on-surface-variant hover:text-primary mb-6 transition-colors font-label-sm text-label-sm">
             <span className="material-symbols-outlined text-[16px] mr-1">chevron_left</span> Back to Jobs
           </Link>
 
           {/* Header Section */}
-          <div className="flex flex-col md:flex-row md:items-start justify-between gap-gutter mb-margin-desktop">
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-gutter mb-8 md:mb-margin-desktop">
             <div className="flex flex-col gap-base md:w-2/3 relative z-10">
               <div className="flex items-center gap-base">
                 <div className="w-16 h-16 rounded-lg bg-surface-container-high flex items-center justify-center shadow-lg overflow-hidden shrink-0 border border-white/5">
@@ -206,7 +206,7 @@ const JobDetails = () => {
           {/* Main Content Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-gutter relative z-10">
             {/* Left Column: Description */}
-            <div className="lg:col-span-8 flex flex-col gap-margin-desktop">
+            <div className="lg:col-span-8 flex flex-col gap-6 md:gap-margin-desktop">
               <section className="p-8 rounded-2xl bg-surface-container shadow-xl relative overflow-hidden group border border-white/5">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full blur-2xl group-hover:bg-primary/20 transition-colors duration-700"></div>
                 <h2 className="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-3">

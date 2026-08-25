@@ -215,7 +215,7 @@ export default function AtsAnalyzer() {
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-tertiary/5 rounded-full blur-[100px] mix-blend-screen transform -translate-x-1/4 translate-y-1/4"></div>
       </div>
 
-      <div className="max-w-6xl mx-auto py-12 px-margin-desktop relative z-10">
+      <div className="max-w-6xl mx-auto py-12 px-4 md:px-margin-desktop relative z-10">
         <div className="text-center mb-12">
           <h1 className="font-display-lg text-display-lg text-on-background flex items-center justify-center gap-3">
             <span className="material-symbols-outlined text-primary text-[48px]">troubleshoot</span>

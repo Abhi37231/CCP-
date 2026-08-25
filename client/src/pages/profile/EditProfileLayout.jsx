@@ -78,7 +78,7 @@ const EditProfileLayout = () => {
   return (
     <main className="relative pt-20 bg-background min-h-screen">
       <div className="flex flex-col w-full relative">
-        <div className="max-w-[1200px] w-full mx-auto pb-24 px-margin-desktop">
+        <div className="max-w-[1200px] w-full mx-auto pb-24 px-4 md:px-margin-desktop">
           {/* Header Section */}
           <div className="mt-8 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
