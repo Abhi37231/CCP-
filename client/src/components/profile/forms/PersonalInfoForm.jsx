@@ -45,7 +45,7 @@ const PersonalInfoForm = ({ profile }) => {
       gender: formData.gender || undefined,
       profilePhoto: profile?.personalInfo?.profilePhoto
     };
-    
+
     data.append('personalInfo', JSON.stringify(personalInfo));
     data.append('location', JSON.stringify({ city: formData.city, state: formData.state, country: formData.country }));
     data.append('about', formData.about);
@@ -61,85 +61,85 @@ const PersonalInfoForm = ({ profile }) => {
 
   return (
     <form onSubmit={onSubmit} className="space-y-10">
-      
+
       {/* Basic Details */}
       <div>
         <h2 className="font-headline-sm text-headline-sm text-on-surface mb-6 flex items-center gap-2">
           <span className="material-symbols-outlined text-primary">person</span>
           Basic Details
         </h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div className="flex flex-col gap-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">First Name</label>
-            <input 
-              type="text" 
-              name="firstName" 
-              value={formData.firstName} 
-              onChange={onChange} 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={onChange}
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Middle Name (Father)</label>
-            <input 
-              type="text" 
-              name="middleName" 
-              value={formData.middleName} 
-              onChange={onChange} 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Middle Name</label>
+            <input
+              type="text"
+              name="middleName"
+              value={formData.middleName}
+              onChange={onChange}
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             />
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Last Name</label>
-            <input 
-              type="text" 
-              name="lastName" 
-              value={formData.lastName} 
-              onChange={onChange} 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={onChange}
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             />
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2 md:col-span-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Professional Headline</label>
-            <input 
-              type="text" 
-              name="headline" 
-              value={formData.headline} 
-              onChange={onChange} 
-              placeholder="e.g. Aspiring Full Stack Developer | Final Year CS Student" 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            <input
+              type="text"
+              name="headline"
+              value={formData.headline}
+              onChange={onChange}
+              placeholder="e.g. Aspiring Full Stack Developer | Final Year CS Student"
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             />
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Phone Number</label>
-            <input 
-              type="text" 
-              name="phone" 
-              value={formData.phone} 
-              onChange={onChange} 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={onChange}
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             />
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Date of Birth</label>
-            <input 
-              type="date" 
-              name="dob" 
-              value={formData.dob} 
-              onChange={onChange} 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5 [color-scheme:dark]" 
+            <input
+              type="date"
+              name="dob"
+              value={formData.dob}
+              onChange={onChange}
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5 [color-scheme:dark]"
             />
           </div>
           <div className="flex flex-col gap-2 md:col-span-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Gender</label>
-            <select 
-              name="gender" 
-              value={formData.gender} 
-              onChange={onChange} 
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={onChange}
               className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             >
               <option value="">Select Gender</option>
@@ -163,32 +163,32 @@ const PersonalInfoForm = ({ profile }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="flex flex-col gap-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">City</label>
-            <input 
-              type="text" 
-              name="city" 
-              value={formData.city} 
-              onChange={onChange} 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={onChange}
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             />
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">State</label>
-            <input 
-              type="text" 
-              name="state" 
-              value={formData.state} 
-              onChange={onChange} 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            <input
+              type="text"
+              name="state"
+              value={formData.state}
+              onChange={onChange}
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             />
           </div>
           <div className="flex flex-col gap-2">
             <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Country</label>
-            <input 
-              type="text" 
-              name="country" 
-              value={formData.country} 
-              onChange={onChange} 
-              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5" 
+            <input
+              type="text"
+              name="country"
+              value={formData.country}
+              onChange={onChange}
+              className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
             />
           </div>
         </div>
@@ -204,12 +204,12 @@ const PersonalInfoForm = ({ profile }) => {
         </h2>
         <div className="flex flex-col gap-2">
           <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">About Me / Career Objective</label>
-          <textarea 
-            name="about" 
-            value={formData.about} 
-            onChange={onChange} 
-            rows="4" 
-            placeholder="Briefly describe your career objectives and background..." 
+          <textarea
+            name="about"
+            value={formData.about}
+            onChange={onChange}
+            rows="4"
+            placeholder="Briefly describe your career objectives and background..."
             className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-secondary/50 focus:bg-surface-bright transition-all shadow-inner w-full resize-none border border-white/5"
           ></textarea>
         </div>
@@ -225,16 +225,16 @@ const PersonalInfoForm = ({ profile }) => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Profile Photo */}
-          <div 
+          <div
             className="w-full border-2 border-dashed border-outline-variant rounded-2xl p-8 flex flex-col items-center justify-center text-center bg-surface-container-lowest/50 hover:bg-surface-container-highest/30 hover:border-inverse-primary/50 transition-all cursor-pointer group"
             onClick={() => photoInputRef.current.click()}
           >
-            <input 
-              type="file" 
-              name="profilePhoto" 
-              onChange={onFileChange} 
-              accept="image/*" 
-              className="hidden" 
+            <input
+              type="file"
+              name="profilePhoto"
+              onChange={onFileChange}
+              accept="image/*"
+              className="hidden"
               ref={photoInputRef}
             />
             <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-3 group-hover:scale-110 transition-transform group-hover:bg-inverse-primary-container/20 group-hover:text-inverse-primary border border-white/5">
@@ -245,18 +245,18 @@ const PersonalInfoForm = ({ profile }) => {
               {profilePhoto ? profilePhoto.name : (profile?.personalInfo?.profilePhoto ? 'Current photo uploaded' : 'PNG, JPG up to 2MB')}
             </p>
           </div>
-          
+
           {/* Resume */}
-          <div 
+          <div
             className="w-full border-2 border-dashed border-outline-variant rounded-2xl p-8 flex flex-col items-center justify-center text-center bg-surface-container-lowest/50 hover:bg-surface-container-highest/30 hover:border-inverse-primary/50 transition-all cursor-pointer group"
             onClick={() => resumeInputRef.current.click()}
           >
-            <input 
-              type="file" 
-              name="resume" 
-              onChange={onFileChange} 
-              accept=".pdf,.doc,.docx" 
-              className="hidden" 
+            <input
+              type="file"
+              name="resume"
+              onChange={onFileChange}
+              accept=".pdf,.doc,.docx"
+              className="hidden"
               ref={resumeInputRef}
             />
             <div className="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-3 group-hover:scale-110 transition-transform group-hover:bg-inverse-primary-container/20 group-hover:text-inverse-primary border border-white/5">
@@ -271,9 +271,9 @@ const PersonalInfoForm = ({ profile }) => {
       </div>
 
       <div className="pt-8 flex justify-end">
-        <button 
-          type="submit" 
-          disabled={isLoading} 
+        <button
+          type="submit"
+          disabled={isLoading}
           className="px-8 py-3 bg-gradient-to-r from-primary to-secondary-container text-on-primary font-label-sm text-label-sm rounded-xl shadow-[0_0_20px_rgba(173,198,255,0.3)] hover:shadow-[0_0_30px_rgba(173,198,255,0.5)] transition-all transform hover:-translate-y-0.5 disabled:opacity-50 flex items-center gap-2"
         >
           {isLoading ? (
