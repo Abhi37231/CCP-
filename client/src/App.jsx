@@ -31,6 +31,8 @@ import ApplicationDetails from './pages/ApplicationDetails';
 import EditJob from './pages/EditJob';
 import EmployerJobs from './pages/EmployerJobs';
 import EmployerInterviews from './pages/EmployerInterviews';
+import MyApplications from './pages/MyApplications';
+import MyInterviews from './pages/MyInterviews';
 
 // Profile Layouts
 import EditProfileLayout from './pages/profile/EditProfileLayout';
@@ -194,6 +196,8 @@ function App() {
               <Route path="/resume-management" element={<ResumeManager />} />
               <Route path="/ats-analyzer" element={<AtsAnalyzer />} />
               <Route path="/learning-roadmap" element={<LearningRoadmap />} />
+              <Route path="/applications" element={<MyApplications />} />
+              <Route path="/interviews" element={<MyInterviews />} />
             </Route>
 
             {/* Protected Routes (Employer) */}
