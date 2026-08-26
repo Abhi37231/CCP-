@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from './redux/slices/authSlice';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from './assets/logo.png';
 
 // Components
 import Navbar from './components/Navbar';
@@ -122,7 +123,7 @@ const Home = () => {
       <footer className="w-full bg-surface-container-lowest py-margin-desktop border-t border-white/5">
         <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-6 md:gap-gutter">
           <div className="flex items-center gap-base">
-            <img alt="Career Connect Logo" className="h-6 w-auto opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5npLZXO93JC1NE5Nsd7bTvZBFv_1CqFPiPhrUpbQBeyXYVkDs3hxsLN8XYNvgOJ6xHY4xplBp0-i4oQVe-U5RctZg7osKiNGh4T-FYslnD4l4yCAcfiG_A9KxzeTEWcTi8Gxm2lC58PfQrbKwc3BSoffZKg5WqSOuxDTuiJlfvU6dYwRPkHJojQGxBPGo-DQ2gqZZLBpbG2-WBQhn6-BD0Fzvx8W3rymsqzgFmqKFU2e5eqi_9fNFQ"/>
+            <img alt="Career Connect Logo" className="h-6 w-auto opacity-50" src={logo}/>
             <span className="font-label-sm text-label-sm text-on-surface-variant">© 2024 Career Connect Portal. Elite Recruitment.</span>
           </div>
           <div className="flex gap-gutter">

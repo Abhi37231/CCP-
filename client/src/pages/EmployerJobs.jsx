@@ -5,6 +5,7 @@ import { logoutUser } from '../redux/slices/authSlice';
 import { clearProfile } from '../redux/slices/profileSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import logo from '../assets/logo.png';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
 import NotificationDropdown from '../components/NotificationDropdown';
@@ -65,7 +66,7 @@ const EmployerJobs = () => {
       <aside className={`fixed left-0 top-0 h-full w-72 bg-surface-container-low border-r border-white/5 z-50 flex flex-col shadow-2xl transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="p-4 md:p-margin-desktop mb-base flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 md:gap-base outline-none focus:outline-none hover:opacity-80 transition-opacity">
-            <img alt="Logo" className="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5npLZXO93JC1NE5Nsd7bTvZBFv_1CqFPiPhrUpbQBeyXYVkDs3hxsLN8XYNvgOJ6xHY4xplBp0-i4oQVe-U5RctZg7osKiNGh4T-FYslnD4l4yCAcfiG_A9KxzeTEWcTi8Gxm2lC58PfQrbKwc3BSoffZKg5WqSOuxDTuiJlfvU6dYwRPkHJojQGxBPGo-DQ2gqZZLBpbG2-WBQhn6-BD0Fzvx8W3rymsqzgFmqKFU2e5eqi_9fNFQ"/>
+            <img alt="Logo" className="h-8 w-auto" src={logo}/>
             <span className="text-on-surface font-headline-md text-[18px] md:text-headline-md tracking-tight whitespace-nowrap">Career Connect</span>
           </Link>
           <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-on-surface-variant p-1">

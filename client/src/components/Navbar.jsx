@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../redux/slices/authSlice';
 import { clearProfile } from '../redux/slices/profileSlice';
 import { toast } from 'react-toastify';
+import logo from '../assets/logo.png';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Navbar = () => {
           to="/" 
           className="flex items-center gap-2 md:gap-base outline-none focus:outline-none"
         >
-          <img alt="Career Connect Logo" className="h-6 md:h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5npLZXO93JC1NE5Nsd7bTvZBFv_1CqFPiPhrUpbQBeyXYVkDs3hxsLN8XYNvgOJ6xHY4xplBp0-i4oQVe-U5RctZg7osKiNGh4T-FYslnD4l4yCAcfiG_A9KxzeTEWcTi8Gxm2lC58PfQrbKwc3BSoffZKg5WqSOuxDTuiJlfvU6dYwRPkHJojQGxBPGo-DQ2gqZZLBpbG2-WBQhn6-BD0Fzvx8W3rymsqzgFmqKFU2e5eqi_9fNFQ"/>
+          <img alt="Career Connect Logo" className="h-6 md:h-8 w-auto object-contain" src={logo}/>
           <span className="font-headline-md text-[18px] md:text-headline-md text-on-surface tracking-tight">Career Connect</span>
         </Link>
 
