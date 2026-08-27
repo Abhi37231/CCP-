@@ -5,6 +5,7 @@ import { loadUser } from './redux/slices/authSlice';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logo from './assets/logo.png';
+import heroImage from './assets/image.png';
 
 // Components
 import Navbar from './components/Navbar';
@@ -45,14 +46,20 @@ import LearningRoadmap from './pages/LearningRoadmap';
 // Home Page mapped to welcome_career_connect_portal
 const Home = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  
+
   return (
     <>
       <div className="flex flex-col w-full relative min-h-[calc(100vh-80px)] overflow-hidden bg-surface-container-lowest">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0 opacity-20 md:opacity-30 mix-blend-luminosity">
+          <img src={heroImage} alt="Background" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/80 to-background"></div>
+        </div>
+
         {/* Ambient Background Elements */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/4 -left-1/4 w-[1200px] h-[1200px] bg-secondary/10 rounded-full blur-[150px] opacity-30 mix-blend-screen animate-pulse" style={{animationDuration: "8s"}}></div>
-          <div className="absolute -bottom-1/4 -right-1/4 w-[1000px] h-[1000px] bg-primary/10 rounded-full blur-[120px] opacity-40 mix-blend-screen animate-pulse" style={{animationDuration: "10s", animationDelay: "2s"}}></div>
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+          <div className="absolute top-1/4 -left-1/4 w-[1200px] h-[1200px] bg-secondary/10 rounded-full blur-[150px] opacity-30 mix-blend-screen animate-pulse" style={{ animationDuration: "8s" }}></div>
+          <div className="absolute -bottom-1/4 -right-1/4 w-[1000px] h-[1000px] bg-primary/10 rounded-full blur-[120px] opacity-40 mix-blend-screen animate-pulse" style={{ animationDuration: "10s", animationDelay: "2s" }}></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[1400px] bg-[radial-gradient(ellipse_at_center,rgba(79,219,200,0.03)_0%,transparent_60%)]"></div>
         </div>
         {/* Hero Content */}
@@ -65,7 +72,7 @@ const Home = () => {
           {/* Typography Stack */}
           <div className="text-center max-w-4xl mx-auto space-y-6">
             <h1 className="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-on-background drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-              Welcome to <br className="md:hidden"/>
+              Welcome to <br className="md:hidden" />
               <span className="bg-gradient-to-r from-primary via-secondary to-tertiary bg-clip-text text-transparent filter drop-shadow-[0_0_20px_rgba(208,188,255,0.3)]">Career Connect Portal</span>
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed opacity-90">
@@ -101,8 +108,9 @@ const Home = () => {
               </>
             )}
           </div>
+
           {/* Social Proof / Decorative Stats */}
-          <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 w-full max-w-4xl mx-auto">
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 w-full max-w-4xl mx-auto relative z-20">
             <div className="flex flex-col items-center justify-center p-6 bg-surface-container/20 rounded-xl backdrop-blur-sm border-t border-white/5">
               <span className="font-display-lg-mobile text-display-lg-mobile text-secondary drop-shadow-[0_0_10px_rgba(208,188,255,0.3)]">10k+</span>
               <span className="font-label-sm text-label-sm text-on-surface-variant uppercase mt-2">Active Roles</span>
@@ -125,8 +133,8 @@ const Home = () => {
       <footer className="w-full bg-surface-container-lowest py-margin-desktop border-t border-white/5">
         <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-6 md:gap-gutter">
           <div className="flex items-center gap-base">
-            <img alt="Career Connect Logo" className="h-6 w-auto opacity-50" src={logo}/>
-            <span className="font-label-sm text-label-sm text-on-surface-variant">© 2024 Career Connect Portal. Elite Recruitment.</span>
+            <img alt="Career Connect Logo" className="h-6 w-auto opacity-50" src={logo} />
+            <span className="font-label-sm text-label-sm text-on-surface-variant">© 2026 Career Connect Portal. Elite Recruitment.</span>
           </div>
           <div className="flex gap-gutter">
             <Link to="/" className="text-label-sm text-on-surface-variant hover:text-tertiary transition-colors">Privacy</Link>
@@ -152,11 +160,11 @@ const DashboardRouter = () => {
 const MainLayout = ({ children }) => {
   const location = useLocation();
   const isDashboardRoute = location.pathname.includes('/dashboard') || location.pathname.includes('/employer-dashboard');
-  
+
   if (isDashboardRoute) {
     return <main className="flex-grow w-full">{children}</main>;
   }
-  
+
   return <main className="flex-grow w-full pt-20">{children}</main>;
 };
 
@@ -171,7 +179,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-background flex flex-col font-sans">
         <Navbar />
-        
+
         <MainLayout>
           <Routes>
             {/* Public Routes */}
@@ -186,7 +194,7 @@ function App() {
             <Route path="/verify-otp" element={<VerifyOtp />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            
+
             {/* Protected Routes (Job Seeker) */}
             <Route element={<ProtectedRoute allowedRoles={['job_seeker']} />}>
               <Route path="/dashboard" element={<DashboardRouter />} />
@@ -216,7 +224,7 @@ function App() {
             <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
             </Route>
-            
+
           </Routes>
         </MainLayout>
       </div>

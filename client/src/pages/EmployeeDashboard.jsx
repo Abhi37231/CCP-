@@ -223,8 +223,8 @@ const EmployeeDashboard = () => {
             </section>
 
             {/* Metrics Row */}
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter w-full">
-              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter w-full">
+              <Link to="/applications" className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-pointer block">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Applied</span>
@@ -236,9 +236,9 @@ const EmployeeDashboard = () => {
                   <span className="font-display-lg text-display-lg text-on-surface">{loadingApps ? '-' : myApplications.length}</span>
                   <span className="font-label-sm text-label-sm text-on-surface-variant">jobs</span>
                 </div>
-              </div>
+              </Link>
 
-              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+              <Link to="/jobs?tab=saved" className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-pointer block">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-tertiary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Saved</span>
@@ -247,12 +247,12 @@ const EmployeeDashboard = () => {
                   </div>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="font-display-lg text-display-lg text-on-surface">0</span>
+                  <span className="font-display-lg text-display-lg text-on-surface">{profile?.savedJobs?.length || 0}</span>
                   <span className="font-label-sm text-label-sm text-on-surface-variant">jobs</span>
                 </div>
-              </div>
+              </Link>
 
-              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
+              <Link to="/interviews" className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-pointer block">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Interviews</span>
@@ -264,21 +264,7 @@ const EmployeeDashboard = () => {
                   <span className="font-display-lg text-display-lg text-on-surface">{loadingApps ? '-' : interviewsCount}</span>
                   <span className="font-label-sm text-label-sm text-on-surface-variant">scheduled</span>
                 </div>
-              </div>
-
-              <div className="group relative bg-surface-container rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 ease-out hover:-translate-y-1 overflow-hidden cursor-default">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-inverse-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Profile Views</span>
-                  <div className="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center text-inverse-primary group-hover:bg-inverse-surface transition-colors">
-                    <span className="material-symbols-outlined text-[20px]" style={{fontVariationSettings: "'FILL' 1"}}>visibility</span>
-                  </div>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="font-display-lg text-display-lg text-on-surface">0</span>
-                  <span className="font-label-sm text-label-sm text-on-surface-variant">this week</span>
-                </div>
-              </div>
+              </Link>
             </section>
 
             {/* Two Column Content */}
