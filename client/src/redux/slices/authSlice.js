@@ -58,6 +58,32 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+export const updatePassword = createAsyncThunk(
+  'auth/updatePassword',
+  async (passwordData, thunkAPI) => {
+    try {
+      const response = await api.put('/auth/updatepassword', passwordData);
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.error || error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const updateNotifications = createAsyncThunk(
+  'auth/updateNotifications',
+  async (notificationData, thunkAPI) => {
+    try {
+      const response = await api.put('/auth/notifications', notificationData);
+      return response.data; // { success: true, data: user }
+    } catch (error) {
+      const message = error.response?.data?.error || error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const loadUser = createAsyncThunk(
   'auth/loadUser',
   async (_, thunkAPI) => {
@@ -164,6 +190,17 @@ const authSlice = createSlice({
         state.requiresVerification = false;
         state.verificationEmail = null;
         state.error = null;
+      })
+      .addCase(updateNotifications.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateNotifications.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.data;
+      })
+      .addCase(updateNotifications.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   }
 });

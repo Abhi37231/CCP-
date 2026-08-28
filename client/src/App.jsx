@@ -43,6 +43,10 @@ import ResumeBuilder from './components/profile/ResumeBuilder';
 import AtsAnalyzer from './pages/AtsAnalyzer';
 import ResumeManager from './pages/ResumeManager';
 import LearningRoadmap from './pages/LearningRoadmap';
+import Settings from './pages/Settings';
+import ProfileHub from './pages/ProfileHub';
+import AccountSecurity from './pages/AccountSecurity';
+import NotificationSettings from './pages/NotificationSettings';
 
 // Home Page mapped to welcome_career_connect_portal
 const Home = () => {
@@ -213,6 +217,14 @@ function App() {
             <Route path="/verify-otp" element={<VerifyOtp />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+
+            {/* General Protected Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings/security" element={<AccountSecurity />} />
+              <Route path="/settings/notifications" element={<NotificationSettings />} />
+              <Route path="/profile" element={<ProfileHub />} />
+            </Route>
 
             {/* Protected Routes (Job Seeker) */}
             <Route element={<ProtectedRoute allowedRoles={['job_seeker']} />}>

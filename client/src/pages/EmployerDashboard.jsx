@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfile } from '../redux/slices/profileSlice';
-import { logoutUser } from '../redux/slices/authSlice';
+
 import { clearProfile } from '../redux/slices/profileSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -51,12 +51,7 @@ const EmployerDashboard = () => {
     }
   }, [user]);
 
-  const handleLogout = async () => {
-    await dispatch(logoutUser());
-    dispatch(clearProfile());
-    toast.success('Logged out successfully');
-    navigate('/login');
-  };
+
 
   if (isLoading) {
     return <LoadingScreen isLoading={true} />;
@@ -101,8 +96,8 @@ const EmployerDashboard = () => {
                 <span className="text-label-sm text-on-surface-variant capitalize">{user?.role?.replace('_', ' ')}</span>
               </div>
             </div>
-            <Link to="/company/edit" onClick={() => setSidebarOpen(false)} className="flex items-center text-label-sm text-secondary hover:underline">
-              <span className="material-symbols-outlined text-[16px] mr-1">settings</span>Company Settings
+            <Link to="/profile" onClick={() => setSidebarOpen(false)} className="flex items-center text-label-sm text-secondary hover:underline">
+              <span className="material-symbols-outlined text-[16px] mr-1">person</span>Profile
             </Link>
           </div>
         </div>
@@ -123,10 +118,10 @@ const EmployerDashboard = () => {
           </div>
           <div className="flex items-center gap-2 md:gap-gutter ml-auto">
             <NotificationDropdown />
-            <button onClick={handleLogout} className="flex items-center gap-2 text-on-surface-variant hover:text-error transition-colors cursor-pointer">
-              <span className="material-symbols-outlined">logout</span>
-              <span className="font-label-sm text-label-sm">Logout</span>
-            </button>
+            <Link to="/settings" className="flex items-center gap-2 text-on-surface-variant hover:text-secondary transition-colors cursor-pointer">
+              <span className="material-symbols-outlined">settings</span>
+              <span className="font-label-sm text-label-sm">Settings</span>
+            </Link>
           </div>
         </header>
 

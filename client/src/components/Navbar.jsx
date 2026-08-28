@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../redux/slices/authSlice';
-import { clearProfile } from '../redux/slices/profileSlice';
+
 import { toast } from 'react-toastify';
 import logo from '../assets/logo.png';
 
@@ -14,13 +13,7 @@ const Navbar = () => {
   
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleLogout = async () => {
-    await dispatch(logoutUser());
-    dispatch(clearProfile());
-    toast.success('Logged out successfully');
-    setMobileMenuOpen(false);
-    navigate('/login');
-  };
+
 
   // Do not show the public navbar on dashboard routes, as they have their own sidebar/header
   const isDashboardRoute = location.pathname.includes('/dashboard') || location.pathname.includes('/employer-dashboard');
@@ -84,12 +77,13 @@ const Navbar = () => {
               )}
               <div className="h-6 w-px bg-white/10"></div>
               <span className="text-on-surface font-medium hidden sm:block text-body-md">Hi, {user?.name}</span>
-              <button 
-                onClick={handleLogout} 
-                className="px-4 py-2 bg-error/10 text-error rounded-lg font-label-sm text-label-sm hover:bg-error/20 transition-all border border-error/20"
+              <Link 
+                to="/settings" 
+                className="px-4 py-2 bg-surface-container-highest text-on-surface rounded-lg font-label-sm text-label-sm hover:bg-surface-variant transition-all border border-white/10 flex items-center gap-2"
               >
-                Logout
-              </button>
+                <span className="material-symbols-outlined text-[16px]">settings</span>
+                Settings
+              </Link>
             </>
           ) : (
             <>
@@ -145,12 +139,14 @@ const Navbar = () => {
                 <div className="p-3 text-on-surface font-medium text-body-md">
                   Signed in as {user?.name}
                 </div>
-                <button 
-                  onClick={handleLogout} 
-                  className="w-full text-left p-3 text-error hover:bg-error/10 rounded-lg transition-all"
+                <Link 
+                  to="/settings"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full flex items-center gap-2 p-3 text-on-surface-variant hover:bg-white/5 rounded-lg transition-all"
                 >
-                  Logout
-                </button>
+                  <span className="material-symbols-outlined text-[20px]">settings</span>
+                  Settings
+                </Link>
               </>
             ) : (
               <>

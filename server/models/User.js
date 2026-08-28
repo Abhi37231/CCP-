@@ -43,6 +43,11 @@ const userSchema = new mongoose.Schema({
   otpExpire: Date,
   resetPasswordToken: String,
   resetPasswordExpire: Date,
+  notificationPreferences: {
+    emailAlerts: { type: Boolean, default: true },
+    pushNotifications: { type: Boolean, default: true },
+    jobAlerts: { type: Boolean, default: true }
+  }
 }, { timestamps: true });
 
 // Encrypt password before saving
