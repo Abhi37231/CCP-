@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import logo from '../assets/logo.png';
 
-const LoadingScreen = ({ isLoading, logo }) => {
+const LoadingScreen = ({ isLoading }) => {
   const [shouldRender, setShouldRender] = useState(true);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);

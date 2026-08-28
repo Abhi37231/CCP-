@@ -234,9 +234,7 @@ const JobsList = () => {
             </div>
 
             {loading ? (
-              <div className="flex justify-center items-center py-20">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-              </div>
+              <LoadingScreen isLoading={true} />
             ) : activeTab === 'discover' ? (
               jobs.length === 0 ? (
                 <div className="bg-surface-container p-12 rounded-xl text-center border border-white/5">

@@ -106,7 +106,7 @@ const EditJob = () => {
   };
 
   if (fetching) {
-    return <div className="flex justify-center mt-20 text-on-background">Loading job details...</div>;
+    return <LoadingScreen isLoading={true} />;
   }
 
   return (

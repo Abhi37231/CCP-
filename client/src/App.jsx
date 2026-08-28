@@ -195,7 +195,7 @@ function App() {
 
   return (
     <Router>
-      {showLoader && <LoadingScreen isLoading={showLoader} logo={logo} />}
+      {showLoader && <LoadingScreen isLoading={showLoader} />}
       <div className="min-h-screen bg-background flex flex-col font-sans">
         <Navbar />
 

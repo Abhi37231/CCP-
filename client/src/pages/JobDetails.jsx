@@ -85,11 +85,7 @@ const JobDetails = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-[60vh] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    <LoadingScreen isLoading={true} />
   }
 
   if (!job) return null;

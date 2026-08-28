@@ -57,7 +57,7 @@ const EmployerDashboard = () => {
   };
 
   if (isLoading) {
-    return <div className="flex justify-center mt-20 text-on-background">Loading...</div>;
+    return <LoadingScreen isLoading={true} />;
   }
 
   return (

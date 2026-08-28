@@ -5,7 +5,7 @@ const ProtectedRoute = ({ allowedRoles }) => {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
 
   if (isLoading) {
-    return <div className="flex justify-center items-center h-[60vh]"><div className="text-xl">Loading...</div></div>;
+    return <LoadingScreen isLoading={true} />;
   }
 
   if (!isAuthenticated) {

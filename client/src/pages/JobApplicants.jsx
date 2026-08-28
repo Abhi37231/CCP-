@@ -309,9 +309,7 @@ const JobApplicants = () => {
         {/* Content: Applicant Stack */}
         <div className="flex flex-col gap-4 w-full">
           {loading ? (
-             <div className="flex justify-center items-center py-20">
-               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-             </div>
+             <LoadingScreen isLoading={true} />
           ) : applications.length === 0 ? (
             <div className="bg-surface-container-low rounded-2xl p-16 text-center border border-white/5 shadow-md flex flex-col items-center">
               <span className="material-symbols-outlined text-[64px] text-on-surface-variant mb-4 opacity-50">search_off</span>

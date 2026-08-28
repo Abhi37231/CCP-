@@ -15,7 +15,7 @@ const PublicProfile = ({ isRecruiterView = false }) => {
   }, [dispatch, profile]);
 
   if (isLoading || !profile) {
-    return <div className="flex justify-center mt-20">Loading Profile...</div>;
+    return <LoadingScreen isLoading={true} />;
   }
 
   const { 
