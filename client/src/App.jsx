@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from './redux/slices/authSlice';
@@ -10,6 +10,7 @@ import heroImage from './assets/image.png';
 // Components
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
+import LoadingScreen from './components/LoadingScreen';
 
 // Pages
 import Login from './pages/Login';
@@ -170,13 +171,31 @@ const MainLayout = ({ children }) => {
 
 function App() {
   const dispatch = useDispatch();
+  const { isLoading: isAuthLoading } = useSelector((state) => state.auth);
+  
+  const [minTimePassed, setMinTimePassed] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
     dispatch(loadUser());
+
+    // Ensure loader shows for at least 800ms to prevent flashing
+    const timer = setTimeout(() => {
+      setMinTimePassed(true);
+    }, 800);
+
+    return () => clearTimeout(timer);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!isAuthLoading && minTimePassed) {
+      setShowLoader(false);
+    }
+  }, [isAuthLoading, minTimePassed]);
 
   return (
     <Router>
+      {showLoader && <LoadingScreen isLoading={showLoader} logo={logo} />}
       <div className="min-h-screen bg-background flex flex-col font-sans">
         <Navbar />
 
