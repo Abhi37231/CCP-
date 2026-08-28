@@ -9,6 +9,8 @@ import logo from '../assets/logo.png';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
 import NotificationDropdown from '../components/NotificationDropdown';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 const EmployerJobs = () => {
   const dispatch = useDispatch();

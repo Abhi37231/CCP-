@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfile } from '../../redux/slices/profileSlice';
 import { Mail, Phone, MapPin, Download, ExternalLink, Globe, Link as LinkIcon, UserCircle } from 'lucide-react';
 import { getMediaUrl } from '../../utils/formatUrl';
+import LoadingScreen from '../../components/LoadingScreen';
+
 
 const PublicProfile = ({ isRecruiterView = false }) => {
   const dispatch = useDispatch();

@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
 import { getMediaUrl } from '../utils/formatUrl';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 const ApplicationDetails = () => {
   const { id } = useParams();

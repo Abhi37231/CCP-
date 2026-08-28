@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
 import { getMediaUrl } from '../utils/formatUrl';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 const ResumeManager = () => {
   const dispatch = useDispatch();

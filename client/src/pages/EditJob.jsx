@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 const EditJob = () => {
   const navigate = useNavigate();

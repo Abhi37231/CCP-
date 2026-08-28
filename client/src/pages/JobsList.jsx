@@ -4,6 +4,8 @@ import { Search, Filter, Briefcase } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 const JobsList = () => {
   const location = useLocation();

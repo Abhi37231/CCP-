@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 import { getMediaUrl } from '../utils/formatUrl';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 const EmployerInterviews = () => {
   const [interviews, setInterviews] = useState([]);

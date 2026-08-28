@@ -10,6 +10,8 @@ import api from '../services/api';
 import JobCard from '../components/JobCard';
 import NotificationDropdown from '../components/NotificationDropdown';
 import { getMediaUrl } from '../utils/formatUrl';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 const EmployerDashboard = () => {
   const dispatch = useDispatch();

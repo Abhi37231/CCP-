@@ -1,5 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 const ProtectedRoute = ({ allowedRoles }) => {
   const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
