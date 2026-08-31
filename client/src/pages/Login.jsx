@@ -16,6 +16,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, error, isLoading, user } = useSelector((state) => state.auth);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
@@ -83,12 +84,22 @@ const Login = () => {
                   <span className="material-symbols-outlined absolute left-4 top-3.5 text-on-surface-variant">lock</span>
                   <input
                     id="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
-                    className={`w-full bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl pl-12 pr-4 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner border ${errors.password ? 'border-error/50' : 'border-white/5'}`}
+                    className={`w-full bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl pl-12 pr-12 py-3 outline-none focus:ring-2 focus:ring-primary/50 focus:bg-surface-bright transition-all shadow-inner border ${errors.password ? 'border-error/50' : 'border-white/5'}`}
                     placeholder="••••••••"
                     {...register('password')}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-3.5 text-on-surface-variant hover:text-on-surface transition-colors focus:outline-none flex items-center justify-center"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    <span className="material-symbols-outlined text-[20px]">
+                      {showPassword ? 'visibility_off' : 'visibility'}
+                    </span>
+                  </button>
                 </div>
                 {errors.password && <p className="text-error text-xs mt-1 font-body-md">{errors.password.message}</p>}
               </div>
