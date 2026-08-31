@@ -122,7 +122,7 @@ const ApplicationDetails = () => {
   };
 
   if (loading || !application) {
-    <LoadingScreen isLoading={true} />
+    return <LoadingScreen isLoading={true} />;
   }
 
   const { profile, applicant, job } = application;
