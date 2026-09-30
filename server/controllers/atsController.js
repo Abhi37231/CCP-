@@ -100,48 +100,72 @@ ${useInlineData ? '(Resume provided as attached file)' : resumeText}
     }
   ] : promptWithData;
 
-  const response = await ai.models.generateContent({
-    model: model,
-    contents: contents,
-    config: {
-      temperature: 0,
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: 'OBJECT',
-        properties: {
-          overallScore: { type: 'INTEGER', description: 'Overall ATS score 0-100' },
-          categoryScores: {
+  const modelsToTry = [
+    'gemini-3.5-flash',
+    'gemini-3.1-flash-lite',
+    'gemini-flash-lite-latest',
+    'gemini-3.8-flash',
+    'gemini-3.7-flash',
+    'gemini-3.6-flash'
+  ];
+
+  let response;
+  let lastError;
+
+  for (const modelName of modelsToTry) {
+    try {
+      response = await ai.models.generateContent({
+        model: modelName,
+        contents: contents,
+        config: {
+          temperature: 0,
+          responseMimeType: 'application/json',
+          responseSchema: {
             type: 'OBJECT',
             properties: {
-              keywordMatch: { type: 'INTEGER' },
-              skillsMatch: { type: 'INTEGER' },
-              experienceMatch: { type: 'INTEGER' },
-              projectRelevance: { type: 'INTEGER' },
-              educationMatch: { type: 'INTEGER' },
-              resumeStructure: { type: 'INTEGER' },
+              overallScore: { type: 'INTEGER', description: 'Overall ATS score 0-100' },
+              categoryScores: {
+                type: 'OBJECT',
+                properties: {
+                  keywordMatch: { type: 'INTEGER' },
+                  skillsMatch: { type: 'INTEGER' },
+                  experienceMatch: { type: 'INTEGER' },
+                  projectRelevance: { type: 'INTEGER' },
+                  educationMatch: { type: 'INTEGER' },
+                  resumeStructure: { type: 'INTEGER' },
+                },
+                required: ['keywordMatch', 'skillsMatch', 'experienceMatch', 'projectRelevance', 'educationMatch', 'resumeStructure']
+              },
+              matchedKeywords: { type: 'ARRAY', items: { type: 'STRING' } },
+              missingKeywords: { type: 'ARRAY', items: { type: 'STRING' } },
+              strengths: { type: 'ARRAY', items: { type: 'STRING' } },
+              weaknesses: { type: 'ARRAY', items: { type: 'STRING' } },
+              suggestions: { type: 'ARRAY', items: { type: 'STRING' } },
+              atsIssues: { type: 'ARRAY', items: { type: 'STRING' } },
+              summary: { type: 'STRING' }
             },
-            required: ['keywordMatch', 'skillsMatch', 'experienceMatch', 'projectRelevance', 'educationMatch', 'resumeStructure']
-          },
-          matchedKeywords: { type: 'ARRAY', items: { type: 'STRING' } },
-          missingKeywords: { type: 'ARRAY', items: { type: 'STRING' } },
-          strengths: { type: 'ARRAY', items: { type: 'STRING' } },
-          weaknesses: { type: 'ARRAY', items: { type: 'STRING' } },
-          suggestions: { type: 'ARRAY', items: { type: 'STRING' } },
-          atsIssues: { type: 'ARRAY', items: { type: 'STRING' } },
-          summary: { type: 'STRING' }
-        },
-        required: [
-          'overallScore', 'categoryScores', 'matchedKeywords', 'missingKeywords',
-          'strengths', 'weaknesses', 'suggestions', 'atsIssues', 'summary'
-        ]
+            required: [
+              'overallScore', 'categoryScores', 'matchedKeywords', 'missingKeywords',
+              'strengths', 'weaknesses', 'suggestions', 'atsIssues', 'summary'
+            ]
+          }
+        }
+      });
+      
+      if (response && response.text) {
+        break; // Success!
       }
+    } catch (err) {
+      console.warn(`ATS Model ${modelName} failed:`, err.message);
+      lastError = err;
     }
-  });
+  }
+
+  if (!response || !response.text) {
+    throw lastError || new Error('All AI models failed or returned empty response');
+  }
 
   const responseText = response.text;
-  if (!responseText) {
-    throw new Error('Empty response from Gemini');
-  }
 
   let parsedResult;
   try {
