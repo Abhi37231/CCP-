@@ -6,7 +6,7 @@ const { verifyCompanyCin } = require('../services/datagovService');
 // @access  Public
 exports.verifyCompany = async (req, res) => {
   try {
-    let { cin } = req.body;
+    let { cin, companyName, website } = req.body;
 
     if (!cin) {
       return res.status(400).json({ success: false, message: 'CIN is required for verification' });
@@ -25,7 +25,7 @@ exports.verifyCompany = async (req, res) => {
     }
 
     // Call the live verification service
-    const verificationResult = await verifyCompanyCin(cin);
+    const verificationResult = await verifyCompanyCin(cin, companyName, website);
 
     if (verificationResult.verified) {
       return res.status(200).json(verificationResult);

@@ -58,7 +58,11 @@ const RegisterEmployer = () => {
   const onStep2Submit = async (data) => {
     setIsSubmitting(true);
     try {
-      const resultAction = await dispatch(verifyCompanyCin({ cin: data.cin })).unwrap();
+      const resultAction = await dispatch(verifyCompanyCin({ 
+        cin: data.cin,
+        companyName: data.companyName,
+        website: data.website
+      })).unwrap();
       
       if (resultAction.verified) {
         const govData = resultAction.company;
