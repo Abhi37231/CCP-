@@ -65,7 +65,7 @@ const RegisterEmployer = () => {
         const govName = govData?.companyName?.toLowerCase() || '';
         const enteredName = data.companyName.toLowerCase();
         
-        if (!govName.includes(enteredName) && !enteredName.includes(govName) && govName !== enteredName) {
+        if (!govName.includes(enteredName) && !enteredName.includes(govName) && govName !== enteredName && govName !== 'unverified company (api offline)') {
            toast.error('Company name does not match the registered name for this CIN.');
            setIsSubmitting(false);
            return;
