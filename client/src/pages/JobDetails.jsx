@@ -17,6 +17,7 @@ const JobDetails = () => {
   
   const [applying, setApplying] = useState(false);
   const [showApplyModal, setShowApplyModal] = useState(false);
+  const [showCompanyModal, setShowCompanyModal] = useState(false);
   const [coverLetter, setCoverLetter] = useState('');
   const [hasApplied, setHasApplied] = useState(false);
   const [resumeOption, setResumeOption] = useState('default'); // 'default' | 'upload'
@@ -116,7 +117,10 @@ const JobDetails = () => {
           {/* Header Section */}
           <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-gutter mb-8 md:mb-margin-desktop">
             <div className="flex flex-col gap-base md:w-2/3 relative z-10">
-              <div className="flex items-center gap-base">
+              <div 
+                className="flex items-center gap-base cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => setShowCompanyModal(true)}
+              >
                 <div className="w-16 h-16 rounded-lg bg-surface-container-high flex items-center justify-center shadow-lg overflow-hidden shrink-0 border border-white/5">
                   {job.company?.logo && job.company.logo !== 'default-company-logo.png' ? (
                     <img src={getMediaUrl(job.company.logo)} alt={job.company.name} className="w-full h-full object-cover" />
@@ -125,7 +129,12 @@ const JobDetails = () => {
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">{job.company?.name || 'Company Name'}</span>
+                  <span className="font-label-sm text-label-sm text-tertiary uppercase tracking-wider flex items-center gap-1">
+                    {job.company?.name || 'Company Name'}
+                    {job.company?.isVerified && (
+                      <span className="material-symbols-outlined text-green-500 text-[14px]" title="Verified Company">verified</span>
+                    )}
+                  </span>
                   <h1 className="font-display-lg text-display-lg text-on-background mt-1">{job.title}</h1>
                 </div>
               </div>
@@ -412,6 +421,103 @@ const JobDetails = () => {
                 </div>
               </form>
             </div>
+          </div>
+        )}
+
+        {/* Company Details Modal */}
+        {showCompanyModal && job.company && (
+          <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4">
+            <div className="bg-surface-container rounded-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col border border-white/10 z-10">
+              <div className="p-6 border-b border-white/10 flex items-center justify-between bg-surface-container-highest">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center overflow-hidden border border-white/5">
+                    {job.company.logo && job.company.logo !== 'default-company-logo.png' ? (
+                      <img src={getMediaUrl(job.company.logo)} alt={job.company.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="material-symbols-outlined text-on-surface-variant">domain</span>
+                    )}
+                  </div>
+                  <h2 className="text-2xl font-display-sm text-on-surface flex items-center gap-2">
+                    {job.company.name}
+                    {job.company.isVerified && (
+                      <span className="material-symbols-outlined text-green-500 text-[20px]" title="Verified Company">verified</span>
+                    )}
+                  </h2>
+                </div>
+                <button onClick={() => setShowCompanyModal(false)} className="text-on-surface-variant hover:text-on-surface">
+                  <span className="material-symbols-outlined text-[24px]">close</span>
+                </button>
+              </div>
+              
+              <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <p className="text-sm font-label-md text-on-surface-variant mb-1">Industry</p>
+                    <p className="text-on-surface font-medium">{job.company.industry || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-label-md text-on-surface-variant mb-1">Company Size</p>
+                    <p className="text-on-surface font-medium">{job.company.size || 'N/A'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-label-md text-on-surface-variant mb-1">Website</p>
+                    {job.company.website ? (
+                      <a href={job.company.website} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium">
+                        {job.company.website.replace(/^https?:\/\//, '')}
+                      </a>
+                    ) : (
+                      <p className="text-on-surface font-medium">N/A</p>
+                    )}
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-sm font-label-md text-on-surface-variant mb-1">Headquarters</p>
+                    <p className="text-on-surface">
+                      {[job.company.location?.address, job.company.location?.city, job.company.location?.state, job.company.location?.country].filter(Boolean).join(', ') || 'N/A'}
+                    </p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-sm font-label-md text-on-surface-variant mb-2">About the Company</p>
+                    <p className="text-on-surface mt-1 whitespace-pre-line leading-relaxed text-body-md">
+                      {job.company.description || 'No description provided.'}
+                    </p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-sm font-label-md text-on-surface-variant mb-3">Social Profiles</p>
+                    <div className="flex gap-4">
+                      {job.company.socialLinks?.linkedin && (
+                        <a href={job.company.socialLinks.linkedin} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:text-[#0077b5] transition-colors flex items-center gap-1">
+                          <span className="material-symbols-outlined">link</span> LinkedIn
+                        </a>
+                      )}
+                      {job.company.socialLinks?.twitter && (
+                        <a href={job.company.socialLinks.twitter} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:text-[#1DA1F2] transition-colors flex items-center gap-1">
+                          <span className="material-symbols-outlined">link</span> Twitter
+                        </a>
+                      )}
+                      {job.company.socialLinks?.facebook && (
+                        <a href={job.company.socialLinks.facebook} target="_blank" rel="noreferrer" className="text-on-surface-variant hover:text-[#4267B2] transition-colors flex items-center gap-1">
+                          <span className="material-symbols-outlined">link</span> Facebook
+                        </a>
+                      )}
+                      {!job.company.socialLinks?.linkedin && !job.company.socialLinks?.twitter && !job.company.socialLinks?.facebook && (
+                        <span className="text-on-surface-variant text-sm italic">No social links provided</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-4 border-t border-white/10 flex justify-end bg-surface-container-highest">
+                <button 
+                  onClick={() => setShowCompanyModal(false)}
+                  className="px-6 py-2 rounded-lg font-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors border border-white/10"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+            {/* Backdrop click to close */}
+            <div className="absolute inset-0 -z-10" onClick={() => setShowCompanyModal(false)}></div>
           </div>
         )}
 

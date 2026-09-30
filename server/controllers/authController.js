@@ -2,6 +2,8 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
+const OtpVerification = require('../models/OtpVerification');
+const Company = require('../models/Company');
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
@@ -162,6 +164,14 @@ exports.login = async (req, res) => {
        return res.status(401).json({ success: false, error: 'Please verify your email first', isVerified: false, email: user.email });
     }
 
+    if (user.status === 'blocked') {
+        return res.status(403).json({ success: false, error: 'Your account has been blocked by the administrator.' });
+    }
+
+    if (user.status === 'suspended') {
+        return res.status(403).json({ success: false, error: 'Your account is temporarily suspended.' });
+    }
+
     // Check if password matches
     const isMatch = await user.matchPassword(password);
 
@@ -210,6 +220,30 @@ exports.logout = async (req, res) => {
     success: true,
     data: {}
   });
+};
+
+// @desc    Update user details
+// @route   PUT /api/auth/updatedetails
+// @access  Private
+exports.updateDetails = async (req, res) => {
+  try {
+    const fieldsToUpdate = {
+      name: req.body.name,
+      phone: req.body.phone
+    };
+
+    const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
+      new: true,
+      runValidators: true
+    });
+
+    res.status(200).json({
+      success: true,
+      data: user
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 };
 
 // @desc    Update password
@@ -351,5 +385,165 @@ exports.resetPassword = async (req, res) => {
     sendTokenResponse(user, 200, res);
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
+  }
+};
+
+// @desc    Send OTP to employer email (Pre-registration)
+// @route   POST /api/auth/send-employer-otp
+// @access  Public
+exports.sendEmployerOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ success: false, error: 'Please provide an email' });
+    }
+
+    // Check if user already exists
+    const user = await User.findOne({ email });
+    if (user && user.isVerified) {
+      return res.status(400).json({ success: false, error: 'User with this email already exists' });
+    }
+
+    // Generate a 6 digit random OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex');
+
+    // Delete any existing OTPs for this email
+    await OtpVerification.deleteMany({ email });
+
+    // Save new OTP
+    await OtpVerification.create({
+      email,
+      otp: hashedOtp
+    });
+
+    const message = `Your official email verification OTP is: ${otp}. It is valid for 10 minutes.`;
+
+    try {
+      await sendEmail({
+        email,
+        subject: 'Career Connect - Verify Official Email',
+        message
+      });
+
+      res.status(200).json({ success: true, data: 'OTP sent to email', email });
+    } catch (err) {
+      await OtpVerification.deleteMany({ email });
+      return res.status(500).json({ success: false, error: 'Email could not be sent' });
+    }
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+// @desc    Register a verified employer (Creates User and Company)
+// @route   POST /api/auth/register-employer
+// @access  Public
+exports.registerEmployer = async (req, res) => {
+  try {
+    const { 
+      recruiterInfo, 
+      companyInfo, 
+      otp 
+    } = req.body;
+
+    if (!recruiterInfo || !companyInfo || !otp) {
+      return res.status(400).json({ success: false, error: 'Please provide recruiter info, company info, and OTP' });
+    }
+
+    const { name, email, password, phone } = recruiterInfo;
+    const { 
+      companyName, 
+      website, 
+      cin, 
+      gstin, 
+      companyEmail, 
+      companyType,
+      verification 
+    } = companyInfo;
+
+    // Verify OTP
+    const hashedOtp = crypto.createHash('sha256').update(otp).digest('hex');
+    const otpRecord = await OtpVerification.findOne({
+      email,
+      otp: hashedOtp
+    });
+
+    if (!otpRecord) {
+      return res.status(400).json({ success: false, error: 'Invalid or expired OTP' });
+    }
+
+    // Check for existing User
+    let user = await User.findOne({ email });
+    if (user && user.isVerified) {
+      return res.status(400).json({ success: false, error: 'User with this email already exists' });
+    }
+
+    // Check for existing Company CIN
+    if (cin) {
+        const existingCompany = await Company.findOne({ cin });
+        if (existingCompany) {
+            return res.status(400).json({ success: false, error: 'A company with this CIN is already registered.' });
+        }
+    }
+
+    // Create or Update User
+    if (user) {
+        user.name = name;
+        user.password = password;
+        user.phone = phone;
+        user.role = 'employer';
+        user.isVerified = true;
+        user.emailVerification = {
+            verified: true,
+            verifiedAt: Date.now()
+        };
+        user.companyEmailDomainVerified = true; // Assuming domain checked in frontend
+        await user.save();
+    } else {
+        user = await User.create({
+            name,
+            email,
+            password,
+            phone,
+            role: 'employer',
+            isVerified: true,
+            emailVerification: {
+                verified: true,
+                verifiedAt: Date.now()
+            },
+            companyEmailDomainVerified: true
+        });
+    }
+
+    // Delete OTP
+    await OtpVerification.deleteOne({ _id: otpRecord._id });
+
+    // Create Company
+    const company = await Company.create({
+        employer: user._id,
+        name: companyName,
+        website,
+        cin,
+        gstin,
+        companyEmail,
+        companyType,
+        description: 'New verified company registration', // default temp description
+        industry: 'Other', // default temp industry
+        verification: {
+            status: verification?.status || 'VERIFIED',
+            source: verification?.source || 'Data.gov.in',
+            verified: verification?.verified || true,
+            verifiedAt: Date.now(),
+            governmentData: verification?.governmentData || {}
+        },
+        isVerified: verification?.verified || false
+    });
+
+    // Send token response
+    sendTokenResponse(user, 201, res);
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 };

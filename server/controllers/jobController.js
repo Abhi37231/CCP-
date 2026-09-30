@@ -23,7 +23,17 @@ exports.getJobs = async (req, res) => {
     require('fs').appendFileSync('query_log.txt', 'Replaced queryStr: ' + queryStr + '\n\n');
 
     // Parse back to object
-    query = Job.find(JSON.parse(queryStr)).populate('company', 'name logo location');
+    const parsedQuery = JSON.parse(queryStr);
+    
+    // If not fetching for a specific employer dashboard, only show active jobs from approved companies
+    if (!req.query.employer) {
+      const approvedCompanies = await Company.find({ status: 'approved' }).select('_id');
+      const approvedCompanyIds = approvedCompanies.map(c => c._id);
+      parsedQuery.company = { $in: approvedCompanyIds };
+      parsedQuery.isActive = true;
+    }
+
+    query = Job.find(parsedQuery).populate('company', 'name logo location status isVerified');
 
     // Keyword text search
     if (req.query.keyword) {
@@ -85,6 +95,7 @@ exports.getJob = async (req, res) => {
     if (!job) {
       return res.status(404).json({ success: false, error: 'Job not found' });
     }
+
     res.status(200).json({ success: true, data: job });
   } catch (err) {
     res.status(500).json({ success: false, error: 'Server Error' });
@@ -103,6 +114,9 @@ exports.createJob = async (req, res) => {
     const company = await Company.findOne({ employer: req.user.id });
     if (!company) {
       return res.status(400).json({ success: false, error: 'Please set up your company profile first' });
+    }
+    if (company.status !== 'approved') {
+      return res.status(403).json({ success: false, error: 'Your company profile is pending approval. You cannot post jobs until it is approved by an admin.' });
     }
     req.body.company = company._id;
 

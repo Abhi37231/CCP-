@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getProfile } from '../redux/slices/profileSlice';
+import { updateUserDetails } from '../redux/slices/authSlice';
 import LoadingScreen from '../components/LoadingScreen';
 import { getMediaUrl } from '../utils/formatUrl';
+import { toast } from 'react-toastify';
 
 const ProfileHub = () => {
   const { user } = useSelector((state) => state.auth);
   const { profile, isLoading } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
+  
+  const [isHrModalOpen, setIsHrModalOpen] = useState(false);
+  const [hrFormData, setHrFormData] = useState({ name: '', phone: '' });
 
   useEffect(() => {
     if (!profile) {
@@ -19,6 +24,25 @@ const ProfileHub = () => {
   if (isLoading || !user) {
     return <LoadingScreen isLoading={true} />;
   }
+
+  const handleOpenHrModal = () => {
+    setHrFormData({
+      name: user?.name || '',
+      phone: user?.phone || profile?.personalInfo?.phone || ''
+    });
+    setIsHrModalOpen(true);
+  };
+
+  const handleUpdateHr = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(updateUserDetails(hrFormData)).unwrap();
+      toast.success('HR Profile updated successfully');
+      setIsHrModalOpen(false);
+    } catch (err) {
+      toast.error(err || 'Failed to update HR Profile');
+    }
+  };
 
   const isEmployer = user?.role === 'employer';
   const editLink = isEmployer ? '/company/edit' : '/profile/edit';
@@ -46,13 +70,26 @@ const ProfileHub = () => {
         
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <h1 className="text-display-sm font-display-sm text-on-background">Your Profile</h1>
-          <Link 
-            to={editLink} 
-            className="flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
-          >
-            <span className="material-symbols-outlined text-[20px]">edit</span>
-            <span className="font-label-md text-label-md uppercase tracking-wider">Edit Profile</span>
-          </Link>
+          <div className="flex gap-3">
+            {isEmployer && (
+              <button 
+                onClick={handleOpenHrModal}
+                className="flex items-center gap-2 px-6 py-3 bg-surface-container text-on-surface rounded-xl hover:bg-surface-variant transition-colors shadow-lg shadow-black/20 border border-white/5"
+              >
+                <span className="material-symbols-outlined text-[20px]">person</span>
+                <span className="font-label-md text-label-md uppercase tracking-wider">Edit HR Profile</span>
+              </button>
+            )}
+            <Link 
+              to={editLink} 
+              className="flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
+            >
+              <span className="material-symbols-outlined text-[20px]">{isEmployer ? 'domain' : 'edit'}</span>
+              <span className="font-label-md text-label-md uppercase tracking-wider">
+                {isEmployer ? 'Edit Company Profile' : 'Edit Profile'}
+              </span>
+            </Link>
+          </div>
         </div>
         
         {/* Profile Header Card */}
@@ -191,6 +228,64 @@ const ProfileHub = () => {
         </div>
 
       </div>
+
+      {/* HR Edit Modal */}
+      {isHrModalOpen && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-surface-container rounded-xl w-full max-w-md overflow-hidden flex flex-col border border-white/10 shadow-2xl">
+            <div className="p-6 border-b border-white/10 flex items-center justify-between">
+              <h2 className="text-xl font-display-sm text-on-surface flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">person</span>
+                Edit HR Profile
+              </h2>
+              <button onClick={() => setIsHrModalOpen(false)} className="text-on-surface-variant hover:text-on-surface transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            
+            <form onSubmit={handleUpdateHr} className="p-6 space-y-6">
+              <div>
+                <label className="block text-sm font-bold text-on-surface-variant mb-2">Full Name</label>
+                <input 
+                  required 
+                  type="text" 
+                  className="w-full bg-surface border border-white/10 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary transition-colors" 
+                  value={hrFormData.name} 
+                  onChange={e => setHrFormData({...hrFormData, name: e.target.value})} 
+                  placeholder="e.g. John Doe"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-bold text-on-surface-variant mb-2">Phone Number</label>
+                <input 
+                  type="text" 
+                  className="w-full bg-surface border border-white/10 rounded-lg px-4 py-3 text-on-surface focus:outline-none focus:border-primary transition-colors" 
+                  value={hrFormData.phone} 
+                  onChange={e => setHrFormData({...hrFormData, phone: e.target.value})} 
+                  placeholder="e.g. +1 234 567 8900"
+                />
+              </div>
+
+              <div className="pt-2 flex justify-end gap-3">
+                <button 
+                  type="button" 
+                  onClick={() => setIsHrModalOpen(false)} 
+                  className="px-6 py-2.5 rounded-lg font-bold text-on-surface-variant hover:bg-white/5 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="px-6 py-2.5 rounded-lg font-bold text-on-primary bg-primary hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

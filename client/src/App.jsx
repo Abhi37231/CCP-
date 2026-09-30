@@ -35,6 +35,7 @@ import EmployerJobs from './pages/EmployerJobs';
 import EmployerInterviews from './pages/EmployerInterviews';
 import MyApplications from './pages/MyApplications';
 import MyInterviews from './pages/MyInterviews';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 // Profile Layouts
 import EditProfileLayout from './pages/profile/EditProfileLayout';
@@ -152,7 +153,7 @@ const Home = () => {
   );
 };
 
-const AdminDashboard = () => <div className="p-8 text-2xl font-bold text-center text-red-600">Admin Dashboard</div>;
+
 
 const DashboardRouter = () => {
   const { user } = useSelector((state) => state.auth);

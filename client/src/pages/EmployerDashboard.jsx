@@ -265,9 +265,23 @@ const EmployerDashboard = () => {
                             <span className="material-symbols-outlined text-on-surface-variant text-3xl">domain</span>
                           )}
                         </div>
-                        <div className="flex flex-col">
-                          <span className="font-headline-sm text-headline-sm text-on-surface">{profile.name}</span>
-                          <span className="font-body-md text-body-md text-on-surface-variant">{profile.industry || 'Industry not set'}</span>
+                        <div className="flex flex-col w-full">
+                          <div className="flex items-center gap-2">
+                            <span className="font-headline-sm text-headline-sm text-on-surface truncate">{profile.name}</span>
+                            {profile.isVerified && (
+                              <span className="material-symbols-outlined text-green-500 text-[20px]" title="Verified Company">verified</span>
+                            )}
+                          </div>
+                          <span className="font-body-md text-body-md text-on-surface-variant mb-1">{profile.industry || 'Industry not set'}</span>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                              profile.status === 'approved' ? 'bg-green-500/20 text-green-500' :
+                              profile.status === 'rejected' ? 'bg-red-500/20 text-red-500' :
+                              'bg-yellow-500/20 text-yellow-500'
+                            }`}>
+                              {profile.status || 'pending'}
+                            </span>
+                          </div>
                         </div>
                       </div>
                       <Link to="/company/edit" className="w-full py-4 rounded-xl bg-surface-container-lowest text-secondary font-label-sm text-label-sm border border-secondary/20 hover:bg-secondary/10 hover:border-secondary/50 hover:shadow-[0_0_20px_rgba(208,188,255,0.15)] transition-all duration-300 flex items-center justify-center gap-2 group">

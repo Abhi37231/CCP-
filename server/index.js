@@ -36,6 +36,8 @@ const ats = require('./routes/ats');
 const applications = require('./routes/applications');
 const roadmap = require('./routes/roadmap');
 const notifications = require('./routes/notifications');
+const admin = require('./routes/admin');
+const company = require('./routes/company');
 
 // Mount routers
 app.use('/api/auth', auth);
@@ -45,6 +47,8 @@ app.use('/api/ats', ats);
 app.use('/api/applications', applications);
 app.use('/api/roadmap', roadmap);
 app.use('/api/notifications', notifications);
+app.use('/api/admin', admin);
+app.use('/api/company', company);
 
 // Basic route
 app.get('/', (req, res) => {

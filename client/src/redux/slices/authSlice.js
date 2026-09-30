@@ -84,6 +84,19 @@ export const updateNotifications = createAsyncThunk(
   }
 );
 
+export const updateUserDetails = createAsyncThunk(
+  'auth/updateUserDetails',
+  async (userData, thunkAPI) => {
+    try {
+      const response = await api.put('/auth/updatedetails', userData);
+      return response.data; // { success: true, data: user }
+    } catch (error) {
+      const message = error.response?.data?.error || error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const loadUser = createAsyncThunk(
   'auth/loadUser',
   async (_, thunkAPI) => {
@@ -92,6 +105,46 @@ export const loadUser = createAsyncThunk(
       return response.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue('Not authenticated');
+    }
+  }
+);
+
+export const verifyCompanyCin = createAsyncThunk(
+  'auth/verifyCompanyCin',
+  async (cinData, thunkAPI) => {
+    try {
+      const response = await api.post('/company/verify', cinData);
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.message || error.response?.data?.error || error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const sendEmployerOtp = createAsyncThunk(
+  'auth/sendEmployerOtp',
+  async (emailData, thunkAPI) => {
+    try {
+      const response = await api.post('/auth/send-employer-otp', emailData);
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.error || error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const registerVerifiedEmployer = createAsyncThunk(
+  'auth/registerVerifiedEmployer',
+  async (employerData, thunkAPI) => {
+    try {
+      const response = await api.post('/auth/register-employer', employerData);
+      localStorage.setItem('token', response.data.token);
+      return response.data.user;
+    } catch (error) {
+      const message = error.response?.data?.error || error.message;
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -199,6 +252,34 @@ const authSlice = createSlice({
         state.user = action.payload.data;
       })
       .addCase(updateNotifications.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Update User Details
+      .addCase(updateUserDetails.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateUserDetails.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.data;
+      })
+      .addCase(updateUserDetails.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Register Verified Employer
+      .addCase(registerVerifiedEmployer.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(registerVerifiedEmployer.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+        state.requiresVerification = false;
+        state.verificationEmail = null;
+      })
+      .addCase(registerVerifiedEmployer.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

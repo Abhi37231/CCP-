@@ -7,6 +7,10 @@ const companySchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  hrs: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   name: {
     type: String,
     required: [true, 'Please add a company name'],
@@ -49,9 +53,50 @@ const companySchema = new mongoose.Schema({
     twitter: String,
     facebook: String
   },
+  cin: {
+    type: String,
+    sparse: true,
+    unique: true
+  },
+  gstin: {
+    type: String
+  },
+  companyType: {
+    type: String,
+    enum: ['Private Limited', 'Public Limited', 'LLP', 'Partnership', 'Proprietorship', 'Other']
+  },
+  companyEmail: {
+    type: String,
+    lowercase: true,
+    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email address']
+  },
+  verification: {
+    status: {
+      type: String,
+      enum: ['NOT_VERIFIED', 'VERIFYING', 'VERIFIED', 'FAILED', 'MANUAL_REVIEW'],
+      default: 'NOT_VERIFIED'
+    },
+    source: String,
+    verified: { type: Boolean, default: false },
+    verifiedAt: Date,
+    governmentData: {
+      cin: String,
+      companyName: String,
+      status: String,
+      dateOfIncorporation: String,
+      companyClass: String,
+      companyCategory: String,
+      state: String
+    }
+  },
   isVerified: {
     type: Boolean,
     default: false // Admins can verify companies to give them a "Verified" badge
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending'
   }
 }, { timestamps: true });
 

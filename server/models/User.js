@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     select: false, // Don't return password by default
   },
+  phone: {
+    type: String,
+    trim: true,
+  },
   role: {
     type: String,
     enum: ['admin', 'employer', 'job_seeker'],
@@ -38,6 +42,19 @@ const userSchema = new mongoose.Schema({
   isVerified: {
     type: Boolean,
     default: false,
+  },
+  status: {
+    type: String,
+    enum: ['active', 'suspended', 'blocked'],
+    default: 'active'
+  },
+  emailVerification: {
+    verified: { type: Boolean, default: false },
+    verifiedAt: Date
+  },
+  companyEmailDomainVerified: {
+    type: Boolean,
+    default: false
   },
   otp: String,
   otpExpire: Date,
