@@ -2,7 +2,29 @@ const nodemailer = require('nodemailer');
 const https = require('https');
 
 const sendEmail = async (options) => {
-  // 1. If BREVO_API_KEY is provided, use Brevo REST API (Bypasses Render SMTP blocking!)
+  // 1. Prefer standard SMTP if fully configured (Useful for local testing or unblocked servers)
+  if (process.env.SMTP_HOST && process.env.SMTP_EMAIL && process.env.SMTP_PASSWORD) {
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      auth: {
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD
+      }
+    });
+
+    const message = {
+      from: `${process.env.FROM_NAME || 'Career Connect'} <${process.env.FROM_EMAIL || 'noreply@careerconnect.com'}>`,
+      to: options.email,
+      subject: options.subject,
+      text: options.message,
+      html: options.html
+    };
+
+    return await transporter.sendMail(message);
+  }
+
+  // 2. Fallback to Brevo REST API (Useful for Render deployments where SMTP is blocked)
   if (process.env.BREVO_API_KEY) {
     return new Promise((resolve, reject) => {
       const data = JSON.stringify({
@@ -46,40 +68,13 @@ const sendEmail = async (options) => {
     });
   }
 
-  // 2. Fallback to standard SMTP if BREVO_API_KEY is missing
-  let transporter;
-  if (process.env.SMTP_HOST && process.env.SMTP_EMAIL && process.env.SMTP_PASSWORD) {
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      auth: {
-        user: process.env.SMTP_EMAIL,
-        pass: process.env.SMTP_PASSWORD
-      }
-    });
-  } else {
-    // 3. Dummy transporter for local testing
-    transporter = {
-      sendMail: async (mailOptions) => {
-        console.log('====================================');
-        console.log(`DUMMY EMAIL SENT TO: ${mailOptions.to}`);
-        console.log(`SUBJECT: ${mailOptions.subject}`);
-        console.log(`TEXT: ${mailOptions.text}`);
-        console.log('====================================');
-        return true;
-      }
-    };
-  }
-
-  const message = {
-    from: `${process.env.FROM_NAME || 'Career Connect'} <${process.env.FROM_EMAIL || 'noreply@careerconnect.com'}>`,
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-    html: options.html
-  };
-
-  await transporter.sendMail(message);
+  // 3. Dummy transporter for local testing if nothing else is configured
+  console.log('====================================');
+  console.log(`DUMMY EMAIL SENT TO: ${options.email}`);
+  console.log(`SUBJECT: ${options.subject}`);
+  console.log(`TEXT: ${options.message}`);
+  console.log('====================================');
+  return true;
 };
 
 module.exports = sendEmail;

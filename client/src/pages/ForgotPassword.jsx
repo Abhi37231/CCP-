@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import api from '../services/api';
 
 const schema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -20,19 +21,7 @@ const ForgotPassword = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/forgotpassword`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: data.email }),
-      });
-
-      const resData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(resData.error || 'Something went wrong');
-      }
+      const { data: resData } = await api.post('/auth/forgotpassword', { email: data.email });
 
       toast.success('OTP sent to your email!');
       navigate('/reset-password', { state: { email: data.email } });
