@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import api from '../services/api';
 
 const schema = yup.object().shape({
   otp: yup.string().length(6, 'OTP must be 6 digits').required('OTP is required'),
@@ -33,24 +34,12 @@ const ResetPassword = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/resetpassword`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, otp: data.otp, password: data.password }),
-      });
-
-      const resData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(resData.error || 'Something went wrong');
-      }
+      const { data: resData } = await api.put('/auth/resetpassword', { email, otp: data.otp, password: data.password });
 
       toast.success('Password updated successfully! Please login with your new password.');
       navigate('/login');
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data?.error || error.message);
     } finally {
       setIsLoading(false);
     }
