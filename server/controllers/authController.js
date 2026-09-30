@@ -93,11 +93,12 @@ exports.register = async (req, res) => {
 
       res.status(200).json({ success: true, data: 'OTP sent to email', email: user.email });
     } catch (err) {
+      console.error('Registration Email Error:', err);
       user.otp = undefined;
       user.otpExpire = undefined;
       await user.save({ validateBeforeSave: false });
 
-      return res.status(500).json({ success: false, error: 'Email could not be sent' });
+      return res.status(500).json({ success: false, error: 'Email could not be sent: ' + err.message });
     }
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
@@ -333,13 +334,13 @@ exports.forgotPassword = async (req, res) => {
 
       res.status(200).json({ success: true, data: 'OTP sent to email' });
     } catch (err) {
-      console.log(err);
+      console.error('Forgot Password Email Error:', err);
       user.otp = undefined;
       user.otpExpire = undefined;
 
       await user.save({ validateBeforeSave: false });
 
-      return res.status(500).json({ success: false, error: 'Email could not be sent' });
+      return res.status(500).json({ success: false, error: 'Email could not be sent: ' + err.message });
     }
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
@@ -429,8 +430,9 @@ exports.sendEmployerOtp = async (req, res) => {
 
       res.status(200).json({ success: true, data: 'OTP sent to email', email });
     } catch (err) {
+      console.error('Send Employer OTP Error:', err);
       await OtpVerification.deleteMany({ email });
-      return res.status(500).json({ success: false, error: 'Email could not be sent' });
+      return res.status(500).json({ success: false, error: 'Email could not be sent: ' + err.message });
     }
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
