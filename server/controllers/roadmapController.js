@@ -114,20 +114,42 @@ Preferred Language: ${preferredLanguage || 'English'}
 Learning Preference: ${learningPreference || 'Mixed'}
 `;
 
-    const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
-    const response = await ai.models.generateContent({
-      model: model,
-      contents: promptWithData,
-      config: {
-        temperature: 0.2,
-        responseMimeType: 'application/json',
+    const modelsToTry = [
+      'gemini-3.5-flash',
+      'gemini-3.1-flash-lite',
+      'gemini-flash-lite-latest',
+      'gemini-3.8-flash',
+      'gemini-3.7-flash',
+      'gemini-3.6-flash'
+    ];
+    
+    let response;
+    let lastError;
+    
+    for (const modelName of modelsToTry) {
+      try {
+        response = await ai.models.generateContent({
+          model: modelName,
+          contents: promptWithData,
+          config: {
+            temperature: 0.2,
+            responseMimeType: 'application/json',
+          }
+        });
+        // If it succeeds, break out of the loop
+        if (response && response.text) {
+          break;
+        }
+      } catch (err) {
+        console.warn(`Model ${modelName} failed:`, err.message);
+        lastError = err;
       }
-    });
-
-    const responseText = response.text;
-    if (!responseText) {
-      throw new Error('Empty response from Gemini');
     }
+
+    if (!response || !response.text) {
+      throw lastError || new Error('All AI models failed or returned empty response');
+    }
+    const responseText = response.text;
 
     let parsedResult;
     try {
