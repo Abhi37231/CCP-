@@ -306,48 +306,48 @@ const AdminDashboard = () => {
   if (loading && activeTab === 'overview' && !stats) return <LoadingScreen isLoading={true} />;
 
   return (
-    <div className="flex h-[calc(100vh-80px)] bg-background">
+    <div className="flex flex-col md:flex-row h-[calc(100vh-80px)] bg-background">
       {/* Sidebar */}
-      <div className="w-64 bg-surface-container-high border-r border-white/5 flex flex-col">
-        <nav className="flex-1 p-4 space-y-2">
+      <div className="w-full md:w-64 shrink-0 bg-surface-container-high border-b md:border-b-0 md:border-r border-white/5 flex flex-col">
+        <nav className="p-4 flex flex-row md:flex-col gap-2 overflow-x-auto hide-scrollbar">
           <button
             onClick={() => handleTabChange('overview')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'overview' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
+            className={`shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'overview' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
           >
             <span className="material-symbols-outlined">dashboard</span>
             <span className="font-label-md">Overview</span>
           </button>
           <button
             onClick={() => handleTabChange('users')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'users' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
+            className={`shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'users' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
           >
             <span className="material-symbols-outlined">group</span>
             <span className="font-label-md">Users</span>
           </button>
           <button
             onClick={() => handleTabChange('companies')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'companies' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
+            className={`shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'companies' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
           >
             <span className="material-symbols-outlined">apartment</span>
             <span className="font-label-md">Companies</span>
           </button>
           <button
             onClick={() => handleTabChange('jobs')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'jobs' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
+            className={`shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'jobs' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
           >
             <span className="material-symbols-outlined">work</span>
             <span className="font-label-md">Jobs</span>
           </button>
           <button
             onClick={() => handleTabChange('content')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'content' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
+            className={`shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'content' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
           >
             <span className="material-symbols-outlined">category</span>
             <span className="font-label-md">Content</span>
           </button>
           <button
             onClick={() => handleTabChange('notifications')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'notifications' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
+            className={`shrink-0 w-auto md:w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'notifications' ? 'bg-primary/10 text-primary' : 'text-on-surface-variant hover:bg-white/5'}`}
           >
             <span className="material-symbols-outlined">campaign</span>
             <span className="font-label-md">Broadcast</span>
@@ -356,7 +356,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto bg-surface-container-lowest p-8">
+      <div className="flex-1 overflow-auto bg-surface-container-lowest p-4 md:p-8">
         
         {/* OVERVIEW TAB */}
         {activeTab === 'overview' && stats && (

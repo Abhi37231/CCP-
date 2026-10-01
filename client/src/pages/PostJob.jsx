@@ -153,15 +153,15 @@ const PostJob = () => {
 
                 <div className="flex flex-col gap-2">
                   <label className="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Qualifications <span className="text-error">*</span></label>
-                  <textarea
+                  <input
+                    type="text"
                     name="qualifications"
                     value={qualifications}
                     onChange={onChange}
                     required
-                    rows="4"
-                    className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full resize-none border border-white/5"
+                    className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-tertiary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5"
                     placeholder="List required qualifications..."
-                  ></textarea>
+                  />
                 </div>
 
                 <div className="flex flex-col gap-2">
