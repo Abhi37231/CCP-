@@ -75,23 +75,18 @@ const RegisterEmployer = () => {
       
       if (resultAction.verified) {
         const govData = resultAction.company;
-        const govName = govData?.companyName?.toLowerCase() || '';
-        const enteredName = data.companyName.toLowerCase();
+        data.verification = {
+            status: 'VERIFIED',
+            source: govData?.status?.includes('MCA') ? 'Data.gov.in (MCA)' : 'AI Verified',
+            verified: true,
+            governmentData: govData
+        };
         
-        if (!govName.includes(enteredName) && !enteredName.includes(govName) && govName !== enteredName && govName !== 'unverified company (api offline)') {
-           toast.error('Wrong CIN number. The provided CIN does not match this company name.');
-           setIsSubmitting(false);
-           return;
-        } else {
-            data.verification = {
-                status: 'VERIFIED',
-                source: 'Data.gov.in',
-                verified: true,
-                governmentData: govData
-            };
-        }
-        
-        setCompanyInfo({ ...data, cin: normalizedCin });
+        setCompanyInfo({ 
+          ...data, 
+          cin: normalizedCin,
+          companyName: data.companyName || govData?.companyName 
+        });
         setStep(3);
       } else {
         toast.error(resultAction.message || 'Wrong CIN number. Please check your CIN.');
