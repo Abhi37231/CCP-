@@ -64,7 +64,7 @@ const NotificationDropdown = () => {
       await handleMarkAsRead(notification._id);
     }
     setIsOpen(false);
-    navigate('/dashboard');
+    navigate(notification.link || '/dashboard');
   };
 
   const handleMarkAllAsRead = async () => {

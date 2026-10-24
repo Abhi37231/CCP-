@@ -11,6 +11,8 @@ import JobCard from '../components/JobCard';
 import NotificationDropdown from '../components/NotificationDropdown';
 import { getMediaUrl } from '../utils/formatUrl';
 import LoadingScreen from '../components/LoadingScreen';
+import ProfileCompletionModal from '../components/ProfileCompletionModal';
+import ProfileCompletionBanner from '../components/ProfileCompletionBanner';
 
 
 const EmployerDashboard = () => {
@@ -22,10 +24,41 @@ const EmployerDashboard = () => {
   const [stats, setStats] = useState({ totalApplicants: 0, shortlisted: 0, interviews: 0 });
   const [loadingJobs, setLoadingJobs] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   useEffect(() => {
     dispatch(getProfile());
   }, [dispatch]);
+
+  // Calculate company profile completion
+  const isLogoUploaded = !!(profile?.logo && profile.logo !== 'default-company-logo.png');
+  const isDescriptionComplete = !!(profile?.description && profile.description !== 'New verified company registration');
+  const isIndustryComplete = !!(profile?.industry && profile.industry !== 'Other');
+  const isWebsiteComplete = !!(profile?.website);
+  const isLocationComplete = !!(profile?.location?.city || profile?.location?.address);
+
+  const companySections = [isLogoUploaded, isDescriptionComplete, isIndustryComplete, isWebsiteComplete, isLocationComplete];
+  const companyCompletedCount = companySections.filter(Boolean).length;
+  const completionPercentage = profile ? Math.round((companyCompletedCount / companySections.length) * 100) : 0;
+
+  useEffect(() => {
+    if (!isLoading && profile !== undefined) {
+      const modalKey = `cc_welcome_modal_dismissed_${user?._id || user?.id || 'guest'}`;
+      const dismissed = localStorage.getItem(modalKey);
+      if (!dismissed && completionPercentage < 80) {
+        const timer = setTimeout(() => {
+          setShowWelcomeModal(true);
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isLoading, profile, user, completionPercentage]);
+
+  const handleDismissModal = () => {
+    setShowWelcomeModal(false);
+    const modalKey = `cc_welcome_modal_dismissed_${user?._id || user?.id || 'guest'}`;
+    localStorage.setItem(modalKey, 'true');
+  };
 
   useEffect(() => {
     const fetchMyJobs = async () => {
@@ -59,6 +92,15 @@ const EmployerDashboard = () => {
 
   return (
     <>
+      {/* Profile Completion Modal for Freshly Registered & Incomplete Employers */}
+      <ProfileCompletionModal
+        isOpen={showWelcomeModal}
+        onClose={handleDismissModal}
+        user={user}
+        profile={profile}
+        completionPercentage={completionPercentage}
+      />
+
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div 
@@ -128,6 +170,14 @@ const EmployerDashboard = () => {
         <main className="relative pt-20 bg-background flex-1 flex flex-col">
           <div className="flex flex-col w-full p-4 md:p-margin-desktop gap-6 md:gap-margin-desktop">
             
+            {/* Profile Completion Reminder Banner */}
+            <ProfileCompletionBanner
+              user={user}
+              profile={profile}
+              completionPercentage={completionPercentage}
+              onOpenModal={() => setShowWelcomeModal(true)}
+            />
+
             {/* Welcome Banner */}
             <section className="relative w-full rounded-3xl overflow-hidden shadow-2xl bg-surface-container flex items-center min-h-[240px]">
               <div className="absolute inset-0 z-0">

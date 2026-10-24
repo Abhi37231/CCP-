@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
 const OtpVerification = require('../models/OtpVerification');
 const Company = require('../models/Company');
+const Notification = require('../models/Notification');
 
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
@@ -134,6 +135,21 @@ exports.verifyOtp = async (req, res) => {
     user.otp = undefined;
     user.otpExpire = undefined;
     await user.save();
+
+    // Create welcoming notification to complete profile
+    try {
+      await Notification.create({
+        recipient: user._id,
+        type: 'system',
+        title: user.role === 'employer' ? 'Complete Your Company Profile 🏢' : 'Complete Your Profile 🎯',
+        message: user.role === 'employer'
+          ? 'Welcome to Career Connect! Complete your company profile so candidates can learn about your culture and open positions.'
+          : 'Welcome to Career Connect! Complete your profile to get discovered by recruiters and unlock personalized AI recommendations.',
+        link: user.role === 'employer' ? '/company/edit' : '/profile/edit'
+      });
+    } catch (notifErr) {
+      console.error('Failed to create welcome notification:', notifErr);
+    }
 
     res.status(200).json({ success: true, data: 'Email verified successfully. Please log in.' });
   } catch (err) {
@@ -542,6 +558,19 @@ exports.registerEmployer = async (req, res) => {
         },
         isVerified: verification?.verified || false
     });
+
+    // Create welcoming notification for new employer
+    try {
+      await Notification.create({
+        recipient: user._id,
+        type: 'system',
+        title: 'Complete Your Company Profile 🏢',
+        message: 'Welcome to Career Connect! Complete your company profile so candidates can learn about your culture and open positions.',
+        link: '/company/edit'
+      });
+    } catch (notifErr) {
+      console.error('Failed to create employer welcome notification:', notifErr);
+    }
 
     // Send token response
     sendTokenResponse(user, 201, res);

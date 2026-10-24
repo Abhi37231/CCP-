@@ -11,6 +11,8 @@ import JobCard from '../components/JobCard';
 import NotificationDropdown from '../components/NotificationDropdown';
 import { getMediaUrl } from '../utils/formatUrl';
 import LoadingScreen from '../components/LoadingScreen';
+import ProfileCompletionModal from '../components/ProfileCompletionModal';
+import ProfileCompletionBanner from '../components/ProfileCompletionBanner';
 
 
 const EmployeeDashboard = () => {
@@ -24,10 +26,32 @@ const EmployeeDashboard = () => {
   const [myApplications, setMyApplications] = useState([]);
   const [loadingApps, setLoadingApps] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   useEffect(() => {
     dispatch(getProfile());
   }, [dispatch]);
+
+  const completionPercentage = profile?.profileCompletion || 0;
+
+  useEffect(() => {
+    if (!isLoading && profile !== undefined) {
+      const modalKey = `cc_welcome_modal_dismissed_${user?._id || user?.id || 'guest'}`;
+      const dismissed = localStorage.getItem(modalKey);
+      if (!dismissed && completionPercentage < 80) {
+        const timer = setTimeout(() => {
+          setShowWelcomeModal(true);
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isLoading, profile, user, completionPercentage]);
+
+  const handleDismissModal = () => {
+    setShowWelcomeModal(false);
+    const modalKey = `cc_welcome_modal_dismissed_${user?._id || user?.id || 'guest'}`;
+    localStorage.setItem(modalKey, 'true');
+  };
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -82,8 +106,6 @@ const EmployeeDashboard = () => {
     return <LoadingScreen isLoading={true} />;
   }
 
-  const completionPercentage = profile?.profileCompletion || 0;
-
   const isPersonalInfoComplete = !!(profile?.personalInfo?.firstName);
   const isEducationComplete = !!(profile?.education?.length > 0);
   const isSkillsComplete = !!(profile?.skills && Object.keys(profile.skills).some(k => profile.skills[k]?.length > 0));
@@ -118,6 +140,15 @@ const EmployeeDashboard = () => {
 
   return (
     <>
+      {/* Profile Completion Modal for Freshly Registered & Incomplete Profiles */}
+      <ProfileCompletionModal
+        isOpen={showWelcomeModal}
+        onClose={handleDismissModal}
+        user={user}
+        profile={profile}
+        completionPercentage={completionPercentage}
+      />
+
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div 
@@ -190,6 +221,14 @@ const EmployeeDashboard = () => {
         <main className="relative pt-20 bg-background flex-1 flex flex-col">
           <div className="flex flex-col w-full p-4 md:p-margin-desktop gap-6 md:gap-margin-desktop">
             
+            {/* Profile Completion Reminder Banner */}
+            <ProfileCompletionBanner
+              user={user}
+              profile={profile}
+              completionPercentage={completionPercentage}
+              onOpenModal={() => setShowWelcomeModal(true)}
+            />
+
             {/* Welcome Banner */}
             <section className="relative w-full rounded-3xl overflow-hidden shadow-2xl bg-surface-container flex items-center min-h-[240px]">
               <div className="absolute inset-0 z-0">
