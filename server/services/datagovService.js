@@ -9,15 +9,20 @@ exports.verifyCompanyCin = async (cin, companyName, website) => {
     
     const prompt = `You are an expert Corporate Verification Assistant.
 I will provide a company's CIN (Corporate Identification Number from India), Name, and Website.
-Your task is to verify if this CIN genuinely belongs to this company. Use your knowledge of major registered companies in India (e.g., Infosys, TCS, Wipro, etc.).
-If they broadly match, return verified: true.
-If the CIN is clearly invalid or definitely belongs to a completely different company, return verified: false.
+Your task is to verify if this CIN genuinely belongs to this company. Use your knowledge of registered companies in India (e.g., Infosys, TCS, Wipro, etc.).
+If they match or broadly match, return verified: true.
+If the CIN is wrong, invalid, or belongs to a different company, return verified: false.
+
+CRITICAL SECURITY AND ANTI-FRAUD RULES:
+1. NEVER disclose, suggest, reveal, or include the correct, real, or official CIN number of the company under any circumstances.
+2. If verified is false, provide ONLY generic, short error reasons like "Wrong CIN number." or "Invalid CIN number. CIN does not match the company name."
+3. Do NOT reveal which other company this CIN belongs to, and do NOT give hints or real CINs.
 
 Return JSON EXACTLY matching this schema:
 {
   "verified": true/false,
-  "reason": "Short explanation",
-  "companyName": "The official registered name you found (or the provided name if unsure)"
+  "reason": "Wrong CIN number or invalid CIN.",
+  "companyName": "The official registered name if verified, or the provided name"
 }
 
 Input Data to Verify:
@@ -69,10 +74,20 @@ Website: ${website}`;
         }
       };
     } else {
+      let cleanReason = (result.reason || '').trim();
+      
+      // Safety filter: sanitize any leaked 21-character CIN pattern or hints
+      const cinPattern = /[LU][0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}/i;
+      const leaksSensitive = /correct cin|actual cin|right cin|belongs to|known as|correct.*is|cin for/i.test(cleanReason);
+
+      if (!cleanReason || cinPattern.test(cleanReason) || leaksSensitive || cleanReason.length > 70) {
+        cleanReason = 'Wrong CIN number. The provided CIN does not match the company name.';
+      }
+
       return { 
-        success: true, 
+        success: false, 
         verified: false,
-        message: result.reason || 'Company not found or CIN mismatch.' 
+        message: cleanReason 
       };
     }
 

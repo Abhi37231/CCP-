@@ -57,9 +57,18 @@ const RegisterEmployer = () => {
 
   const onStep2Submit = async (data) => {
     setIsSubmitting(true);
+    const normalizedCin = (data.cin || '').trim().toUpperCase();
+    const cinRegex = /^[LU][0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}$/;
+    
+    if (!cinRegex.test(normalizedCin)) {
+      toast.error('Invalid CIN number. Must be a 21-character alphanumeric code.');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const resultAction = await dispatch(verifyCompanyCin({ 
-        cin: data.cin,
+        cin: normalizedCin,
         companyName: data.companyName,
         website: data.website
       })).unwrap();
@@ -70,7 +79,7 @@ const RegisterEmployer = () => {
         const enteredName = data.companyName.toLowerCase();
         
         if (!govName.includes(enteredName) && !enteredName.includes(govName) && govName !== enteredName && govName !== 'unverified company (api offline)') {
-           toast.error('Company name does not match the registered name for this CIN.');
+           toast.error('Wrong CIN number. The provided CIN does not match this company name.');
            setIsSubmitting(false);
            return;
         } else {
@@ -82,13 +91,18 @@ const RegisterEmployer = () => {
             };
         }
         
-        setCompanyInfo(data);
+        setCompanyInfo({ ...data, cin: normalizedCin });
         setStep(3);
       } else {
-        toast.error(resultAction.message || 'Verification failed. Please check your CIN.');
+        toast.error(resultAction.message || 'Wrong CIN number. Please check your CIN.');
       }
     } catch (err) {
-      toast.error(err || 'Failed to verify company. Please check your CIN.');
+      let errorMsg = typeof err === 'string' ? err : err?.message || 'Wrong CIN number. Verification failed.';
+      const cinPattern = /[LU][0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}/i;
+      if (cinPattern.test(errorMsg) || /correct cin|actual cin|belongs to|known as/i.test(errorMsg)) {
+        errorMsg = 'Wrong CIN number. The provided CIN does not match the company name.';
+      }
+      toast.error(errorMsg);
     } finally {
       setIsSubmitting(false);
     }
