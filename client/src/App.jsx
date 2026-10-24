@@ -48,6 +48,8 @@ import Settings from './pages/Settings';
 import ProfileHub from './pages/ProfileHub';
 import AccountSecurity from './pages/AccountSecurity';
 import NotificationSettings from './pages/NotificationSettings';
+import AboutPortal from './pages/AboutPortal';
+import SiteOverview from './components/SiteOverview';
 
 // Home Page mapped to welcome_career_connect_portal
 const Home = () => {
@@ -114,28 +116,9 @@ const Home = () => {
               </>
             )}
           </div>
-
-          {/* Social Proof / Decorative Stats */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 w-full max-w-4xl mx-auto relative z-20">
-            <div className="flex flex-col items-center justify-center p-6 bg-surface-container/20 rounded-xl backdrop-blur-sm border-t border-white/5">
-              <span className="font-display-lg-mobile text-display-lg-mobile text-secondary drop-shadow-[0_0_10px_rgba(208,188,255,0.3)]">10k+</span>
-              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase mt-2">Active Roles</span>
-            </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-surface-container/20 rounded-xl backdrop-blur-sm border-t border-white/5">
-              <span className="font-display-lg-mobile text-display-lg-mobile text-primary drop-shadow-[0_0_10px_rgba(173,198,255,0.3)]">500+</span>
-              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase mt-2">Tech Partners</span>
-            </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-surface-container/20 rounded-xl backdrop-blur-sm border-t border-white/5">
-              <span className="font-display-lg-mobile text-display-lg-mobile text-tertiary drop-shadow-[0_0_10px_rgba(79,219,200,0.3)]">98%</span>
-              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase mt-2">Placement Rate</span>
-            </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-surface-container/20 rounded-xl backdrop-blur-sm border-t border-white/5">
-              <span className="font-display-lg-mobile text-display-lg-mobile text-inverse-primary drop-shadow-[0_0_10px_rgba(0,90,194,0.3)]">24h</span>
-              <span className="font-label-sm text-label-sm text-on-surface-variant uppercase mt-2">Avg. Response</span>
-            </div>
-          </div>
         </div>
       </div>
+      <SiteOverview />
       <footer className="w-full bg-surface-container-lowest py-margin-desktop border-t border-white/5">
         <div className="max-w-container-max mx-auto px-4 md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-6 md:gap-gutter">
           <div className="flex items-center gap-base">
@@ -208,6 +191,7 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutPortal />} />
             <Route path="/jobs" element={<JobsList />} />
             <Route path="/jobs/:id" element={<JobDetails />} />
             <Route path="/login" element={<Login />} />
