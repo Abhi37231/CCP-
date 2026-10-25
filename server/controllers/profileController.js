@@ -148,10 +148,10 @@ exports.createOrUpdateProfile = async (req, res) => {
 
 // @desc    Toggle save job
 // @route   POST /api/profile/save-job/:jobId
-// @access  Private (Job Seeker)
+// @access  Private (Job Seeker / Employee)
 exports.toggleSaveJob = async (req, res) => {
   try {
-    if (req.user.role !== 'job_seeker') {
+    if (req.user.role !== 'job_seeker' && req.user.role !== 'employee') {
       return res.status(403).json({ success: false, message: 'Not authorized to save jobs' });
     }
     const profile = await JobSeekerProfile.findOne({ user: req.user.id });
@@ -160,18 +160,19 @@ exports.toggleSaveJob = async (req, res) => {
     }
     
     const jobId = req.params.jobId;
-    const isSaved = profile.savedJobs && profile.savedJobs.includes(jobId);
+    if (!profile.savedJobs) profile.savedJobs = [];
+
+    const isSaved = profile.savedJobs.some(id => id.toString() === jobId.toString());
     
     if (isSaved) {
       profile.savedJobs = profile.savedJobs.filter(id => id.toString() !== jobId.toString());
     } else {
-      if (!profile.savedJobs) profile.savedJobs = [];
       profile.savedJobs.push(jobId);
     }
     
     await profile.save();
     
-    res.status(200).json({ success: true, data: profile.savedJobs });
+    res.status(200).json({ success: true, data: profile.savedJobs.map(id => id.toString()) });
   } catch (error) {
     console.error('Save Job Error:', error);
     res.status(500).json({ success: false, message: 'Server error while saving job' });
@@ -183,7 +184,7 @@ exports.toggleSaveJob = async (req, res) => {
 // @access  Private (Job Seeker)
 exports.getSavedJobs = async (req, res) => {
   try {
-    if (req.user.role !== 'job_seeker') {
+    if (req.user.role !== 'job_seeker' && req.user.role !== 'employee') {
       return res.status(403).json({ success: false, message: 'Not authorized' });
     }
     const profile = await JobSeekerProfile.findOne({ user: req.user.id }).populate({

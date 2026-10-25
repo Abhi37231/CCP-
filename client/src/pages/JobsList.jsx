@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Search, Filter, Briefcase } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getProfile } from '../redux/slices/profileSlice';
 import api from '../services/api';
 import JobCard from '../components/JobCard';
 import LoadingScreen from '../components/LoadingScreen';
 
 
 const JobsList = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const initialTab = queryParams.get('tab') || 'discover';
@@ -22,6 +24,23 @@ const JobsList = () => {
   const [workMode, setWorkMode] = useState('');
   const [activeTab, setActiveTab] = useState(initialTab); // 'discover' | 'applied' | 'saved'
   const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { profile } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    if (isAuthenticated && !profile) {
+      dispatch(getProfile());
+    }
+  }, [dispatch, isAuthenticated, profile]);
+
+  useEffect(() => {
+    if (activeTab === 'saved' && profile?.savedJobs) {
+      setSavedJobs((prev) =>
+        prev.filter((job) =>
+          profile.savedJobs.some((id) => (typeof id === 'object' ? id._id || id.id : id)?.toString() === (job._id || job.id)?.toString())
+        )
+      );
+    }
+  }, [profile?.savedJobs, activeTab]);
 
   const fetchJobs = async (search = '') => {
     setLoading(true);

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from './redux/slices/authSlice';
+import { getProfile } from './redux/slices/profileSlice';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logo from './assets/logo.png';
@@ -159,7 +160,8 @@ const MainLayout = ({ children }) => {
 
 function App() {
   const dispatch = useDispatch();
-  const { isLoading: isAuthLoading } = useSelector((state) => state.auth);
+  const { isLoading: isAuthLoading, isAuthenticated } = useSelector((state) => state.auth);
+  const { profile } = useSelector((state) => state.profile);
   
   const [minTimePassed, setMinTimePassed] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
@@ -174,6 +176,12 @@ function App() {
 
     return () => clearTimeout(timer);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated && !profile) {
+      dispatch(getProfile());
+    }
+  }, [dispatch, isAuthenticated, profile]);
 
   useEffect(() => {
     if (!isAuthLoading && minTimePassed) {

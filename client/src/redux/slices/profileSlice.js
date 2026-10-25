@@ -86,7 +86,9 @@ const profileSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(toggleSaveJob.fulfilled, (state, action) => {
-        if (state.profile) {
+        if (!state.profile) {
+          state.profile = { savedJobs: action.payload };
+        } else {
           state.profile.savedJobs = action.payload;
         }
       });

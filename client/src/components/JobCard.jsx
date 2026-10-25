@@ -33,7 +33,12 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
   }
 
   const isOwner = user?.role === 'employer' && (user?._id === job.employer || user?.id === job.employer);
-  const isSaved = profile?.savedJobs?.includes(job._id);
+  const jobIdStr = (job._id || job.id)?.toString();
+  const isSaved = Array.isArray(profile?.savedJobs) && profile.savedJobs.some(saved => {
+    if (!saved) return false;
+    const savedId = typeof saved === 'object' ? (saved._id?.toString() || saved.id?.toString()) : saved.toString();
+    return savedId === jobIdStr;
+  });
   const isExpired = isDeadlineOver(job.deadline);
   
   const formattedDate = formatDate(job.createdAt) || 'Unknown';
@@ -46,9 +51,13 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
       toast.info('Please log in to save jobs');
       return;
     }
-    dispatch(toggleSaveJob(job._id))
+    const targetJobId = (job._id || job.id)?.toString();
+    dispatch(toggleSaveJob(targetJobId))
       .unwrap()
-      .then(() => toast.success(isSaved ? 'Job removed from saved list' : 'Job saved successfully'))
+      .then((savedIds) => {
+        const nowSaved = Array.isArray(savedIds) && savedIds.some(id => (typeof id === 'object' ? id._id || id.id : id)?.toString() === targetJobId);
+        toast.success(nowSaved ? 'Job saved successfully' : 'Job removed from saved list');
+      })
       .catch((err) => toast.error(err || 'Failed to save job'));
   };
 
@@ -124,11 +133,18 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
               ) : (
                 <button 
                   onClick={handleToggleSave}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors border ${isSaved ? 'bg-primary/10 text-primary border-primary/30 hover:bg-primary/20' : 'bg-surface-container-highest text-on-surface-variant hover:text-tertiary hover:bg-tertiary/10 border-white/5 hover:border-tertiary/30'}`}
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 border ${
+                    isSaved 
+                      ? 'bg-primary/20 text-primary border-primary/40 shadow-sm' 
+                      : 'bg-surface-container-highest text-on-surface-variant hover:text-tertiary hover:bg-tertiary/10 border-white/5 hover:border-tertiary/30'
+                  }`}
                   title={isSaved ? "Remove from saved" : "Save job"}
                 >
-                  <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: isSaved ? "'FILL' 1" : "'FILL' 0" }}>
-                    {isSaved ? 'bookmark' : 'bookmark_border'}
+                  <span 
+                    className="material-symbols-outlined text-[20px]" 
+                    style={{ fontVariationSettings: isSaved ? "'FILL' 1" : "'FILL' 0" }}
+                  >
+                    bookmark
                   </span>
                 </button>
               )}

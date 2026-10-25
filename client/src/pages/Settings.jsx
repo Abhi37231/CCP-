@@ -25,6 +25,20 @@ const Settings = () => {
     navigate('/login');
   };
 
+  const [imageError, setImageError] = React.useState(false);
+
+  React.useEffect(() => {
+    setImageError(false);
+  }, [profile?.logo, profile?.personalInfo?.profilePhoto, user?.avatar]);
+
+  const isEmployer = user?.role === 'employer';
+  const avatarUrl = isEmployer
+    ? (profile?.logo && profile.logo !== 'default-company-logo.png'
+        ? profile.logo
+        : (user?.avatar && user.avatar !== 'default-avatar.png' ? user.avatar : null))
+    : (profile?.personalInfo?.profilePhoto
+        || (user?.avatar && user.avatar !== 'default-avatar.png' ? user.avatar : null));
+
   const getProfileEditLink = () => {
     return user?.role === 'employer' ? '/company/edit' : '/profile/edit';
   };
@@ -36,11 +50,18 @@ const Settings = () => {
         
         {/* User Info Card */}
         <div className="bg-surface-container rounded-2xl p-6 mb-8 border border-white/5 shadow-lg flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-surface-container-highest border-2 border-surface shadow-md flex items-center justify-center font-display-sm text-[24px] text-on-surface overflow-hidden">
-            {profile?.personalInfo?.profilePhoto || user?.avatar ? (
-              <img src={getMediaUrl(profile?.personalInfo?.profilePhoto || user?.avatar)} alt="Profile" className="w-full h-full object-cover" />
+          <div className="w-16 h-16 rounded-full bg-surface-container-highest border-2 border-surface shadow-md flex items-center justify-center font-display-sm text-[24px] text-on-surface overflow-hidden flex-shrink-0">
+            {avatarUrl && !imageError ? (
+              <img 
+                src={getMediaUrl(avatarUrl)} 
+                alt={user?.name || "Profile"} 
+                onError={() => setImageError(true)}
+                className="w-full h-full object-cover" 
+              />
             ) : (
-              user?.name?.charAt(0)?.toUpperCase() || 'U'
+              <span className="font-headline-md text-primary font-bold">
+                {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+              </span>
             )}
           </div>
           <div>
