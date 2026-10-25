@@ -1,4 +1,40 @@
 const Notification = require('../models/Notification');
+const { sendSavedJobReminders } = require('../services/jobReminderService');
+
+// @desc    Trigger saved job reminder scan
+// @route   POST /api/notifications/cron/saved-job-reminders
+// @route   GET /api/notifications/cron/saved-job-reminders
+// @access  Protected by CRON_SECRET or Admin user
+exports.triggerSavedJobReminders = async (req, res) => {
+  try {
+    const cronKey = req.headers['x-cron-key'] || req.query.cron_key || req.body?.cron_key;
+    const expectedSecret = process.env.CRON_SECRET || 'ccp_cron_secret_key_2026';
+    const isCronAuthorized = cronKey === expectedSecret;
+    const isAdmin = req.user && req.user.role === 'admin';
+    const isDev = process.env.NODE_ENV === 'development';
+
+    if (!isCronAuthorized && !isAdmin && !isDev) {
+      return res.status(401).json({
+        success: false,
+        error: 'Unauthorized. Please provide a valid x-cron-key header or cron_key query parameter.'
+      });
+    }
+
+    const { userId, dryRun, force } = { ...req.query, ...req.body };
+
+    const result = await sendSavedJobReminders({
+      userId,
+      dryRun: dryRun === 'true' || dryRun === true,
+      force: force === 'true' || force === true
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error('Trigger Saved Job Reminders Error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
 
 // @desc    Get all notifications for a user
 // @route   GET /api/notifications

@@ -55,10 +55,13 @@ app.get('/', (req, res) => {
   res.send('Career Connect Portal API is running');
 });
 
+const { initInternalScheduler } = require('./services/cronScheduler');
+
 // Database Connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
+    initInternalScheduler();
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);

@@ -8,7 +8,7 @@ const notificationSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['application_status', 'interview_scheduled', 'system'],
+    enum: ['application_status', 'interview_scheduled', 'system', 'saved_job_reminder', 'job_recommendation'],
     required: true
   },
   title: {
@@ -29,6 +29,10 @@ const notificationSchema = new mongoose.Schema({
   relatedApplication: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Application'
+  },
+  relatedJob: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Job'
   }
 }, { timestamps: true });
 
