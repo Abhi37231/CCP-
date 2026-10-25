@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { getMediaUrl } from '../utils/formatUrl';
+import { formatDate } from '../utils/dateUtils';
 
 const MyInterviews = () => {
   const [myApplications, setMyApplications] = useState([]);
@@ -79,7 +80,7 @@ const MyInterviews = () => {
                   
                   <div className="flex flex-col gap-1 mt-2">
                     <span className="text-on-surface text-lg font-medium">
-                      {new Date(app.interview.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                      {new Date(app.interview.date).toLocaleDateString('en-US', { weekday: 'long' })}, {formatDate(app.interview.date)}
                     </span>
                     <span className="text-on-surface-variant flex items-center gap-1.5">
                       <span className="material-symbols-outlined text-[16px]">schedule</span>

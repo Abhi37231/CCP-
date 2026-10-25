@@ -283,6 +283,7 @@ const PostJob = () => {
                     name="deadline"
                     value={deadline}
                     onChange={onChange}
+                    min={new Date().toISOString().split('T')[0]}
                     required
                     className="bg-surface-container-highest text-on-surface font-body-md text-body-md rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-secondary/50 focus:bg-surface-bright transition-all shadow-inner w-full border border-white/5 [color-scheme:dark]"
                   />

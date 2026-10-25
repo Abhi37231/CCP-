@@ -6,6 +6,22 @@ const Notification = require('../models/Notification');
 const Company = require('../models/Company');
 const sendEmail = require('../utils/sendEmail');
 
+const formatDate = (dateInput) => {
+  if (!dateInput) return '';
+  const dateStr = typeof dateInput === 'string' ? dateInput : (dateInput.toISOString ? dateInput.toISOString() : '');
+  const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (match) {
+    const [, y, m, d] = match;
+    return `${d}/${m}/${y}`;
+  }
+  const d = new Date(dateInput);
+  if (isNaN(d.getTime())) return '';
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
 /**
  * Generate a beautifully styled HTML email template for saved job reminders
  */
@@ -22,11 +38,7 @@ const generateSavedJobEmailHtml = ({
   jobLink
 }) => {
   const formattedDeadline = deadline
-    ? new Date(deadline).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      })
+    ? formatDate(deadline)
     : 'Open until filled';
 
   // Calculate days left
@@ -225,7 +237,19 @@ const sendSavedJobReminders = async (options = {}) => {
         stats.totalSavedJobsFound++;
 
         // 1. Check if job is still active & deadline hasn't passed
-        if (!job.isActive || (job.deadline && new Date(job.deadline) < now)) {
+        let endOfDeadline = null;
+        if (job.deadline) {
+          const dStr = typeof job.deadline === 'string' ? job.deadline : (job.deadline.toISOString ? job.deadline.toISOString() : '');
+          const m = dStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+          if (m) {
+            endOfDeadline = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), 23, 59, 59, 999);
+          } else {
+            endOfDeadline = new Date(job.deadline);
+            endOfDeadline.setHours(23, 59, 59, 999);
+          }
+        }
+
+        if (!job.isActive || (endOfDeadline && endOfDeadline < now)) {
           stats.skippedExpiredOrInactive++;
           continue;
         }
@@ -308,7 +332,7 @@ const sendSavedJobReminders = async (options = {}) => {
 
           // Create In-App Notification
           const formattedDeadline = job.deadline
-            ? new Date(job.deadline).toLocaleDateString()
+            ? formatDate(job.deadline)
             : 'soon';
 
           await Notification.create({

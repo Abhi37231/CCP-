@@ -4,6 +4,7 @@ import { toggleSaveJob } from '../redux/slices/profileSlice';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 import { getMediaUrl } from '../utils/formatUrl';
+import { formatDate, isDeadlineOver } from '../utils/dateUtils';
 
 const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
   const dispatch = useDispatch();
@@ -33,8 +34,9 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
 
   const isOwner = user?.role === 'employer' && (user?._id === job.employer || user?.id === job.employer);
   const isSaved = profile?.savedJobs?.includes(job._id);
+  const isExpired = isDeadlineOver(job.deadline);
   
-  const formattedDate = job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'Unknown';
+  const formattedDate = formatDate(job.createdAt) || 'Unknown';
   const location = job.location?.city || job.location?.country ? `${job.location?.city || ''}${job.location?.city && job.location?.country ? ', ' : ''}${job.location?.country || ''}` : 'Location Not Specified';
 
   const handleToggleSave = (e) => {
@@ -166,6 +168,12 @@ const JobCard = ({ job, applicationId, applicationStatus, onWithdraw }) => {
               <span className="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 border border-white/5">
                 <span className="material-symbols-outlined text-[14px] text-secondary">payments</span> 
                 {job.salaryRange.min || ''} {job.salaryRange.min && job.salaryRange.max ? '-' : ''} {job.salaryRange.max || ''} {job.salaryRange.currency || 'INR'}
+              </span>
+            )}
+            {job.deadline && (
+              <span className={`px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1.5 border ${isExpired ? 'bg-error-container/20 text-error border-error/20' : 'bg-surface-container-highest text-on-surface border-white/5'}`}>
+                <span className="material-symbols-outlined text-[14px]">{isExpired ? 'event_busy' : 'calendar_today'}</span> 
+                {isExpired ? `Deadline: ${formatDate(job.deadline)} (Expired)` : `Deadline: ${formatDate(job.deadline)}`}
               </span>
             )}
           </div>

@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
 import { getMediaUrl } from '../utils/formatUrl';
+import { formatDate, formatDateTime } from '../utils/dateUtils';
 import LoadingScreen from '../components/LoadingScreen';
 
 
@@ -383,7 +384,7 @@ const ApplicationDetails = () => {
                 <div className="bg-surface-container-low/50 backdrop-blur-sm rounded-xl p-4 border border-white/10">
                   <div className="flex justify-between items-start mb-2">
                     <span className="text-sm font-medium text-secondary">{application.interview.type} Interview</span>
-                    <span className="text-xs text-on-surface-variant bg-surface-container px-2 py-1 rounded-md">{new Date(application.interview.date).toLocaleDateString('en-GB')} at {formatTime12hr(application.interview.time)}</span>
+                    <span className="text-xs text-on-surface-variant bg-surface-container px-2 py-1 rounded-md">{formatDate(application.interview.date)} at {formatTime12hr(application.interview.time)}</span>
                   </div>
                   {application.interview.link && (
                     <a href={application.interview.link} target="_blank" rel="noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1 mt-2">
@@ -424,7 +425,7 @@ const ApplicationDetails = () => {
                     <span className="absolute -left-[5.5px] top-1 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-surface-container-low"></span>
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold text-on-surface">{hist.status}</span>
-                      <span className="text-xs text-on-surface-variant opacity-70 mt-0.5">{new Date(hist.date).toLocaleString()}</span>
+                      <span className="text-xs text-on-surface-variant opacity-70 mt-0.5">{formatDateTime(hist.date)}</span>
                       {hist.note && <span className="text-xs text-on-surface-variant mt-1 italic">{hist.note}</span>}
                     </div>
                   </div>
@@ -434,7 +435,7 @@ const ApplicationDetails = () => {
                     <span className="absolute -left-[5.5px] top-1 w-2.5 h-2.5 rounded-full bg-primary ring-4 ring-surface-container-low"></span>
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold text-on-surface">Applied</span>
-                      <span className="text-xs text-on-surface-variant opacity-70 mt-0.5">{new Date(application.createdAt).toLocaleString()}</span>
+                      <span className="text-xs text-on-surface-variant opacity-70 mt-0.5">{formatDateTime(application.createdAt)}</span>
                     </div>
                   </div>
                 )}

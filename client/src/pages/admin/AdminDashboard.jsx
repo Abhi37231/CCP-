@@ -6,6 +6,7 @@ import {
   getAllCategories, createCategory, deleteCategory, broadcastNotification, addCompanyHR
 } from '../../services/adminService';
 import LoadingScreen from '../../components/LoadingScreen';
+import { formatDate, formatDateTime } from '../../utils/dateUtils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 // Mock data for the chart since we don't have historical aggregation yet
@@ -412,7 +413,7 @@ const AdminDashboard = () => {
                         </span>
                         <div>
                           <p className="text-sm text-on-surface">{item.title}</p>
-                          <p className="text-xs text-on-surface-variant">{new Date(item.date).toLocaleString()}</p>
+                          <p className="text-xs text-on-surface-variant">{formatDateTime(item.date)}</p>
                         </div>
                       </div>
                     ))
@@ -790,7 +791,7 @@ const AdminDashboard = () => {
                            <ul className="text-sm text-on-surface space-y-2 grid grid-cols-2 gap-4">
                              <li><span className="text-on-surface-variant block text-xs">Registered Name</span> {selectedCompany.verification.governmentData.companyName || 'N/A'}</li>
                              <li><span className="text-on-surface-variant block text-xs">Status</span> {selectedCompany.verification.governmentData.status || 'N/A'}</li>
-                             <li><span className="text-on-surface-variant block text-xs">Incorporation Date</span> {selectedCompany.verification.governmentData.dateOfIncorporation || 'N/A'}</li>
+                             <li><span className="text-on-surface-variant block text-xs">Incorporation Date</span> {formatDate(selectedCompany.verification.governmentData.dateOfIncorporation) || selectedCompany.verification.governmentData.dateOfIncorporation || 'N/A'}</li>
                              <li><span className="text-on-surface-variant block text-xs">State</span> {selectedCompany.verification.governmentData.state || 'N/A'}</li>
                            </ul>
                          </div>

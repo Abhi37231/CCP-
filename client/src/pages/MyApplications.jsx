@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { getMediaUrl } from '../utils/formatUrl';
+import { formatDate } from '../utils/dateUtils';
 
 const MyApplications = () => {
   const [myApplications, setMyApplications] = useState([]);
@@ -79,7 +80,7 @@ const MyApplications = () => {
                 <div className="flex flex-col">
                   <h3 className="font-bold text-on-surface text-xl">{app.job?.title || 'Unknown Job'}</h3>
                   <span className="text-on-surface-variant">{app.job?.company?.name || 'Unknown Company'}</span>
-                  <span className="text-sm text-on-surface-variant opacity-70 mt-1">Applied on {new Date(app.createdAt).toLocaleDateString()}</span>
+                  <span className="text-sm text-on-surface-variant opacity-70 mt-1">Applied on {formatDate(app.createdAt)}</span>
                   <Link to={`/jobs/${app.job?._id}`} className="mt-2 text-primary hover:underline text-sm flex items-center gap-1">
                     View Job Details <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                   </Link>

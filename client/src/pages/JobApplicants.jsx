@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../services/api';
 import { getMediaUrl } from '../utils/formatUrl';
+import { formatDate } from '../utils/dateUtils';
 import LoadingScreen from '../components/LoadingScreen';
 
 
@@ -371,7 +372,7 @@ const JobApplicants = () => {
                           </h2>
                           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-[11px] md:text-xs text-on-surface-variant">
                             <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">mail</span> {app.applicant?.email || 'N/A'}</span>
-                            <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">event</span> {new Date(app.createdAt).toLocaleDateString()}</span>
+                            <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">event</span> {formatDate(app.createdAt)}</span>
                           </div>
                         </div>
                         <div className="shrink-0 flex items-center w-full md:w-auto">

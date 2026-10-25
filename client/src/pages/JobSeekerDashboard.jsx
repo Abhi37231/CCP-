@@ -10,6 +10,7 @@ import api from '../services/api';
 import JobCard from '../components/JobCard';
 import NotificationDropdown from '../components/NotificationDropdown';
 import { getMediaUrl } from '../utils/formatUrl';
+import { formatDate } from '../utils/dateUtils';
 import LoadingScreen from '../components/LoadingScreen';
 import ProfileCompletionModal from '../components/ProfileCompletionModal';
 import ProfileCompletionBanner from '../components/ProfileCompletionBanner';
@@ -341,7 +342,7 @@ const JobSeekerDashboard = () => {
                             <div className="flex flex-col">
                               <h3 className="font-bold text-on-surface text-lg">{app.job?.title || 'Unknown Job'}</h3>
                               <span className="text-on-surface-variant text-sm">{app.job?.company?.name || 'Unknown Company'}</span>
-                              <span className="text-xs text-on-surface-variant opacity-70 mt-1">Applied on {new Date(app.createdAt).toLocaleDateString()}</span>
+                              <span className="text-xs text-on-surface-variant opacity-70 mt-1">Applied on {formatDate(app.createdAt)}</span>
                               
                               {app.interview && app.interview.date && (app.status === 'Interview Scheduled' || app.status === 'Interviewing') && (
                                 <div className="mt-3 bg-secondary/10 border border-secondary/20 rounded-lg p-3 flex flex-col gap-1.5 w-full max-w-sm">
@@ -350,7 +351,7 @@ const JobSeekerDashboard = () => {
                                     Interview Scheduled
                                   </span>
                                   <span className="text-on-surface text-sm font-medium">
-                                    {new Date(app.interview.date).toLocaleDateString()} at {app.interview.time}
+                                    {formatDate(app.interview.date)} at {app.interview.time}
                                   </span>
                                   <span className="text-on-surface-variant text-xs">
                                     {app.interview.type} Interview

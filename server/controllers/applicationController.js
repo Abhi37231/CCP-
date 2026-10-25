@@ -4,6 +4,22 @@ const JobSeekerProfile = require('../models/JobSeekerProfile');
 const Notification = require('../models/Notification');
 const sendEmail = require('../utils/sendEmail');
 
+const formatDate = (dateInput) => {
+  if (!dateInput) return '';
+  const dateStr = typeof dateInput === 'string' ? dateInput : (dateInput.toISOString ? dateInput.toISOString() : '');
+  const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (match) {
+    const [, y, m, d] = match;
+    return `${d}/${m}/${y}`;
+  }
+  const d = new Date(dateInput);
+  if (isNaN(d.getTime())) return '';
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
 // @desc    Apply for a job
 // @route   POST /api/applications/:jobId
 // @access  Private (Job Seeker / Employee)
@@ -16,6 +32,32 @@ exports.applyForJob = async (req, res) => {
     const job = await Job.findById(jobId);
     if (!job) {
       return res.status(404).json({ success: false, error: 'Job not found' });
+    }
+
+    // Check if job is active
+    if (!job.isActive) {
+      return res.status(400).json({ success: false, error: 'This job is no longer accepting applications' });
+    }
+
+    // Check if deadline has passed
+    if (job.deadline) {
+      let endOfDeadline;
+      const deadlineStr = typeof job.deadline === 'string' ? job.deadline : (job.deadline.toISOString ? job.deadline.toISOString() : '');
+      const match = deadlineStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (match && (deadlineStr.length === 10 || deadlineStr.includes('T00:00:00'))) {
+        const [, y, m, d] = match;
+        endOfDeadline = new Date(Number(y), Number(m) - 1, Number(d), 23, 59, 59, 999);
+      } else {
+        const d = new Date(job.deadline);
+        if (!isNaN(d.getTime())) {
+          endOfDeadline = new Date(d);
+          endOfDeadline.setHours(23, 59, 59, 999);
+        }
+      }
+
+      if (endOfDeadline && new Date() > endOfDeadline) {
+        return res.status(400).json({ success: false, error: 'The application deadline for this job has passed. Applications are no longer accepted.' });
+      }
     }
 
     // Check if already applied
@@ -470,7 +512,7 @@ exports.scheduleInterview = async (req, res) => {
     application.status = 'Interview Scheduled';
     application.history.push({
       status: 'Interview Scheduled',
-      note: `Interview scheduled on ${new Date(date).toLocaleDateString()} at ${time}`,
+      note: `Interview scheduled on ${formatDate(date)} at ${time}`,
       date: new Date()
     });
 
@@ -488,7 +530,7 @@ exports.scheduleInterview = async (req, res) => {
       await sendEmail({
         email: application.applicant.email,
         subject: `Interview Scheduled: ${application.job.title}`,
-        message: `Hello ${application.applicant.name},\n\nAn interview has been scheduled for your application to the position of ${application.job.title}.\n\nDate: ${new Date(date).toLocaleDateString()}\nTime: ${time}\nType: ${type}\nLocation/Link: ${type === 'Online' ? link : location}\nNotes: ${notes || 'None'}\n\nGood luck,\nCareer Connect Team`
+        message: `Hello ${application.applicant.name},\n\nAn interview has been scheduled for your application to the position of ${application.job.title}.\n\nDate: ${formatDate(date)}\nTime: ${time}\nType: ${type}\nLocation/Link: ${type === 'Online' ? link : location}\nNotes: ${notes || 'None'}\n\nGood luck,\nCareer Connect Team`
       });
     } catch (error) {
       console.error('Email sending failed:', error);

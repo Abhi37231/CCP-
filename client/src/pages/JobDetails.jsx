@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import api from '../services/api';
 import { getMediaUrl } from '../utils/formatUrl';
+import { formatDate, isDeadlineOver } from '../utils/dateUtils';
 import LoadingScreen from '../components/LoadingScreen';
 
 
@@ -60,6 +61,11 @@ const JobDetails = () => {
 
   const handleApply = async (e) => {
     e.preventDefault();
+    if (isDeadlineOver(job?.deadline)) {
+      toast.error('The application deadline for this job has passed. Applications are closed.');
+      setShowApplyModal(false);
+      return;
+    }
     setApplying(true);
     
     try {
@@ -95,6 +101,7 @@ const JobDetails = () => {
 
   const isEmployer = user?.role === 'employer';
   const isAdmin = user?.role === 'admin';
+  const isExpired = isDeadlineOver(job.deadline);
   const canApply = isAuthenticated && !isEmployer && !isAdmin;
 
   const locationStr = job.location?.city || job.location?.country ? `${job.location?.city || ''}${job.location?.city && job.location?.country ? ', ' : ''}${job.location?.country || ''}` : 'Location Not Specified';
@@ -177,6 +184,15 @@ const JobDetails = () => {
                     <span className="material-symbols-outlined relative z-10 text-[20px]">check_circle</span>
                     <span className="relative z-10">Applied</span>
                   </button>
+                ) : isExpired ? (
+                  <button 
+                    disabled
+                    className="group relative flex items-center justify-center gap-2 w-full md:w-auto px-8 py-4 rounded-xl bg-surface-container-highest text-error font-headline-md text-headline-md shadow-inner border border-error/20 cursor-not-allowed opacity-80"
+                    title="Applications are closed as the deadline has passed"
+                  >
+                    <span className="material-symbols-outlined relative z-10 text-[20px]">event_busy</span>
+                    <span className="relative z-10">Deadline Expired</span>
+                  </button>
                 ) : (
                   <button 
                     onClick={() => setShowApplyModal(true)}
@@ -188,12 +204,22 @@ const JobDetails = () => {
                   </button>
                 )
               ) : !isAuthenticated ? (
-                <Link 
-                  to="/login"
-                  className="w-full md:w-auto bg-surface-container-highest hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm py-4 px-8 rounded-xl shadow-sm transition-colors text-center border border-white/10"
-                >
-                  Log in to Apply
-                </Link>
+                isExpired ? (
+                  <button 
+                    disabled
+                    className="w-full md:w-auto bg-surface-container-highest text-error font-label-sm text-label-sm py-4 px-8 rounded-xl shadow-sm border border-error/20 cursor-not-allowed opacity-80 flex items-center justify-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-[18px]">event_busy</span>
+                    Deadline Expired
+                  </button>
+                ) : (
+                  <Link 
+                    to="/login"
+                    className="w-full md:w-auto bg-surface-container-highest hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm py-4 px-8 rounded-xl shadow-sm transition-colors text-center border border-white/10"
+                  >
+                    Log in to Apply
+                  </Link>
+                )
               ) : (isEmployer && job.employer === user._id) ? (
                  <Link 
                   to={`/employer/jobs/${job._id}/applicants`}
@@ -203,9 +229,9 @@ const JobDetails = () => {
                 </Link>
               ) : null}
 
-              <div className="text-center text-sm text-on-surface-variant flex items-center justify-center gap-1.5 md:mr-2">
-                <span className="material-symbols-outlined text-[16px]">calendar_today</span> 
-                Deadline: {new Date(job.deadline).toLocaleDateString()}
+              <div className={`text-center text-sm flex items-center justify-center gap-1.5 md:mr-2 ${isExpired ? 'text-error font-medium' : 'text-on-surface-variant'}`}>
+                <span className="material-symbols-outlined text-[16px]">{isExpired ? 'event_busy' : 'calendar_today'}</span> 
+                Deadline: {formatDate(job.deadline)} {isExpired && '(Expired)'}
               </div>
             </div>
           </div>
@@ -271,7 +297,13 @@ const JobDetails = () => {
                 <ul className="space-y-4 font-body-md text-body-md text-on-surface-variant relative z-10">
                   <li className="flex justify-between border-b border-white/5 pb-2">
                     <span className="text-on-surface-variant">Posted on:</span>
-                    <span className="font-medium text-on-surface">{new Date(job.createdAt).toLocaleDateString()}</span>
+                    <span className="font-medium text-on-surface">{formatDate(job.createdAt)}</span>
+                  </li>
+                  <li className="flex justify-between border-b border-white/5 pb-2">
+                    <span className="text-on-surface-variant">Deadline:</span>
+                    <span className={`font-medium ${isExpired ? 'text-error' : 'text-on-surface'}`}>
+                      {formatDate(job.deadline)} {isExpired ? '(Expired)' : ''}
+                    </span>
                   </li>
                   <li className="flex justify-between border-b border-white/5 pb-2">
                     <span className="text-on-surface-variant">Vacancies:</span>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 import { getMediaUrl } from '../utils/formatUrl';
+import { formatDate } from '../utils/dateUtils';
 import LoadingScreen from '../components/LoadingScreen';
 
 
@@ -35,7 +36,7 @@ const EmployerInterviews = () => {
 
   // Group interviews by Date
   const groupedInterviews = interviews.reduce((acc, app) => {
-    const date = app.interview?.date ? new Date(app.interview.date).toLocaleDateString('en-GB') : 'Unscheduled / Pending Details';
+    const date = app.interview?.date ? formatDate(app.interview.date) : 'Unscheduled / Pending Details';
     if (!acc[date]) acc[date] = [];
     acc[date].push(app);
     return acc;
