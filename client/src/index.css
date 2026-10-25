@@ -61,6 +61,9 @@
   --font-body-lg: Inter, sans-serif;
   --font-display-lg-mobile: Outfit, sans-serif;
   --font-headline-md: Outfit, sans-serif;
+  --font-headline-sm: Outfit, sans-serif;
+  --font-display-sm: Outfit, sans-serif;
+  --font-display-md: Outfit, sans-serif;
 
   --text-body-md: 16px;
   --text-body-md--line-height: 24px;
@@ -88,6 +91,18 @@
   --text-headline-md: 24px;
   --text-headline-md--line-height: 32px;
   --text-headline-md--font-weight: 600;
+
+  --text-headline-sm: 18px;
+  --text-headline-sm--line-height: 24px;
+  --text-headline-sm--font-weight: 600;
+
+  --text-display-sm: 24px;
+  --text-display-sm--line-height: 32px;
+  --text-display-sm--font-weight: 700;
+
+  --text-display-md: 36px;
+  --text-display-md--line-height: 44px;
+  --text-display-md--font-weight: 700;
 }
 
 @layer base {

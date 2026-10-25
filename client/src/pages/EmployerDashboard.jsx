@@ -308,22 +308,29 @@ const EmployerDashboard = () => {
                   {profile ? (
                     <div className="flex flex-col gap-6 relative z-10">
                       <div className="flex items-center gap-4 bg-surface-container rounded-2xl p-4 border border-white/5">
-                        <div className="w-16 h-16 rounded-xl bg-surface-container-highest flex-shrink-0 flex items-center justify-center p-2 shadow-inner overflow-hidden border border-white/10">
+                        <div className="w-16 h-16 rounded-xl bg-surface-container-highest shrink-0 flex items-center justify-center p-2 shadow-inner overflow-hidden border border-white/10">
                           {profile.logo && profile.logo !== 'default-company-logo.png' ? (
-                            <img src={getMediaUrl(profile.logo)} alt={profile.name} className="w-full h-full object-cover" />
+                            <img src={getMediaUrl(profile.logo)} alt={profile.name} className="w-full h-full object-cover rounded-lg" />
                           ) : (
                             <span className="material-symbols-outlined text-on-surface-variant text-3xl">domain</span>
                           )}
                         </div>
-                        <div className="flex flex-col w-full">
-                          <div className="flex items-center gap-2">
-                            <span className="font-headline-sm text-headline-sm text-on-surface truncate">{profile.name}</span>
+                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <h3 
+                              className="font-headline-sm text-headline-sm text-on-surface font-semibold truncate tracking-tight text-base sm:text-lg leading-tight" 
+                              title={profile.name}
+                            >
+                              {profile.name}
+                            </h3>
                             {profile.isVerified && (
-                              <span className="material-symbols-outlined text-green-500 text-[20px]" title="Verified Company">verified</span>
+                              <span className="material-symbols-outlined text-green-500 text-[18px] shrink-0" title="Verified Company">verified</span>
                             )}
                           </div>
-                          <span className="font-body-md text-body-md text-on-surface-variant mb-1">{profile.industry || 'Industry not set'}</span>
-                          <div className="flex items-center gap-2 mt-1">
+                          <p className="text-xs text-on-surface-variant truncate mt-0.5 leading-snug" title={profile.industry || 'Industry not set'}>
+                            {profile.industry || 'Industry not set'}
+                          </p>
+                          <div className="flex items-center gap-2 mt-2">
                             <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                               profile.status === 'approved' ? 'bg-green-500/20 text-green-500' :
                               profile.status === 'rejected' ? 'bg-red-500/20 text-red-500' :
