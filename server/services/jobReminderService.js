@@ -178,7 +178,7 @@ const sendSavedJobReminders = async (options = {}) => {
     query.user = userId;
   }
 
-  const clientBaseUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+  const clientBaseUrl = process.env.CLIENT_URL || 'https://career-connect-frontend-jet.vercel.app';
 
   const stats = {
     totalProfilesScanned: 0,
